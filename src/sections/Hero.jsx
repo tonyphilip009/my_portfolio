@@ -1,53 +1,55 @@
+import BasicCube from "../three/BasicCube";
+
 function Hero() {
   return (
     <section
       id="home"
-      className="section-padding flex min-h-screen items-center pt-32"
+      className="min-h-screen flex items-center px-6 md:px-12"
     >
-      <div className="container-custom w-full">
-        <div className="max-w-3xl">
+      <div className="w-full max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
 
-          {/* Small intro */}
-          <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-blue-400">
-            Welcome to my portfolio
+        {/* Left Side */}
+        <div>
+          <p className="text-blue-400 text-lg mb-3">
+            Hello, I'm
           </p>
 
-          {/* Main heading */}
-          <h1 className="text-5xl font-bold leading-tight tracking-tight text-slate-50 sm:text-6xl lg:text-7xl">
-            Hi, I'm{" "}
-            <span className="text-blue-500">
-              Tony Philip
-            </span>
+          <h1 className="text-5xl md:text-7xl font-bold text-white">
+            Tony Philip
           </h1>
 
-          {/* Role */}
-          <h2 className="mt-6 text-2xl font-semibold text-slate-300 sm:text-3xl">
+          <h2 className="text-2xl md:text-3xl text-slate-300 mt-4">
             Full Stack Developer
           </h2>
 
-          {/* Description */}
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-400 sm:text-lg">
-            I build modern web applications using React, Django and REST APIs.
+          <p className="text-slate-400 mt-6 max-w-xl">
+            Computer Science Engineering student passionate about
+            web development, cybersecurity, and building modern
+            applications.
           </p>
 
-          {/* Buttons */}
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="flex gap-4 mt-8">
             <a
               href="#projects"
-              className="btn-primary inline-block"
+              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg text-white transition"
             >
-              View My Projects
+              View Projects
             </a>
 
             <a
               href="#contact"
-              className="btn-secondary inline-block"
+              className="px-6 py-3 border border-slate-600 hover:border-blue-400 rounded-lg text-white transition"
             >
               Contact Me
             </a>
           </div>
-
         </div>
+
+        {/* Right Side - 3D Cube */}
+        <div className="h-[500px] w-full">
+          <BasicCube />
+        </div>
+
       </div>
     </section>
   );
