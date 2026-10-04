@@ -1,19 +1,6 @@
-function Projects() {
-  const projects = [
-    {
-      title: "Dental Clinic Website",
-      description:
-        "A full-stack dental clinic website built using Django REST Framework and React.",
-      technologies: ["Django", "DRF", "React", "MySQL", "REST API"],
-    },
-    {
-      title: "Project 2",
-      description:
-        "More projects will be added here as I continue building and learning.",
-      technologies: [],
-    },
-  ];
+import projects from "../data/projects";
 
+function Projects() {
   return (
     <section id="projects" className="section-padding">
       <div className="container-custom">
@@ -33,45 +20,63 @@ function Projects() {
           </p>
         </div>
 
-        {/* Projects grid */}
-        <div className="mt-10 grid gap-6 md:grid-cols-2">
+        {/* Projects */}
+        <div className="mt-10 grid gap-8">
           {projects.map((project) => (
             <div
               key={project.title}
-              className="card card-hover flex h-full flex-col"
+              className="card card-hover flex h-full flex-col overflow-hidden"
             >
-              {/* Project title */}
-              <h3 className="text-xl font-semibold text-slate-50">
-                {project.title}
-              </h3>
-
-              {/* Description */}
-              <p className="mt-4 leading-relaxed text-slate-400">
-                {project.description}
-              </p>
-
-              {/* Technologies */}
-              {project.technologies.length > 0 && (
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {project.technologies.map((technology) => (
-                    <span
-                      key={technology}
-                      className="rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300"
-                    >
-                      {technology}
-                    </span>
-                  ))}
-                </div>
+              {/* Project image */}
+              {project.image && (
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="h-64 w-full object-cover"
+                />
               )}
 
-              {/* Project button */}
-              <div className="mt-auto pt-8">
-                <a
-                  href="#contact"
-                  className="inline-flex text-sm font-medium text-blue-400 transition hover:text-blue-300"
-                >
-                  View Project →
-                </a>
+              {/* Project content */}
+              <div className="flex flex-1 flex-col p-6">
+
+                {/* Project title */}
+                <h3 className="text-xl font-semibold text-slate-50">
+                  {project.title}
+                </h3>
+
+                {/* Description */}
+                <p className="mt-4 leading-relaxed text-slate-400">
+                  {project.description}
+                </p>
+
+                {/* Technologies */}
+                {project.technologies.length > 0 && (
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {project.technologies.map((technology) => (
+                      <span
+                        key={technology}
+                        className="rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300"
+                      >
+                        {technology}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* GitHub button */}
+                {project.github && (
+                  <div className="mt-auto pt-8">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex text-sm font-medium text-blue-400 transition hover:text-blue-300"
+                    >
+                      View Project →
+                    </a>
+                  </div>
+                )}
+
               </div>
             </div>
           ))}

@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero3D from "./components/Hero3D";
 import Skills from "./sections/Skills";
+import Projects from "./sections/Projects";
 
 function App() {
   return (
@@ -45,7 +46,6 @@ function App() {
             </div>
 
           </div>
-
 
           <div className="hero-3d">
             <Hero3D />
@@ -231,17 +231,7 @@ function App() {
 
 
         {/* Projects */}
-        <section id="projects">
-
-          <h2>
-            Projects
-          </h2>
-
-          <p>
-            My projects will be displayed here.
-          </p>
-
-        </section>
+        <Projects />
 
 
         {/* Contact */}
