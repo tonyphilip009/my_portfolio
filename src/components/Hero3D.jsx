@@ -2,6 +2,8 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 
 import DeveloperWorkspace from "./DeveloperWorkspace";
+import Model from "./Model";
+import Particles from "./Particles";
 
 function Hero3D() {
   return (
@@ -51,10 +53,22 @@ function Hero3D() {
         />
 
         {/* =================================================
+            ANIMATED PARTICLE BACKGROUND
+        ================================================= */}
+
+        <Particles />
+
+        {/* =================================================
             DEVELOPER WORKSPACE
         ================================================= */}
 
         <DeveloperWorkspace />
+
+        {/* =================================================
+            GLB ROBOT MODEL
+        ================================================= */}
+
+        <Model />
 
         {/* =================================================
             ZOOM ONLY
