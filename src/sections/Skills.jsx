@@ -22,6 +22,10 @@ function Skills() {
       title: "Tools",
       skills: ["Git", "GitHub", "VS Code"],
     },
+    {
+      title: "Cybersecurity",
+      skills: ["Wazuh", "Wireshark", "Nmap", "Burp Suite"],
+    },
   ];
 
   return (
@@ -51,8 +55,10 @@ function Skills() {
         </motion.div>
 
         {/* Skill categories */}
-        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-
+        <div
+          className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          style={{ perspective: "1200px" }}
+        >
           {skillCategories.map((category, index) => (
             <motion.div
               key={category.title}
@@ -63,29 +69,56 @@ function Skills() {
                 delay: index * 0.1,
               }}
               viewport={{ once: true }}
+
+              /* 3D hover effect */
               whileHover={{
-                y: -6,
+                y: -10,
+                rotateX: 6,
+                rotateY: -6,
+                scale: 1.02,
                 transition: {
-                  duration: 0.2,
+                  duration: 0.25,
                 },
               }}
-              className="card card-hover p-6 transition-all duration-300 hover:border-blue-400/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.12)]"
+
+              style={{
+                transformStyle: "preserve-3d",
+              }}
+
+              className="card card-hover group relative overflow-hidden p-6 transition-all duration-300 hover:border-blue-400/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]"
             >
+              {/* 3D glow */}
+              <div
+                className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-400/10 blur-3xl transition-all duration-500 group-hover:bg-blue-400/20"
+                style={{
+                  transform: "translateZ(20px)",
+                }}
+              />
 
               {/* Category title */}
-              <h3 className="mb-5 text-xl font-semibold text-slate-100">
+              <h3
+                className="relative z-10 mb-5 text-xl font-semibold text-slate-100"
+                style={{
+                  transform: "translateZ(30px)",
+                }}
+              >
                 {category.title}
               </h3>
 
               {/* Skills */}
-              <div className="flex flex-wrap gap-3">
-
+              <div
+                className="relative z-10 flex flex-wrap gap-3"
+                style={{
+                    transform: "translateZ(35px)",
+                }}
+              >
                 {category.skills.map((skill) => (
                   <motion.span
                     key={skill}
                     whileHover={{
                       y: -5,
-                      scale: 1.05,
+                      scale: 1.08,
+                      rotateZ: 1,
                     }}
                     transition={{
                       type: "spring",
@@ -97,13 +130,11 @@ function Skills() {
                     {skill}
                   </motion.span>
                 ))}
-
               </div>
-
             </motion.div>
           ))}
-
         </div>
+
       </div>
     </section>
   );
