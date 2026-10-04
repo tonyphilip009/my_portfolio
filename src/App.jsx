@@ -3,6 +3,7 @@ import Footer from "./components/Footer";
 import Hero3D from "./components/Hero3D";
 import Skills from "./sections/Skills";
 import Projects from "./sections/Projects";
+import Experience from "./sections/Experience";
 
 function App() {
   return (
@@ -232,6 +233,10 @@ function App() {
 
         {/* Projects */}
         <Projects />
+
+
+        {/* Experience */}
+        <Experience />
 
 
         {/* Contact */}

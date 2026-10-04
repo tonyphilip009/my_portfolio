@@ -15,52 +15,132 @@ function Navbar() {
     { name: "Contact", href: "#contact" },
   ];
 
-  // Close mobile menu when a navigation link is clicked
-  const handleLinkClick = () => {
+  /*
+   * Navigate to a section
+   */
+  const handleNavigation = (event, sectionId) => {
+    event.preventDefault();
+
+    const section = document.getElementById(sectionId);
+
+    if (!section) {
+      return;
+    }
+
+    // Set active item immediately
+    setActiveSection(sectionId);
+
+    // Close mobile menu
     setIsOpen(false);
-  };
 
-  // Detect which section is currently visible
-  useEffect(() => {
-    const sections = document.querySelectorAll("section[id]");
+    // Fixed navbar height
+    const navbarHeight = 80;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleSections = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+    // Calculate exact section position
+    const sectionTop =
+      section.getBoundingClientRect().top +
+      window.scrollY;
 
-        if (visibleSections.length > 0) {
-          setActiveSection(visibleSections[0].target.id);
-        }
-      },
-      {
-        threshold: [0.2, 0.4, 0.6, 0.8],
-        rootMargin: "-80px 0px -20% 0px",
-      }
-    );
-
-    sections.forEach((section) => {
-      observer.observe(section);
+    // Move immediately
+    window.scrollTo({
+      top: sectionTop - navbarHeight,
+      behavior: "auto",
     });
 
-    return () => {
+    // Update URL hash
+    window.history.replaceState(
+      null,
+      "",
+      `#${sectionId}`
+    );
+  };
+
+  /*
+   * Detect which section is currently visible
+   */
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navLinks
+        .map((link) =>
+          document.getElementById(
+            link.href.substring(1)
+          )
+        )
+        .filter(Boolean);
+
+      /*
+       * Use the middle of the viewport as the
+       * activation point.
+       */
+      const activationPoint =
+        window.scrollY +
+        window.innerHeight * 0.5;
+
+      let currentSection = "home";
+
       sections.forEach((section) => {
-        observer.unobserve(section);
+        const sectionTop =
+          section.getBoundingClientRect().top +
+          window.scrollY;
+
+        if (sectionTop <= activationPoint) {
+          currentSection = section.id;
+        }
       });
+
+      setActiveSection(currentSection);
+    };
+
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      { passive: true }
+    );
+
+    // Run once when page loads
+    handleScroll();
+
+    return () => {
+      window.removeEventListener(
+        "scroll",
+        handleScroll
+      );
     };
   }, []);
 
+  /*
+   * Set active section from URL when page loads
+   */
+  useEffect(() => {
+    const hash = window.location.hash.replace(
+      "#",
+      ""
+    );
+
+    if (hash) {
+      const validSection = navLinks.some(
+        (link) =>
+          link.href.substring(1) === hash
+      );
+
+      if (validSection) {
+        setActiveSection(hash);
+      }
+    }
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
+    <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
 
       <div className="container-custom flex items-center justify-between py-4">
 
-        {/* Logo / Name */}
+        {/* Logo */}
         <a
           href="#home"
-          onClick={handleLinkClick}
-          className={`text-2xl font-bold tracking-tight transition duration-300 ${
+          onClick={(event) =>
+            handleNavigation(event, "home")
+          }
+          className={`text-2xl font-bold tracking-tight transition-colors duration-200 ${
             activeSection === "home"
               ? "text-blue-400"
               : "text-white hover:text-blue-400"
@@ -71,54 +151,83 @@ function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden items-center gap-6 md:flex">
+
           {navLinks.map((link) => {
-            const sectionId = link.href.substring(1);
-            const isActive = activeSection === sectionId;
+            const sectionId =
+              link.href.substring(1);
+
+            const isActive =
+              activeSection === sectionId;
 
             return (
               <a
                 key={link.name}
                 href={link.href}
-                onClick={handleLinkClick}
-                className={`text-sm font-medium transition duration-300 ${
+                onClick={(event) =>
+                  handleNavigation(
+                    event,
+                    sectionId
+                  )
+                }
+                className={`relative text-sm font-medium transition-colors duration-200 ${
                   isActive
                     ? "text-blue-400"
                     : "text-slate-300 hover:text-blue-400"
                 }`}
               >
                 {link.name}
+
+                {/* Active underline */}
+                <span
+                  className={`absolute -bottom-2 left-0 h-0.5 rounded-full bg-blue-400 transition-all duration-200 ${
+                    isActive
+                      ? "w-full opacity-100"
+                      : "w-0 opacity-0"
+                  }`}
+                />
               </a>
             );
           })}
+
         </div>
 
         {/* Mobile Menu Button */}
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="text-2xl text-white transition duration-300 hover:text-blue-400 md:hidden"
+          className="text-2xl text-white transition-colors duration-200 hover:text-blue-400 md:hidden"
           aria-label="Toggle navigation menu"
           aria-expanded={isOpen}
         >
           {isOpen ? "✕" : "☰"}
         </button>
+
       </div>
 
       {/* Mobile Navigation */}
       {isOpen && (
         <div className="border-t border-white/10 bg-slate-950/95 px-6 py-6 backdrop-blur-md md:hidden">
+
           <div className="flex flex-col gap-5">
 
             {navLinks.map((link) => {
-              const sectionId = link.href.substring(1);
-              const isActive = activeSection === sectionId;
+              const sectionId =
+                link.href.substring(1);
+
+              const isActive =
+                activeSection === sectionId;
 
               return (
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={handleLinkClick}
-                  className={`text-base font-medium transition duration-300 ${
+                  onClick={(event) =>
+                    handleNavigation(
+                      event,
+                      sectionId
+                    )
+                  }
+                  className={`text-base font-medium transition-colors duration-200 ${
                     isActive
                       ? "text-blue-400"
                       : "text-slate-300 hover:text-blue-400"
@@ -130,8 +239,10 @@ function Navbar() {
             })}
 
           </div>
+
         </div>
       )}
+
     </nav>
   );
 }
