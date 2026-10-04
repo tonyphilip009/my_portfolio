@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero3D from "./components/Hero3D";
+import Skills from "./sections/Skills";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <section id="home" className="hero-section">
 
           <div className="hero-content">
+
             <p className="hero-small-text">
               Hello, I'm
             </p>
@@ -31,6 +33,7 @@ function App() {
             </p>
 
             <div className="hero-buttons">
+
               <a href="#projects">
                 View Projects
               </a>
@@ -38,8 +41,11 @@ function App() {
               <a href="#contact">
                 Contact Me
               </a>
+
             </div>
+
           </div>
+
 
           <div className="hero-3d">
             <Hero3D />
@@ -221,29 +227,29 @@ function App() {
 
 
         {/* Skills */}
-        <section id="skills">
-          <h2>Skills</h2>
-
-          <p>
-            Python • Django • React • JavaScript • SQL •
-            REST API • Git
-          </p>
-        </section>
+        <Skills />
 
 
         {/* Projects */}
         <section id="projects">
-          <h2>Projects</h2>
+
+          <h2>
+            Projects
+          </h2>
 
           <p>
             My projects will be displayed here.
           </p>
+
         </section>
 
 
         {/* Contact */}
         <section id="contact">
-          <h2>Contact Me</h2>
+
+          <h2>
+            Contact Me
+          </h2>
 
           <p>
             Interested in working together? Feel free to
@@ -253,6 +259,7 @@ function App() {
           <p>
             Email: your-email@example.com
           </p>
+
         </section>
 
       </main>
