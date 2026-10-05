@@ -1,8 +1,20 @@
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import projects from "../data/projects";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Projects() {
   const [filter, setFilter] = useState("All");
+
+  const projectsRef = useRef(null);
+  const headingRef = useRef(null);
+  const summaryRef = useRef(null);
+  const filtersRef = useRef(null);
+  const projectsGridRef = useRef(null);
+  const bottomSectionRef = useRef(null);
+  const strengthCardsRef = useRef(null);
 
   const completedProjects = projects.filter(
     (project) => project.status === "Completed"
@@ -19,13 +31,147 @@ function Projects() {
 
   const filters = ["All", "Completed", "In Progress"];
 
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Section heading
+      gsap.fromTo(
+        headingRef.current,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: projectsRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Project summary
+      gsap.fromTo(
+        summaryRef.current,
+        {
+          y: 50,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: summaryRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Filter buttons
+      gsap.fromTo(
+        filtersRef.current.children,
+        {
+          y: 40,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: filtersRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Project cards
+      gsap.fromTo(
+        projectsGridRef.current.children,
+        {
+          y: 70,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: projectsGridRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Bottom section
+      gsap.fromTo(
+        bottomSectionRef.current,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: bottomSectionRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Strength cards
+      gsap.fromTo(
+        strengthCardsRef.current.children,
+        {
+          y: 50,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.1,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: strengthCardsRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      ScrollTrigger.refresh();
+    }, projectsRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="projects" className="section-padding">
+    <section
+      ref={projectsRef}
+      id="projects"
+      className="section-padding"
+    >
       <div className="container-custom">
 
         {/* Section Heading */}
-        <div className="max-w-3xl">
-
+        <div ref={headingRef} className="max-w-3xl">
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-blue-400">
             Projects
           </p>
@@ -38,12 +184,13 @@ function Projects() {
             A selection of projects that showcase my experience with
             full-stack development and modern web technologies.
           </p>
-
         </div>
 
         {/* Project Summary */}
-        <div className="mt-8 flex flex-wrap gap-3">
-
+        <div
+          ref={summaryRef}
+          className="mt-8 flex flex-wrap gap-3"
+        >
           <div className="rounded-lg border border-slate-700/60 bg-slate-900/40 px-4 py-2 text-sm text-slate-300">
             <span className="font-semibold text-slate-50">
               {projects.length}
@@ -64,12 +211,13 @@ function Projects() {
             </span>{" "}
             In Progress
           </div>
-
         </div>
 
         {/* Project Filters */}
-        <div className="mt-8 flex flex-wrap gap-3">
-
+        <div
+          ref={filtersRef}
+          className="mt-8 flex flex-wrap gap-3"
+        >
           {filters.map((filterOption) => (
             <button
               key={filterOption}
@@ -84,15 +232,13 @@ function Projects() {
               {filterOption}
             </button>
           ))}
-
         </div>
 
         {/* Projects Grid */}
         <div
-          key={filter}
+          ref={projectsGridRef}
           className="mt-10 grid gap-8 lg:grid-cols-2"
         >
-
           {filteredProjects.map((project) => (
             <div
               key={project.title}
@@ -456,10 +602,8 @@ function Projects() {
                 </div>
 
               </div>
-
             </div>
           ))}
-
         </div>
 
         {/* Empty State */}
@@ -472,8 +616,10 @@ function Projects() {
         )}
 
         {/* Why These Projects Matter */}
-        <div className="mt-16 border-t border-slate-800 pt-12">
-
+        <div
+          ref={bottomSectionRef}
+          className="mt-16 border-t border-slate-800 pt-12"
+        >
           <div className="max-w-3xl">
 
             <p className="text-sm font-medium uppercase tracking-[0.2em] text-blue-400">
@@ -493,10 +639,12 @@ function Projects() {
           </div>
 
           {/* Project Strengths */}
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            ref={strengthCardsRef}
+            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          >
 
             <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
-
               <h4 className="font-semibold text-slate-100">
                 Full-Stack Development
               </h4>
@@ -505,11 +653,9 @@ function Projects() {
                 Building applications across frontend, backend and database
                 layers.
               </p>
-
             </div>
 
             <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
-
               <h4 className="font-semibold text-slate-100">
                 API Integration
               </h4>
@@ -518,11 +664,9 @@ function Projects() {
                 Connecting React interfaces with Django REST APIs and
                 handling application data.
               </p>
-
             </div>
 
             <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
-
               <h4 className="font-semibold text-slate-100">
                 Problem Solving
               </h4>
@@ -531,11 +675,9 @@ function Projects() {
                 Implementing validation, availability logic and reliable
                 application workflows.
               </p>
-
             </div>
 
             <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
-
               <h4 className="font-semibold text-slate-100">
                 Continuous Learning
               </h4>
@@ -544,11 +686,9 @@ function Projects() {
                 Continuously improving my skills by building and refining
                 real-world projects.
               </p>
-
             </div>
 
           </div>
-
         </div>
 
       </div>

@@ -1,15 +1,37 @@
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
 import Hero3D from "./Hero3D";
 
 function Hero() {
+  const heroRef = useRef(null);
+  const heroContentRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(heroContentRef.current, {
+        y: 80,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power3.out",
+      });
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={heroRef}
       id="home"
       className="min-h-screen flex items-center px-6 md:px-12 lg:px-20"
     >
       <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
         {/* LEFT SIDE */}
-        <div className="space-y-6">
+        <div
+          ref={heroContentRef}
+          className="space-y-6"
+        >
 
           <p className="text-cyan-400 text-sm md:text-base tracking-widest uppercase">
             Hello, I'm

@@ -1,13 +1,77 @@
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 function Experience() {
+  const experienceRef = useRef(null);
+  const headingRef = useRef(null);
+  const timelineRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Section heading animation
+      gsap.fromTo(
+        headingRef.current,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: experienceRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Experience timeline animation
+      gsap.fromTo(
+        timelineRef.current.children,
+        {
+          y: 70,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.25,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      ScrollTrigger.refresh();
+    }, experienceRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={experienceRef}
       id="experience"
-      className="min-h-screen bg-black px-6 py-24 text-white"
+      className="min-h-screen bg-slate-950/70 px-6 py-24 text-white"
     >
       <div className="mx-auto max-w-6xl">
 
-        {/* Section Header */}
-        <div className="mb-20">
+        {/* ==========================================
+            SECTION HEADER
+        ========================================== */}
+
+        <div ref={headingRef} className="mb-20">
+
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
             My Journey
           </p>
@@ -20,23 +84,41 @@ function Experience() {
             A timeline of my professional experience and the technologies
             I have worked with.
           </p>
+
         </div>
 
+        {/* ==========================================
+            TIMELINE
+        ========================================== */}
 
-        {/* Timeline */}
-        <div className="relative">
+        <div
+          ref={timelineRef}
+          className="relative"
+        >
 
           {/* Center Timeline */}
-          <div className="absolute left-3 top-0 h-full w-px bg-gray-700 md:left-1/2 md:-translate-x-1/2" />
 
+          <div
+            className="
+              absolute
+              left-3
+              top-0
+              h-full
+              w-px
+              bg-gray-700
+              md:left-1/2
+              md:-translate-x-1/2
+            "
+          />
 
-          {/* ========================= */}
-          {/* FULL STACK INTERNSHIP */}
-          {/* ========================= */}
+          {/* ========================================
+              FULL STACK INTERNSHIP
+          ======================================== */}
 
           <div className="relative mb-24 md:grid md:grid-cols-2 md:gap-16">
 
             {/* LEFT */}
+
             <div className="ml-10 md:ml-0 md:pr-10 md:text-right">
 
               <p className="text-sm font-medium text-gray-500">
@@ -57,12 +139,27 @@ function Experience() {
 
             </div>
 
+            {/* TIMELINE DOT */}
 
-            {/* Timeline Dot */}
-            <div className="absolute left-3 top-1 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-black shadow-[0_0_12px_rgba(96,165,250,0.8)] md:left-1/2" />
-
+            <div
+              className="
+                absolute
+                left-3
+                top-1
+                h-4
+                w-4
+                -translate-x-1/2
+                rounded-full
+                border-2
+                border-blue-400
+                bg-slate-950
+                shadow-[0_0_12px_rgba(96,165,250,0.8)]
+                md:left-1/2
+              "
+            />
 
             {/* RIGHT */}
+
             <div className="ml-10 mt-8 md:ml-0 md:mt-0 md:pl-10">
 
               <p className="leading-7 text-gray-400">
@@ -94,8 +191,8 @@ function Experience() {
 
               </ul>
 
+              {/* TECHNOLOGIES */}
 
-              {/* Technologies */}
               <div className="mt-6 flex flex-wrap gap-2">
 
                 <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
@@ -128,14 +225,14 @@ function Experience() {
 
           </div>
 
-
-          {/* ========================= */}
-          {/* SOC INTERNSHIP */}
-          {/* ========================= */}
+          {/* ========================================
+              SOC INTERNSHIP
+          ======================================== */}
 
           <div className="relative md:grid md:grid-cols-2 md:gap-16">
 
             {/* LEFT */}
+
             <div className="ml-10 md:ml-0 md:pr-10 md:text-right">
 
               <p className="text-sm font-medium text-gray-500">
@@ -156,12 +253,27 @@ function Experience() {
 
             </div>
 
+            {/* TIMELINE DOT */}
 
-            {/* Timeline Dot */}
-            <div className="absolute left-3 top-1 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-blue-400 bg-black shadow-[0_0_12px_rgba(96,165,250,0.8)] md:left-1/2" />
-
+            <div
+              className="
+                absolute
+                left-3
+                top-1
+                h-4
+                w-4
+                -translate-x-1/2
+                rounded-full
+                border-2
+                border-blue-400
+                bg-slate-950
+                shadow-[0_0_12px_rgba(96,165,250,0.8)]
+                md:left-1/2
+              "
+            />
 
             {/* RIGHT */}
+
             <div className="ml-10 mt-8 md:ml-0 md:mt-0 md:pl-10">
 
               <p className="leading-7 text-gray-400">
@@ -193,8 +305,8 @@ function Experience() {
 
               </ul>
 
+              {/* TECHNOLOGIES */}
 
-              {/* Technologies */}
               <div className="mt-6 flex flex-wrap gap-2">
 
                 <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">

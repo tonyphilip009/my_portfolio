@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +16,45 @@ function Navbar() {
   ];
 
   /*
+   * Detect the section currently visible while scrolling
+   */
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navLinks
+        .map((link) => document.getElementById(link.href.substring(1)))
+        .filter(Boolean);
+
+      const scrollPosition = window.scrollY + 150;
+
+      let currentSection = "home";
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionBottom
+        ) {
+          currentSection = section.id;
+        }
+      });
+
+      setActiveSection(currentSection);
+    };
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  /*
    * Navigate to a section
    */
   const handleNavigation = (event, sectionId) => {
@@ -28,27 +67,21 @@ function Navbar() {
       return;
     }
 
-    // Immediately change active navigation item
     setActiveSection(sectionId);
 
-    // Close mobile menu
     setIsOpen(false);
 
-    // Fixed navbar height
     const navbarHeight = 80;
 
-    // Get exact section position
     const sectionTop =
       section.getBoundingClientRect().top +
       window.scrollY;
 
-    // Scroll to section
     window.scrollTo({
       top: sectionTop - navbarHeight,
       behavior: "smooth",
     });
 
-    // Update URL hash without browser jump
     window.history.replaceState(
       null,
       "",
@@ -261,6 +294,7 @@ function Navbar() {
                   {link.name}
 
                   {/* Mobile underline */}
+
                   {isActive && (
                     <span
                       className="

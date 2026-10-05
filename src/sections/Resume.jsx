@@ -1,10 +1,72 @@
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 function Resume() {
+  const resumeRef = useRef(null);
+  const headingRef = useRef(null);
+  const cardRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      // Section heading animation
+      gsap.fromTo(
+        headingRef.current,
+        {
+          y: 60,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: resumeRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      // Resume card animation
+      gsap.fromTo(
+        cardRef.current,
+        {
+          y: 70,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      ScrollTrigger.refresh();
+    }, resumeRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="resume" className="section-padding">
+    <section
+      ref={resumeRef}
+      id="resume"
+      className="section-padding"
+    >
       <div className="container-custom">
 
         {/* Section Header */}
-        <div className="max-w-3xl">
+        <div ref={headingRef} className="max-w-3xl">
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-blue-400">
             Resume
           </p>
@@ -20,7 +82,10 @@ function Resume() {
         </div>
 
         {/* Resume Card */}
-        <div className="mt-12 max-w-4xl">
+        <div
+          ref={cardRef}
+          className="mt-12 max-w-4xl"
+        >
           <div
             className="
               overflow-hidden
@@ -123,6 +188,7 @@ function Resume() {
                   "
                 >
                   View Resume
+
                   <span className="ml-2">
                     ↗
                   </span>
@@ -151,6 +217,7 @@ function Resume() {
                   "
                 >
                   Download PDF
+
                   <span className="ml-2">
                     ↓
                   </span>
@@ -163,6 +230,7 @@ function Resume() {
             <div className="h-px w-full bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
           </div>
         </div>
+
       </div>
     </section>
   );

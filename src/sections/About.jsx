@@ -1,311 +1,203 @@
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Hero3D from "./components/Hero3D";
+import { useEffect } from "react";
+import { animateAbout } from "../utils/scrollAnimations";
 
-function App() {
+function About() {
+  useEffect(() => {
+    animateAbout();
+  }, []);
+
   return (
-    <>
-      <Navbar />
+    <section id="about" className="about-section">
 
-      <main>
+      <div className="about-container">
 
         {/* =========================
-            HOME
+            HEADING
         ========================== */}
 
-        <section id="home" className="hero-section">
+        <div className="about-heading">
 
-          <div className="hero-content">
+          <p className="section-label">
+            ABOUT ME
+          </p>
 
-            <p className="hero-small-text">
-              Hello, I'm
-            </p>
+          <h2>
+            Building with{" "}
+            <span>code & curiosity.</span>
+          </h2>
 
-            <h1>
-              Tony Philip
-            </h1>
+        </div>
 
-            <h2>
-              Full Stack Developer
-            </h2>
+
+        {/* =========================
+            ABOUT CONTENT
+        ========================== */}
+
+        <div className="about-content">
+
+          {/* Introduction */}
+
+          <div className="about-intro">
+
+            <h3>
+              Who I am
+            </h3>
 
             <p>
-              I build modern web applications using
-              Django, React and modern web technologies.
+              I am a Computer Science and Engineering
+              student with a strong interest in full-stack
+              web development and cybersecurity.
             </p>
 
-            <div className="hero-buttons">
+            <p>
+              I enjoy building practical applications
+              and understanding how systems work behind
+              the scenes. My development experience
+              includes Django, React, REST APIs, databases
+              and modern web technologies.
+            </p>
 
-              <a href="#projects">
-                View Projects
-              </a>
-
-              <a href="#contact">
-                Contact Me
-              </a>
-
-            </div>
+            <p>
+              I also have hands-on experience in a
+              Security Operations Center environment,
+              working with security logs, monitoring
+              dashboards and SIEM tools.
+            </p>
 
           </div>
 
-          <div className="hero-3d">
-            <Hero3D />
-          </div>
 
-        </section>
+          {/* Skills / Areas */}
 
+          <div className="about-skills">
 
-        {/* =========================
-            ABOUT
-        ========================== */}
+            <h3>
+              What I work with
+            </h3>
 
-        <section id="about" className="about-section">
+            <div className="about-grid">
 
-          <div className="about-container">
+              {/* Full Stack */}
 
-            {/* Heading */}
+              <div className="about-card">
 
-            <div className="about-heading">
-
-              <p className="section-label">
-                ABOUT ME
-              </p>
-
-              <h2>
-                Building with{" "}
-                <span>code & curiosity.</span>
-              </h2>
-
-            </div>
-
-
-            {/* About Content */}
-
-            <div className="about-content">
-
-              {/* Introduction */}
-
-              <div className="about-intro">
-
-                <h3>
-                  Who I am
-                </h3>
+                <h4>
+                  Full-Stack
+                </h4>
 
                 <p>
-                  I am a Computer Science and Engineering
-                  student with a strong interest in full-stack
-                  web development and cybersecurity.
-                </p>
-
-                <p>
-                  I enjoy building practical applications
-                  and understanding how systems work behind
-                  the scenes. My development experience
-                  includes Django, React, REST APIs, databases
-                  and modern web technologies.
-                </p>
-
-                <p>
-                  I also have hands-on experience in a
-                  Security Operations Center environment,
-                  working with security logs, monitoring
-                  dashboards and SIEM tools.
+                  Building complete web applications
+                  from frontend to backend.
                 </p>
 
               </div>
 
 
-              {/* Skills / Areas */}
+              {/* Django */}
 
-              <div className="about-skills">
+              <div className="about-card">
 
-                <h3>
-                  What I work with
-                </h3>
+                <h4>
+                  Django
+                </h4>
 
-                <div className="about-grid">
+                <p>
+                  Backend development, APIs,
+                  authentication and databases.
+                </p>
 
-                  {/* Full Stack */}
-
-                  <div className="about-card">
-
-                    <h4>
-                      Full-Stack
-                    </h4>
-
-                    <p>
-                      Building complete web applications
-                      from frontend to backend.
-                    </p>
-
-                  </div>
+              </div>
 
 
-                  {/* Django */}
+              {/* React */}
 
-                  <div className="about-card">
+              <div className="about-card">
 
-                    <h4>
-                      Django
-                    </h4>
+                <h4>
+                  React
+                </h4>
 
-                    <p>
-                      Backend development, APIs,
-                      authentication and databases.
-                    </p>
+                <p>
+                  Creating interactive and responsive
+                  frontend applications.
+                </p>
 
-                  </div>
-
-
-                  {/* React */}
-
-                  <div className="about-card">
-
-                    <h4>
-                      React
-                    </h4>
-
-                    <p>
-                      Creating interactive and responsive
-                      frontend applications.
-                    </p>
-
-                  </div>
+              </div>
 
 
-                  {/* REST APIs */}
+              {/* REST APIs */}
 
-                  <div className="about-card">
+              <div className="about-card">
 
-                    <h4>
-                      REST APIs
-                    </h4>
+                <h4>
+                  REST APIs
+                </h4>
 
-                    <p>
-                      Designing and consuming APIs for
-                      modern applications.
-                    </p>
+                <p>
+                  Designing and consuming APIs for
+                  modern applications.
+                </p>
 
-                  </div>
-
-
-                  {/* Cybersecurity */}
-
-                  <div className="about-card">
-
-                    <h4>
-                      Cybersecurity
-                    </h4>
-
-                    <p>
-                      Security monitoring, logs, SIEM
-                      and threat detection.
-                    </p>
-
-                  </div>
+              </div>
 
 
-                  {/* Problem Solving */}
+              {/* Cybersecurity */}
 
-                  <div className="about-card">
+              <div className="about-card">
 
-                    <h4>
-                      Problem Solving
-                    </h4>
+                <h4>
+                  Cybersecurity
+                </h4>
 
-                    <p>
-                      Python, DSA and logical
-                      problem solving.
-                    </p>
+                <p>
+                  Security monitoring, logs, SIEM
+                  and threat detection.
+                </p>
 
-                  </div>
+              </div>
 
-                </div>
+
+              {/* Problem Solving */}
+
+              <div className="about-card">
+
+                <h4>
+                  Problem Solving
+                </h4>
+
+                <p>
+                  Python, DSA and logical
+                  problem solving.
+                </p>
 
               </div>
 
             </div>
 
-
-            {/* Bottom Statement */}
-
-            <div className="about-bottom">
-
-              <p>
-                I am continuously learning, building
-                projects and improving my problem-solving
-                skills with the goal of becoming a strong
-                software developer.
-              </p>
-
-            </div>
-
           </div>
 
-        </section>
+        </div>
 
 
         {/* =========================
-            SKILLS
+            BOTTOM STATEMENT
         ========================== */}
 
-        <section id="skills">
-
-          <h2>
-            Skills
-          </h2>
+        <div className="about-bottom">
 
           <p>
-            Python • Django • React • JavaScript • SQL •
-            REST API • Git
+            I am continuously learning, building
+            projects and improving my problem-solving
+            skills with the goal of becoming a strong
+            software developer.
           </p>
 
-        </section>
+        </div>
 
+      </div>
 
-        {/* =========================
-            PROJECTS
-        ========================== */}
-
-        <section id="projects">
-
-          <h2>
-            Projects
-          </h2>
-
-          <p>
-            My projects will be displayed here.
-          </p>
-
-        </section>
-
-
-        {/* =========================
-            CONTACT
-        ========================== */}
-
-        <section id="contact">
-
-          <h2>
-            Contact Me
-          </h2>
-
-          <p>
-            Interested in working together? Feel free
-            to get in touch.
-          </p>
-
-          <p>
-            Email: your-email@example.com
-          </p>
-
-        </section>
-
-      </main>
-
-      <Footer />
-    </>
+    </section>
   );
 }
 
-export default App;
+export default About;

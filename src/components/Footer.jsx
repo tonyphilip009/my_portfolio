@@ -1,7 +1,49 @@
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
 function Footer() {
+  const footerRef = useRef(null);
+  const contentRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        contentRef.current,
+        {
+          y: 50,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        }
+      );
+
+      ScrollTrigger.refresh();
+    }, footerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <footer className="border-t border-slate-800 bg-slate-950">
-      <div className="container-custom px-6 sm:px-8 lg:px-10">
+    <footer
+      ref={footerRef}
+      className="border-t border-slate-800 bg-slate-950"
+    >
+      <div
+        ref={contentRef}
+        className="container-custom px-6 sm:px-8 lg:px-10"
+      >
 
         {/* Main Footer */}
         <div className="flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
@@ -28,7 +70,6 @@ function Footer() {
               aria-label="GitHub"
               className="flex items-center gap-2 text-sm text-slate-400 transition-colors duration-300 hover:text-white"
             >
-              {/* GitHub Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -50,7 +91,6 @@ function Footer() {
               aria-label="LinkedIn"
               className="flex items-center gap-2 text-sm text-slate-400 transition-colors duration-300 hover:text-blue-400"
             >
-              {/* LinkedIn Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -58,7 +98,7 @@ function Footer() {
                 viewBox="0 0 24 24"
                 fill="currentColor"
               >
-                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V8.98h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.61 0 4.27 2.37 4.27 5.46v6.3ZM5.32 7.41a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.1 20.45H3.54V8.98H7.1v11.47ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z" />
+                <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V8.98h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.61 0 4.27 2.37 4.27 5.46v6.3ZM5.32 7.41a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.1 20.45H3.54V8.98H7.1v11.47ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 22.22 0Z" />
               </svg>
 
               LinkedIn
@@ -72,7 +112,6 @@ function Footer() {
               aria-label="Email"
               className="flex items-center gap-2 text-sm text-slate-400 transition-colors duration-300 hover:text-blue-400"
             >
-              {/* Mail Icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
