@@ -8,10 +8,68 @@ function Experience() {
   const experienceRef = useRef(null);
   const headingRef = useRef(null);
   const timelineRef = useRef(null);
+  const timelineLineRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Section heading animation
+      // ==========================================
+      // REDUCED MOTION CHECK
+      // ==========================================
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      const timelineItems = Array.from(
+        timelineRef.current.querySelectorAll(
+          ".experience-item"
+        )
+      );
+
+      const cards = Array.from(
+        timelineRef.current.querySelectorAll(
+          ".experience-card"
+        )
+      );
+
+      const dots = Array.from(
+        timelineRef.current.querySelectorAll(
+          ".timeline-dot"
+        )
+      );
+
+      const tags = timelineRef.current.querySelectorAll(
+        ".experience-tag"
+      );
+
+      if (prefersReducedMotion) {
+        gsap.set(
+          [
+            headingRef.current,
+            timelineLineRef.current,
+            ...timelineItems,
+            ...cards,
+            ...dots,
+            ...tags,
+          ],
+          {
+            opacity: 1,
+            y: 0,
+            x: 0,
+            scale: 1,
+            rotateX: 0,
+            rotateY: 0,
+          }
+        );
+
+        return;
+      }
+
+      // ==========================================
+      // STEP 1
+      // SECTION HEADING REVEAL
+      // ==========================================
+
       gsap.fromTo(
         headingRef.current,
         {
@@ -21,39 +79,383 @@ function Experience() {
         {
           y: 0,
           opacity: 1,
-          duration: 1.5,
+          duration: 1,
           ease: "power3.out",
+
           scrollTrigger: {
-            trigger: experienceRef.current,
-            start: "top 90%",
-            once: true,
+            trigger: headingRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
           },
         }
       );
 
-      // Experience timeline animation
+      // ==========================================
+      // STEP 2
+      // TIMELINE LINE DRAW
+      // ==========================================
+
       gsap.fromTo(
-        timelineRef.current.children,
+        timelineLineRef.current,
         {
-          y: 70,
-          opacity: 0,
+          scaleY: 0,
+          transformOrigin: "top center",
         },
         {
-          y: 0,
-          opacity: 1,
-          duration: 1.2,
-          stagger: 0.25,
-          ease: "power3.out",
+          scaleY: 1,
+          duration: 1.8,
+          ease: "power2.out",
+
           scrollTrigger: {
             trigger: timelineRef.current,
-            start: "top 90%",
-            once: true,
+            start: "top 80%",
+            end: "bottom 70%",
+            scrub: 1,
           },
         }
       );
 
-      ScrollTrigger.refresh();
+      // ==========================================
+      // STEP 3
+      // EXPERIENCE ITEM REVEAL
+      // ==========================================
+
+      timelineItems.forEach((item, index) => {
+        gsap.fromTo(
+          item,
+          {
+            y: 70,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.9,
+            delay: index * 0.1,
+            ease: "power3.out",
+
+            scrollTrigger: {
+              trigger: item,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ==========================================
+      // STEP 4
+      // TIMELINE DOT ANIMATION
+      // ==========================================
+
+      dots.forEach((dot) => {
+        gsap.fromTo(
+          dot,
+          {
+            scale: 0,
+            opacity: 0,
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.5,
+            ease: "back.out(2)",
+
+            scrollTrigger: {
+              trigger: dot,
+              start: "top 82%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        // Continuous subtle glow
+        gsap.to(dot, {
+          boxShadow:
+            "0 0 24px rgba(96,165,250,1)",
+
+          duration: 1.4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      });
+
+      // ==========================================
+      // STEP 5
+      // EXPERIENCE CARD CONTENT
+      // ==========================================
+
+      cards.forEach((card) => {
+        const content =
+          card.querySelectorAll(
+            ".experience-reveal"
+          );
+
+        gsap.fromTo(
+          content,
+          {
+            y: 20,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.55,
+            stagger: 0.07,
+            ease: "power2.out",
+
+            scrollTrigger: {
+              trigger: card,
+              start: "top 76%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ==========================================
+      // STEP 6
+      // BULLET POINT REVEAL
+      // ==========================================
+
+      cards.forEach((card) => {
+        const bullets =
+          card.querySelectorAll(
+            ".experience-bullet"
+          );
+
+        gsap.fromTo(
+          bullets,
+          {
+            x: 20,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.45,
+            stagger: 0.08,
+            ease: "power2.out",
+
+            scrollTrigger: {
+              trigger: card,
+              start: "top 72%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ==========================================
+      // STEP 7
+      // TECHNOLOGY TAG REVEAL
+      // ==========================================
+
+      cards.forEach((card) => {
+        const cardTags =
+          card.querySelectorAll(
+            ".experience-tag"
+          );
+
+        gsap.fromTo(
+          cardTags,
+          {
+            y: 12,
+            opacity: 0,
+            scale: 0.85,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            stagger: 0.07,
+            ease: "back.out(1.5)",
+
+            scrollTrigger: {
+              trigger: card,
+              start: "top 68%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
+
+      // ==========================================
+      // STEP 8
+      // 3D CARD TILT
+      // ==========================================
+
+      cards.forEach((card) => {
+        const handleMouseMove = (event) => {
+          const rect =
+            card.getBoundingClientRect();
+
+          const x =
+            event.clientX - rect.left;
+
+          const y =
+            event.clientY - rect.top;
+
+          const centerX =
+            rect.width / 2;
+
+          const centerY =
+            rect.height / 2;
+
+          const rotateY =
+            ((x - centerX) / centerX) * 3;
+
+          const rotateX =
+            ((centerY - y) / centerY) * 3;
+
+          gsap.to(card, {
+            rotateX,
+            rotateY,
+            y: -6,
+            scale: 1.01,
+            duration: 0.25,
+            ease: "power2.out",
+          });
+        };
+
+        const handleMouseLeave = () => {
+          gsap.to(card, {
+            rotateX: 0,
+            rotateY: 0,
+            y: 0,
+            scale: 1,
+            duration: 0.45,
+            ease: "power3.out",
+          });
+        };
+
+        card.addEventListener(
+          "mousemove",
+          handleMouseMove
+        );
+
+        card.addEventListener(
+          "mouseleave",
+          handleMouseLeave
+        );
+
+        card._handleMouseMove =
+          handleMouseMove;
+
+        card._handleMouseLeave =
+          handleMouseLeave;
+      });
+
+      // ==========================================
+      // STEP 9
+      // CARD HOVER GLOW
+      // ==========================================
+
+      cards.forEach((card) => {
+        const handleEnter = () => {
+          gsap.to(card, {
+            borderColor:
+              "rgba(96,165,250,0.5)",
+            boxShadow:
+              "0 0 35px rgba(59,130,246,0.12)",
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        };
+
+        const handleLeave = () => {
+          gsap.to(card, {
+            borderColor:
+              "rgba(51,65,85,0.6)",
+            boxShadow:
+              "0 0 0 rgba(59,130,246,0)",
+            duration: 0.3,
+            ease: "power2.out",
+          });
+        };
+
+        card.addEventListener(
+          "mouseenter",
+          handleEnter
+        );
+
+        card.addEventListener(
+          "mouseleave",
+          handleLeave
+        );
+
+        card._handleEnter = handleEnter;
+        card._handleLeave = handleLeave;
+      });
+
+      // ==========================================
+      // STEP 10
+      // SCROLL PARALLAX POLISH
+      // ==========================================
+
+      cards.forEach((card, index) => {
+        gsap.to(card, {
+          y: index % 2 === 0 ? -8 : 8,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5,
+          },
+        });
+      });
+
+      // ==========================================
+      // PERFORMANCE
+      // ==========================================
+
+      gsap.set(
+        [
+          headingRef.current,
+          timelineLineRef.current,
+          ...cards,
+          ...dots,
+          ...tags,
+        ],
+        {
+          force3D: true,
+        }
+      );
+
+      // ==========================================
+      // CLEANUP EVENT LISTENERS
+      // ==========================================
+
+      return () => {
+        cards.forEach((card) => {
+          card.removeEventListener(
+            "mousemove",
+            card._handleMouseMove
+          );
+
+          card.removeEventListener(
+            "mouseleave",
+            card._handleMouseLeave
+          );
+
+          card.removeEventListener(
+            "mouseenter",
+            card._handleEnter
+          );
+
+          card.removeEventListener(
+            "mouseleave",
+            card._handleLeave
+          );
+        });
+      };
     }, experienceRef);
+
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);
@@ -70,8 +472,10 @@ function Experience() {
             SECTION HEADER
         ========================================== */}
 
-        <div ref={headingRef} className="mb-20">
-
+        <div
+          ref={headingRef}
+          className="mb-20"
+        >
           <p className="mb-3 text-sm uppercase tracking-[0.3em] text-blue-400">
             My Journey
           </p>
@@ -81,10 +485,9 @@ function Experience() {
           </h2>
 
           <p className="mt-4 max-w-2xl text-slate-400">
-            A timeline of my professional experience and the technologies
-            I have worked with.
+            A timeline of my professional experience
+            and the technologies I have worked with.
           </p>
-
         </div>
 
 
@@ -95,18 +498,28 @@ function Experience() {
         <div
           ref={timelineRef}
           className="relative"
+          style={{
+            perspective: "1200px",
+          }}
         >
 
-          {/* CENTER TIMELINE LINE */}
+          {/* ========================================
+              TIMELINE LINE
+          ======================================== */}
 
           <div
+            ref={timelineLineRef}
             className="
               absolute
               left-3
               top-0
               h-full
               w-px
-              bg-slate-700
+              origin-top
+              bg-gradient-to-b
+              from-blue-400
+              via-slate-700
+              to-slate-800
               md:left-1/2
               md:-translate-x-1/2
             "
@@ -117,7 +530,7 @@ function Experience() {
               FULL STACK INTERNSHIP
           ======================================== */}
 
-          <div className="relative mb-24 md:grid md:grid-cols-2 md:gap-16">
+          <div className="experience-item relative mb-24 md:grid md:grid-cols-2 md:gap-16">
 
             {/* LEFT CARD */}
 
@@ -125,33 +538,35 @@ function Experience() {
 
               <div
                 className="
+                  experience-card
                   rounded-2xl
                   border
                   border-slate-700/60
                   bg-slate-900/55
                   p-6
-                  transition-all
+                  transition-colors
                   duration-300
-                  hover:-translate-y-1
-                  hover:border-blue-400/50
-                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
-                  md:text-right
                 "
+                style={{
+                  transformStyle:
+                    "preserve-3d",
+                  willChange: "transform",
+                }}
               >
 
-                <p className="text-sm font-medium text-blue-400">
+                <p className="experience-reveal text-sm font-medium text-blue-400">
                   Jun 2026 – Present
                 </p>
 
-                <h3 className="mt-3 text-2xl font-semibold text-slate-50">
+                <h3 className="experience-reveal mt-3 text-2xl font-semibold text-slate-50">
                   Python Django Full Stack Developer Intern
                 </h3>
 
-                <p className="mt-2 text-slate-300">
+                <p className="experience-reveal mt-2 text-slate-300">
                   Luminar Technolab
                 </p>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="experience-reveal mt-1 text-sm text-slate-500">
                   Kerala, India
                 </p>
 
@@ -164,6 +579,7 @@ function Experience() {
 
             <div
               className="
+                timeline-dot
                 absolute
                 left-3
                 top-8
@@ -174,7 +590,6 @@ function Experience() {
                 border-2
                 border-blue-400
                 bg-slate-950
-                shadow-[0_0_16px_rgba(96,165,250,0.9)]
                 md:left-1/2
               "
             />
@@ -186,44 +601,49 @@ function Experience() {
 
               <div
                 className="
+                  experience-card
                   rounded-2xl
                   border
                   border-slate-700/60
                   bg-slate-900/55
                   p-6
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-blue-400/50
-                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
                 "
+                style={{
+                  transformStyle:
+                    "preserve-3d",
+                  willChange: "transform",
+                }}
               >
 
-                <p className="leading-7 text-slate-300">
-                  Developing full-stack web applications using Django,
-                  Django REST Framework, React, and MySQL.
+                <p className="experience-reveal leading-7 text-slate-300">
+                  Developing full-stack web applications
+                  using Django, Django REST Framework,
+                  React, and MySQL.
                 </p>
 
                 <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-400">
 
-                  <li>
-                    • Building REST APIs and implementing CRUD operations
-                    with Django REST Framework.
+                  <li className="experience-bullet">
+                    • Building REST APIs and implementing
+                    CRUD operations with Django REST
+                    Framework.
                   </li>
 
-                  <li>
-                    • Working with Django models, ORM, authentication,
-                    URL routing, and admin functionality.
+                  <li className="experience-bullet">
+                    • Working with Django models, ORM,
+                    authentication, URL routing, and admin
+                    functionality.
                   </li>
 
-                  <li>
-                    • Creating responsive frontend interfaces and
-                    connecting them with backend APIs.
+                  <li className="experience-bullet">
+                    • Creating responsive frontend
+                    interfaces and connecting them with
+                    backend APIs.
                   </li>
 
-                  <li>
-                    • Using Git and GitHub for version control and
-                    project development.
+                  <li className="experience-bullet">
+                    • Using Git and GitHub for version
+                    control and project development.
                   </li>
 
                 </ul>
@@ -233,27 +653,27 @@ function Experience() {
 
                 <div className="mt-6 flex flex-wrap gap-2">
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     Python
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     Django
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     DRF
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     React
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     MySQL
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     Git
                   </span>
 
@@ -270,7 +690,7 @@ function Experience() {
               SOC INTERNSHIP
           ======================================== */}
 
-          <div className="relative md:grid md:grid-cols-2 md:gap-16">
+          <div className="experience-item relative md:grid md:grid-cols-2 md:gap-16">
 
             {/* LEFT CARD */}
 
@@ -278,33 +698,33 @@ function Experience() {
 
               <div
                 className="
+                  experience-card
                   rounded-2xl
                   border
                   border-slate-700/60
                   bg-slate-900/55
                   p-6
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-blue-400/50
-                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
-                  md:text-right
                 "
+                style={{
+                  transformStyle:
+                    "preserve-3d",
+                  willChange: "transform",
+                }}
               >
 
-                <p className="text-sm font-medium text-blue-400">
+                <p className="experience-reveal text-sm font-medium text-blue-400">
                   Feb 2026 – May 2026
                 </p>
 
-                <h3 className="mt-3 text-2xl font-semibold text-slate-50">
+                <h3 className="experience-reveal mt-3 text-2xl font-semibold text-slate-50">
                   SOC Intern
                 </h3>
 
-                <p className="mt-2 text-slate-300">
+                <p className="experience-reveal mt-2 text-slate-300">
                   Terraeagle
                 </p>
 
-                <p className="mt-1 text-sm text-slate-500">
+                <p className="experience-reveal mt-1 text-sm text-slate-500">
                   Bengaluru, India
                 </p>
 
@@ -317,6 +737,7 @@ function Experience() {
 
             <div
               className="
+                timeline-dot
                 absolute
                 left-3
                 top-8
@@ -327,7 +748,6 @@ function Experience() {
                 border-2
                 border-blue-400
                 bg-slate-950
-                shadow-[0_0_16px_rgba(96,165,250,0.9)]
                 md:left-1/2
               "
             />
@@ -339,44 +759,48 @@ function Experience() {
 
               <div
                 className="
+                  experience-card
                   rounded-2xl
                   border
                   border-slate-700/60
                   bg-slate-900/55
                   p-6
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-blue-400/50
-                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
                 "
+                style={{
+                  transformStyle:
+                    "preserve-3d",
+                  willChange: "transform",
+                }}
               >
 
-                <p className="leading-7 text-slate-300">
-                  Worked in a Security Operations Center environment,
-                  monitoring security events and analysing logs.
+                <p className="experience-reveal leading-7 text-slate-300">
+                  Worked in a Security Operations
+                  Center environment, monitoring security
+                  events and analysing logs.
                 </p>
 
                 <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-400">
 
-                  <li>
-                    • Analysed security logs and alerts using monitoring
-                    dashboards.
+                  <li className="experience-bullet">
+                    • Analysed security logs and alerts
+                    using monitoring dashboards.
                   </li>
 
-                  <li>
-                    • Worked with Wazuh for security monitoring
-                    and threat detection.
+                  <li className="experience-bullet">
+                    • Worked with Wazuh for security
+                    monitoring and threat detection.
                   </li>
 
-                  <li>
-                    • Investigated security events and assisted with
-                    alert analysis and reporting.
+                  <li className="experience-bullet">
+                    • Investigated security events and
+                    assisted with alert analysis and
+                    reporting.
                   </li>
 
-                  <li>
-                    • Gained practical experience with SOC workflows,
-                    log analysis, and security monitoring.
+                  <li className="experience-bullet">
+                    • Gained practical experience with SOC
+                    workflows, log analysis, and security
+                    monitoring.
                   </li>
 
                 </ul>
@@ -386,15 +810,15 @@ function Experience() {
 
                 <div className="mt-6 flex flex-wrap gap-2">
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     Wazuh
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     Log Analysis
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
                     Threat Detection
                   </span>
 
