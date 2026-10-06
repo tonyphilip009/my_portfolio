@@ -18,10 +18,13 @@ function Navbar() {
   /*
    * Detect the section currently visible while scrolling
    */
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = navLinks
-        .map((link) => document.getElementById(link.href.substring(1)))
+        .map((link) =>
+          document.getElementById(link.href.substring(1))
+        )
         .filter(Boolean);
 
       const scrollPosition = window.scrollY + 150;
@@ -30,7 +33,8 @@ function Navbar() {
 
       sections.forEach((section) => {
         const sectionTop = section.offsetTop;
-        const sectionBottom = sectionTop + section.offsetHeight;
+        const sectionBottom =
+          sectionTop + section.offsetHeight;
 
         if (
           scrollPosition >= sectionTop &&
@@ -57,6 +61,7 @@ function Navbar() {
   /*
    * Navigate to a section
    */
+
   const handleNavigation = (event, sectionId) => {
     event.preventDefault();
 
@@ -68,7 +73,6 @@ function Navbar() {
     }
 
     setActiveSection(sectionId);
-
     setIsOpen(false);
 
     const navbarHeight = 80;
@@ -103,7 +107,6 @@ function Navbar() {
         backdrop-blur-md
       "
     >
-
       {/* ==================== NAVBAR ==================== */}
 
       <div
@@ -115,7 +118,6 @@ function Navbar() {
           py-4
         "
       >
-
         {/* ==================== LOGO ==================== */}
 
         <a
@@ -124,17 +126,27 @@ function Navbar() {
             handleNavigation(event, "home")
           }
           className="
+            group
             text-2xl
             font-bold
             tracking-tight
             text-white
-            transition-colors
-            duration-200
+            transition-all
+            duration-300
+            hover:-translate-y-0.5
             hover:text-blue-400
           "
         >
           Tony
-          <span className="text-blue-500">
+          <span
+            className="
+              text-blue-500
+              transition-all
+              duration-300
+              group-hover:text-cyan-400
+              group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.6)]
+            "
+          >
             .
           </span>
         </a>
@@ -150,7 +162,6 @@ function Navbar() {
             md:flex
           "
         >
-
           {navLinks.map((link) => {
             const sectionId =
               link.href.substring(1);
@@ -169,12 +180,14 @@ function Navbar() {
                   )
                 }
                 className={`
+                  group
                   relative
                   py-2
                   text-sm
                   font-medium
-                  transition-colors
-                  duration-200
+                  transition-all
+                  duration-300
+                  hover:-translate-y-0.5
                   ${
                     isActive
                       ? "text-blue-400"
@@ -182,33 +195,34 @@ function Navbar() {
                   }
                 `}
               >
-
                 {link.name}
 
-                {/* ==================== UNDERLINE ==================== */}
+                {/* ==================== HOVER UNDERLINE ==================== */}
 
                 <span
                   className={`
                     absolute
-                    left-0
+                    left-1/2
                     -bottom-1
                     h-0.5
+                    -translate-x-1/2
                     rounded-full
-                    bg-blue-400
+                    bg-gradient-to-r
+                    from-blue-400
+                    to-cyan-400
+                    shadow-[0_0_8px_rgba(59,130,246,0.35)]
                     transition-all
                     duration-300
                     ${
                       isActive
                         ? "w-full opacity-100"
-                        : "w-0 opacity-0"
+                        : "w-0 opacity-0 group-hover:w-full group-hover:opacity-100"
                     }
                   `}
                 />
-
               </a>
             );
           })}
-
         </div>
 
 
@@ -216,15 +230,27 @@ function Navbar() {
 
         <button
           type="button"
-          onClick={() =>
-            setIsOpen(!isOpen)
-          }
+          onClick={() => setIsOpen(!isOpen)}
           className="
-            text-2xl
-            text-white
-            transition-colors
-            duration-200
+            flex
+            h-10
+            w-10
+            items-center
+            justify-center
+            rounded-xl
+            border
+            border-slate-700/60
+            bg-slate-900/40
+            text-xl
+            text-slate-200
+            transition-all
+            duration-300
+            hover:border-blue-500/40
+            hover:bg-slate-800/70
             hover:text-blue-400
+            focus:outline-none
+            focus:ring-2
+            focus:ring-blue-400/40
             md:hidden
           "
           aria-label="Toggle navigation menu"
@@ -232,7 +258,6 @@ function Navbar() {
         >
           {isOpen ? "✕" : "☰"}
         </button>
-
       </div>
 
 
@@ -244,21 +269,21 @@ function Navbar() {
             border-t
             border-white/10
             bg-slate-950/95
-            px-6
+            px-5
             py-6
+            shadow-lg
+            shadow-black/20
             backdrop-blur-md
             md:hidden
           "
         >
-
           <div
             className="
               flex
               flex-col
-              gap-5
+              gap-1
             "
           >
-
             {navLinks.map((link) => {
               const sectionId =
                 link.href.substring(1);
@@ -277,47 +302,54 @@ function Navbar() {
                     )
                   }
                   className={`
+                    group
                     relative
-                    w-fit
+                    w-full
+                    rounded-lg
+                    px-3
+                    py-3
                     text-base
                     font-medium
-                    transition-colors
-                    duration-200
+                    transition-all
+                    duration-300
                     ${
                       isActive
-                        ? "text-blue-400"
-                        : "text-slate-300 hover:text-blue-400"
+                        ? "bg-blue-500/10 text-blue-400"
+                        : "text-slate-300 hover:bg-slate-900/60 hover:text-blue-400"
                     }
                   `}
                 >
-
                   {link.name}
 
-                  {/* Mobile underline */}
+                  {/* Mobile active indicator */}
 
-                  {isActive && (
-                    <span
-                      className="
-                        absolute
-                        -bottom-1
-                        left-0
-                        h-0.5
-                        w-full
-                        rounded-full
-                        bg-blue-400
-                      "
-                    />
-                  )}
-
+                  <span
+                    className={`
+                      absolute
+                      left-0
+                      top-1/2
+                      h-5
+                      w-0.5
+                      -translate-y-1/2
+                      rounded-full
+                      bg-gradient-to-b
+                      from-blue-400
+                      to-cyan-400
+                      transition-all
+                      duration-300
+                      ${
+                        isActive
+                          ? "opacity-100"
+                          : "opacity-0"
+                      }
+                    `}
+                  />
                 </a>
               );
             })}
-
           </div>
-
         </div>
       )}
-
     </nav>
   );
 }

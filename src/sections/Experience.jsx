@@ -42,6 +42,11 @@ function Experience() {
         ".experience-tag"
       );
 
+      const cardGlows =
+        timelineRef.current.querySelectorAll(
+          ".experience-card-glow"
+        );
+
       if (prefersReducedMotion) {
         gsap.set(
           [
@@ -51,6 +56,7 @@ function Experience() {
             ...cards,
             ...dots,
             ...tags,
+            ...cardGlows,
           ],
           {
             opacity: 1,
@@ -169,11 +175,9 @@ function Experience() {
           }
         );
 
-        // Continuous subtle glow
         gsap.to(dot, {
           boxShadow:
-            "0 0 24px rgba(96,165,250,1)",
-
+            "0 0 20px rgba(96,165,250,0.8)",
           duration: 1.4,
           repeat: -1,
           yoyo: true,
@@ -317,6 +321,7 @@ function Experience() {
             scale: 1.01,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -328,6 +333,7 @@ function Experience() {
             scale: 1,
             duration: 0.45,
             ease: "power3.out",
+            overwrite: "auto",
           });
         };
 
@@ -350,18 +356,29 @@ function Experience() {
 
       // ==========================================
       // STEP 9
-      // CARD HOVER GLOW
+      // CARD BORDER + INTERNAL GLOW
       // ==========================================
 
       cards.forEach((card) => {
+        const glow = card.querySelector(
+          ".experience-card-glow"
+        );
+
         const handleEnter = () => {
           gsap.to(card, {
             borderColor:
-              "rgba(96,165,250,0.5)",
-            boxShadow:
-              "0 0 35px rgba(59,130,246,0.12)",
+              "rgba(96,165,250,0.55)",
             duration: 0.3,
             ease: "power2.out",
+            overwrite: "auto",
+          });
+
+          gsap.to(glow, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.35,
+            ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -369,10 +386,17 @@ function Experience() {
           gsap.to(card, {
             borderColor:
               "rgba(51,65,85,0.6)",
-            boxShadow:
-              "0 0 0 rgba(59,130,246,0)",
             duration: 0.3,
             ease: "power2.out",
+            overwrite: "auto",
+          });
+
+          gsap.to(glow, {
+            opacity: 0,
+            scale: 0.85,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -392,21 +416,42 @@ function Experience() {
 
       // ==========================================
       // STEP 10
-      // SCROLL PARALLAX POLISH
+      // TECHNOLOGY TAG HOVER
       // ==========================================
 
-      cards.forEach((card, index) => {
-        gsap.to(card, {
-          y: index % 2 === 0 ? -8 : 8,
-          ease: "none",
+      tags.forEach((tag) => {
+        const handleEnter = () => {
+          gsap.to(tag, {
+            y: -2,
+            scale: 1.04,
+            duration: 0.2,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        };
 
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.5,
-          },
-        });
+        const handleLeave = () => {
+          gsap.to(tag, {
+            y: 0,
+            scale: 1,
+            duration: 0.2,
+            ease: "power2.out",
+            overwrite: "auto",
+          });
+        };
+
+        tag.addEventListener(
+          "mouseenter",
+          handleEnter
+        );
+
+        tag.addEventListener(
+          "mouseleave",
+          handleLeave
+        );
+
+        tag._handleEnter = handleEnter;
+        tag._handleLeave = handleLeave;
       });
 
       // ==========================================
@@ -420,6 +465,7 @@ function Experience() {
           ...cards,
           ...dots,
           ...tags,
+          ...cardGlows,
         ],
         {
           force3D: true,
@@ -452,6 +498,18 @@ function Experience() {
             card._handleLeave
           );
         });
+
+        tags.forEach((tag) => {
+          tag.removeEventListener(
+            "mouseenter",
+            tag._handleEnter
+          );
+
+          tag.removeEventListener(
+            "mouseleave",
+            tag._handleLeave
+          );
+        });
       };
     }, experienceRef);
 
@@ -464,7 +522,15 @@ function Experience() {
     <section
       ref={experienceRef}
       id="experience"
-      className="min-h-screen bg-slate-950/70 px-6 py-24 text-white"
+      className="
+        min-h-screen
+        bg-slate-950/70
+        px-4
+        py-20
+        text-white
+        sm:px-6
+        sm:py-24
+      "
     >
       <div className="mx-auto max-w-6xl">
 
@@ -474,17 +540,41 @@ function Experience() {
 
         <div
           ref={headingRef}
-          className="mb-20"
+          className="mb-14 sm:mb-20"
         >
-          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-blue-400">
+          <p
+            className="
+              mb-3
+              text-sm
+              uppercase
+              tracking-[0.3em]
+              text-blue-400
+            "
+          >
             My Journey
           </p>
 
-          <h2 className="text-4xl font-bold md:text-5xl">
+          <h2
+            className="
+              text-3xl
+              font-bold
+              tracking-tight
+              text-white
+              sm:text-4xl
+              md:text-5xl
+            "
+          >
             Experience
           </h2>
 
-          <p className="mt-4 max-w-2xl text-slate-400">
+          <p
+            className="
+              mt-4
+              max-w-2xl
+              leading-relaxed
+              text-slate-400
+            "
+          >
             A timeline of my professional experience
             and the technologies I have worked with.
           </p>
@@ -530,20 +620,44 @@ function Experience() {
               FULL STACK INTERNSHIP
           ======================================== */}
 
-          <div className="experience-item relative mb-24 md:grid md:grid-cols-2 md:gap-16">
+          <div
+            className="
+              experience-item
+              relative
+              mb-16
+              md:mb-24
+              md:grid
+              md:grid-cols-2
+              md:gap-16
+            "
+          >
 
             {/* LEFT CARD */}
 
-            <div className="ml-10 md:ml-0 md:pr-10">
-
+            <div
+              className="
+                ml-8
+                md:ml-0
+                md:pr-10
+              "
+            >
               <div
                 className="
                   experience-card
+                  group
+                  relative
+                  overflow-hidden
                   rounded-2xl
                   border
                   border-slate-700/60
-                  bg-slate-900/55
-                  p-6
+                  bg-gradient-to-br
+                  from-slate-900/95
+                  via-slate-950/95
+                  to-slate-950
+                  p-5
+                  sm:p-6
+                  shadow-lg
+                  shadow-black/20
                   transition-colors
                   duration-300
                 "
@@ -554,24 +668,84 @@ function Experience() {
                 }}
               >
 
-                <p className="experience-reveal text-sm font-medium text-blue-400">
-                  Jun 2026 – Present
-                </p>
+                {/* INTERNAL GLOW */}
 
-                <h3 className="experience-reveal mt-3 text-2xl font-semibold text-slate-50">
-                  Python Django Full Stack Developer Intern
-                </h3>
+                <div
+                  className="
+                    experience-card-glow
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-2xl
+                    border
+                    border-blue-400/25
+                    bg-blue-400/[0.025]
+                    opacity-0
+                    scale-[0.98]
+                    shadow-[inset_0_0_35px_rgba(59,130,246,0.08)]
+                  "
+                />
 
-                <p className="experience-reveal mt-2 text-slate-300">
-                  Luminar Technolab
-                </p>
+                <div
+                  className="
+                    relative
+                    z-10
+                  "
+                >
+                  <p
+                    className="
+                      experience-reveal
+                      text-xs
+                      font-medium
+                      text-blue-400
+                      sm:text-sm
+                    "
+                  >
+                    Jun 2026 – Present
+                  </p>
 
-                <p className="experience-reveal mt-1 text-sm text-slate-500">
-                  Kerala, India
-                </p>
+                  <h3
+                    className="
+                      experience-reveal
+                      mt-2
+                      text-xl
+                      font-semibold
+                      sm:mt-3
+                      sm:text-2xl
+                      tracking-tight
+                      text-slate-50
+                    "
+                  >
+                    Python Django Full Stack Developer Intern
+                  </h3>
+
+                  <p
+                    className="
+                      experience-reveal
+                      mt-2
+                      text-sm
+                      font-medium
+                      text-slate-300
+                      sm:text-base
+                    "
+                  >
+                    Luminar Technolab
+                  </p>
+
+                  <p
+                    className="
+                      experience-reveal
+                      mt-1
+                      text-xs
+                      text-slate-500
+                      sm:text-sm
+                    "
+                  >
+                    Kerala, India
+                  </p>
+                </div>
 
               </div>
-
             </div>
 
 
@@ -582,14 +756,18 @@ function Experience() {
                 timeline-dot
                 absolute
                 left-3
-                top-8
-                h-4
-                w-4
+                top-7
+                h-3.5
+                w-3.5
+                sm:top-8
+                sm:h-4
+                sm:w-4
                 -translate-x-1/2
                 rounded-full
                 border-2
                 border-blue-400
                 bg-slate-950
+                shadow-[0_0_12px_rgba(59,130,246,0.45)]
                 md:left-1/2
               "
             />
@@ -597,16 +775,35 @@ function Experience() {
 
             {/* RIGHT CARD */}
 
-            <div className="ml-10 mt-8 md:ml-0 md:mt-0 md:pl-10">
-
+            <div
+              className="
+                ml-8
+                mt-6
+                sm:mt-8
+                md:ml-0
+                md:mt-0
+                md:pl-10
+              "
+            >
               <div
                 className="
                   experience-card
+                  group
+                  relative
+                  overflow-hidden
                   rounded-2xl
                   border
                   border-slate-700/60
-                  bg-slate-900/55
-                  p-6
+                  bg-gradient-to-br
+                  from-slate-900/95
+                  via-slate-950/95
+                  to-slate-950
+                  p-5
+                  sm:p-6
+                  shadow-lg
+                  shadow-black/20
+                  transition-colors
+                  duration-300
                 "
                 style={{
                   transformStyle:
@@ -615,72 +812,238 @@ function Experience() {
                 }}
               >
 
-                <p className="experience-reveal leading-7 text-slate-300">
-                  Developing full-stack web applications
-                  using Django, Django REST Framework,
-                  React, and MySQL.
-                </p>
+                {/* INTERNAL GLOW */}
 
-                <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-400">
+                <div
+                  className="
+                    experience-card-glow
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-2xl
+                    border
+                    border-blue-400/25
+                    bg-blue-400/[0.025]
+                    opacity-0
+                    scale-[0.98]
+                    shadow-[inset_0_0_35px_rgba(59,130,246,0.08)]
+                  "
+                />
 
-                  <li className="experience-bullet">
-                    • Building REST APIs and implementing
-                    CRUD operations with Django REST
-                    Framework.
-                  </li>
+                <div
+                  className="
+                    relative
+                    z-10
+                  "
+                >
+                  <p
+                    className="
+                      experience-reveal
+                      text-sm
+                      leading-6
+                      text-slate-300
+                      sm:text-base
+                      sm:leading-7
+                    "
+                  >
+                    Developing full-stack web applications
+                    using Django, Django REST Framework,
+                    React, and MySQL.
+                  </p>
 
-                  <li className="experience-bullet">
-                    • Working with Django models, ORM,
-                    authentication, URL routing, and admin
-                    functionality.
-                  </li>
+                  <ul
+                    className="
+                      mt-4
+                      space-y-3
+                      text-xs
+                      leading-6
+                      sm:mt-5
+                      sm:text-sm
+                      text-slate-400
+                    "
+                  >
+                    <li className="experience-bullet">
+                      • Building REST APIs and implementing
+                      CRUD operations with Django REST
+                      Framework.
+                    </li>
 
-                  <li className="experience-bullet">
-                    • Creating responsive frontend
-                    interfaces and connecting them with
-                    backend APIs.
-                  </li>
+                    <li className="experience-bullet">
+                      • Working with Django models, ORM,
+                      authentication, URL routing, and admin
+                      functionality.
+                    </li>
 
-                  <li className="experience-bullet">
-                    • Using Git and GitHub for version
-                    control and project development.
-                  </li>
+                    <li className="experience-bullet">
+                      • Creating responsive frontend
+                      interfaces and connecting them with
+                      backend APIs.
+                    </li>
 
-                </ul>
+                    <li className="experience-bullet">
+                      • Using Git and GitHub for version
+                      control and project development.
+                    </li>
+                  </ul>
 
 
-                {/* TECHNOLOGIES */}
+                  {/* TECHNOLOGIES */}
 
-                <div className="mt-6 flex flex-wrap gap-2">
+                  <div
+                    className="
+                      mt-6
+                      flex
+                      flex-wrap
+                      gap-2
+                    "
+                  >
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      Python
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    Python
-                  </span>
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      Django
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    Django
-                  </span>
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      DRF
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    DRF
-                  </span>
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      React
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    React
-                  </span>
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      MySQL
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    MySQL
-                  </span>
-
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    Git
-                  </span>
-
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      Git
+                    </span>
+                  </div>
                 </div>
 
               </div>
-
             </div>
 
           </div>
@@ -690,20 +1053,44 @@ function Experience() {
               SOC INTERNSHIP
           ======================================== */}
 
-          <div className="experience-item relative md:grid md:grid-cols-2 md:gap-16">
+          <div
+            className="
+              experience-item
+              relative
+              md:grid
+              md:grid-cols-2
+              md:gap-16
+            "
+          >
 
             {/* LEFT CARD */}
 
-            <div className="ml-10 md:ml-0 md:pr-10">
-
+            <div
+              className="
+                ml-8
+                md:ml-0
+                md:pr-10
+              "
+            >
               <div
                 className="
                   experience-card
+                  group
+                  relative
+                  overflow-hidden
                   rounded-2xl
                   border
                   border-slate-700/60
-                  bg-slate-900/55
-                  p-6
+                  bg-gradient-to-br
+                  from-slate-900/95
+                  via-slate-950/95
+                  to-slate-950
+                  p-5
+                  sm:p-6
+                  shadow-lg
+                  shadow-black/20
+                  transition-colors
+                  duration-300
                 "
                 style={{
                   transformStyle:
@@ -712,24 +1099,84 @@ function Experience() {
                 }}
               >
 
-                <p className="experience-reveal text-sm font-medium text-blue-400">
-                  Feb 2026 – May 2026
-                </p>
+                {/* INTERNAL GLOW */}
 
-                <h3 className="experience-reveal mt-3 text-2xl font-semibold text-slate-50">
-                  SOC Intern
-                </h3>
+                <div
+                  className="
+                    experience-card-glow
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-2xl
+                    border
+                    border-blue-400/25
+                    bg-blue-400/[0.025]
+                    opacity-0
+                    scale-[0.98]
+                    shadow-[inset_0_0_35px_rgba(59,130,246,0.08)]
+                  "
+                />
 
-                <p className="experience-reveal mt-2 text-slate-300">
-                  Terraeagle
-                </p>
+                <div
+                  className="
+                    relative
+                    z-10
+                  "
+                >
+                  <p
+                    className="
+                      experience-reveal
+                      text-xs
+                      font-medium
+                      text-blue-400
+                      sm:text-sm
+                    "
+                  >
+                    Feb 2026 – May 2026
+                  </p>
 
-                <p className="experience-reveal mt-1 text-sm text-slate-500">
-                  Bengaluru, India
-                </p>
+                  <h3
+                    className="
+                      experience-reveal
+                      mt-2
+                      text-xl
+                      font-semibold
+                      sm:mt-3
+                      sm:text-2xl
+                      tracking-tight
+                      text-slate-50
+                    "
+                  >
+                    SOC Intern
+                  </h3>
+
+                  <p
+                    className="
+                      experience-reveal
+                      mt-2
+                      text-sm
+                      font-medium
+                      text-slate-300
+                      sm:text-base
+                    "
+                  >
+                    Terraeagle
+                  </p>
+
+                  <p
+                    className="
+                      experience-reveal
+                      mt-1
+                      text-xs
+                      text-slate-500
+                      sm:text-sm
+                    "
+                  >
+                    Bengaluru, India
+                  </p>
+                </div>
 
               </div>
-
             </div>
 
 
@@ -740,14 +1187,18 @@ function Experience() {
                 timeline-dot
                 absolute
                 left-3
-                top-8
-                h-4
-                w-4
+                top-7
+                h-3.5
+                w-3.5
+                sm:top-8
+                sm:h-4
+                sm:w-4
                 -translate-x-1/2
                 rounded-full
                 border-2
                 border-blue-400
                 bg-slate-950
+                shadow-[0_0_12px_rgba(59,130,246,0.45)]
                 md:left-1/2
               "
             />
@@ -755,16 +1206,35 @@ function Experience() {
 
             {/* RIGHT CARD */}
 
-            <div className="ml-10 mt-8 md:ml-0 md:mt-0 md:pl-10">
-
+            <div
+              className="
+                ml-8
+                mt-6
+                sm:mt-8
+                md:ml-0
+                md:mt-0
+                md:pl-10
+              "
+            >
               <div
                 className="
                   experience-card
+                  group
+                  relative
+                  overflow-hidden
                   rounded-2xl
                   border
                   border-slate-700/60
-                  bg-slate-900/55
-                  p-6
+                  bg-gradient-to-br
+                  from-slate-900/95
+                  via-slate-950/95
+                  to-slate-950
+                  p-5
+                  sm:p-6
+                  shadow-lg
+                  shadow-black/20
+                  transition-colors
+                  duration-300
                 "
                 style={{
                   transformStyle:
@@ -773,59 +1243,165 @@ function Experience() {
                 }}
               >
 
-                <p className="experience-reveal leading-7 text-slate-300">
-                  Worked in a Security Operations
-                  Center environment, monitoring security
-                  events and analysing logs.
-                </p>
+                {/* INTERNAL GLOW */}
 
-                <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-400">
+                <div
+                  className="
+                    experience-card-glow
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    rounded-2xl
+                    border
+                    border-blue-400/25
+                    bg-blue-400/[0.025]
+                    opacity-0
+                    scale-[0.98]
+                    shadow-[inset_0_0_35px_rgba(59,130,246,0.08)]
+                  "
+                />
 
-                  <li className="experience-bullet">
-                    • Analysed security logs and alerts
-                    using monitoring dashboards.
-                  </li>
+                <div
+                  className="
+                    relative
+                    z-10
+                  "
+                >
+                  <p
+                    className="
+                      experience-reveal
+                      text-sm
+                      leading-6
+                      text-slate-300
+                      sm:text-base
+                      sm:leading-7
+                    "
+                  >
+                    Worked in a Security Operations
+                    Center environment, monitoring security
+                    events and analysing logs.
+                  </p>
 
-                  <li className="experience-bullet">
-                    • Worked with Wazuh for security
-                    monitoring and threat detection.
-                  </li>
+                  <ul
+                    className="
+                      mt-4
+                      space-y-3
+                      text-xs
+                      leading-6
+                      sm:mt-5
+                      sm:text-sm
+                      text-slate-400
+                    "
+                  >
+                    <li className="experience-bullet">
+                      • Analysed security logs and alerts
+                      using monitoring dashboards.
+                    </li>
 
-                  <li className="experience-bullet">
-                    • Investigated security events and
-                    assisted with alert analysis and
-                    reporting.
-                  </li>
+                    <li className="experience-bullet">
+                      • Worked with Wazuh for security
+                      monitoring and threat detection.
+                    </li>
 
-                  <li className="experience-bullet">
-                    • Gained practical experience with SOC
-                    workflows, log analysis, and security
-                    monitoring.
-                  </li>
+                    <li className="experience-bullet">
+                      • Investigated security events and
+                      assisted with alert analysis and
+                      reporting.
+                    </li>
 
-                </ul>
+                    <li className="experience-bullet">
+                      • Gained practical experience with SOC
+                      workflows, log analysis, and security
+                      monitoring.
+                    </li>
+                  </ul>
 
 
-                {/* TECHNOLOGIES */}
+                  {/* TECHNOLOGIES */}
 
-                <div className="mt-6 flex flex-wrap gap-2">
+                  <div
+                    className="
+                      mt-6
+                      flex
+                      flex-wrap
+                      gap-2
+                    "
+                  >
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      Wazuh
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    Wazuh
-                  </span>
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      Log Analysis
+                    </span>
 
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    Log Analysis
-                  </span>
-
-                  <span className="experience-tag rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
-                    Threat Detection
-                  </span>
-
+                    <span
+                      className="
+                        experience-tag
+                        rounded-full
+                        border
+                        border-slate-700/80
+                        bg-slate-800/60
+                        px-2.5
+                        py-1
+                        text-[11px]
+                        sm:px-3
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                        hover:border-blue-400/40
+                        hover:bg-blue-400/10
+                        hover:text-blue-300
+                      "
+                    >
+                      Threat Detection
+                    </span>
+                  </div>
                 </div>
 
               </div>
-
             </div>
 
           </div>

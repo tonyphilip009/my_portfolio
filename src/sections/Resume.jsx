@@ -24,6 +24,7 @@ function Resume() {
   const highlightsRef = useRef(null);
   const buttonsRef = useRef(null);
   const accentRef = useRef(null);
+  const cardGlowRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -59,6 +60,7 @@ function Resume() {
             ...highlightItems,
             ...buttons,
             accentRef.current,
+            cardGlowRef.current,
           ],
           {
             opacity: 1,
@@ -95,8 +97,7 @@ function Resume() {
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -125,8 +126,7 @@ function Resume() {
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -171,8 +171,7 @@ function Resume() {
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -203,8 +202,7 @@ function Resume() {
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -233,8 +231,7 @@ function Resume() {
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 80%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -261,8 +258,7 @@ function Resume() {
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 80%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -289,8 +285,7 @@ function Resume() {
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 80%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -317,8 +312,7 @@ function Resume() {
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 78%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -347,8 +341,7 @@ function Resume() {
           scrollTrigger: {
             trigger: highlightsRef.current,
             start: "top 88%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -362,14 +355,13 @@ function Resume() {
       highlightItems.forEach((item) => {
         const handleEnter = () => {
           gsap.to(item, {
-            y: -4,
-            scale: 1.05,
-            borderColor:
-              "rgba(59,130,246,0.5)",
-            backgroundColor:
-              "rgba(30,41,59,0.8)",
+            y: -3,
+            scale: 1.04,
+            borderColor: "rgba(59,130,246,0.5)",
+            backgroundColor: "rgba(30,41,59,0.8)",
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -377,24 +369,16 @@ function Resume() {
           gsap.to(item, {
             y: 0,
             scale: 1,
-            borderColor:
-              "rgba(51,65,85,1)",
-            backgroundColor:
-              "rgba(30,41,59,0.5)",
+            borderColor: "rgba(51,65,85,1)",
+            backgroundColor: "rgba(30,41,59,0.5)",
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
-        item.addEventListener(
-          "mouseenter",
-          handleEnter
-        );
-
-        item.addEventListener(
-          "mouseleave",
-          handleLeave
-        );
+        item.addEventListener("mouseenter", handleEnter);
+        item.addEventListener("mouseleave", handleLeave);
 
         item._handleEnter = handleEnter;
         item._handleLeave = handleLeave;
@@ -424,8 +408,7 @@ function Resume() {
           scrollTrigger: {
             trigger: buttonsRef.current,
             start: "top 90%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -439,10 +422,11 @@ function Resume() {
       buttons.forEach((button) => {
         const handleEnter = () => {
           gsap.to(button, {
-            y: -4,
-            scale: 1.04,
+            y: -3,
+            scale: 1.03,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -452,18 +436,12 @@ function Resume() {
             scale: 1,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
-        button.addEventListener(
-          "mouseenter",
-          handleEnter
-        );
-
-        button.addEventListener(
-          "mouseleave",
-          handleLeave
-        );
+        button.addEventListener("mouseenter", handleEnter);
+        button.addEventListener("mouseleave", handleLeave);
 
         button._handleEnter = handleEnter;
         button._handleLeave = handleLeave;
@@ -479,23 +457,17 @@ function Resume() {
         const rect =
           cardRef.current.getBoundingClientRect();
 
-        const x =
-          event.clientX - rect.left;
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-        const y =
-          event.clientY - rect.top;
-
-        const centerX =
-          rect.width / 2;
-
-        const centerY =
-          rect.height / 2;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
         const rotateY =
-          ((x - centerX) / centerX) * 3;
+          ((x - centerX) / centerX) * 2.5;
 
         const rotateX =
-          ((centerY - y) / centerY) * 3;
+          ((centerY - y) / centerY) * 2.5;
 
         gsap.to(cardRef.current, {
           rotateX,
@@ -504,6 +476,7 @@ function Resume() {
           scale: 1.005,
           duration: 0.25,
           ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
@@ -515,6 +488,7 @@ function Resume() {
           scale: 1,
           duration: 0.45,
           ease: "power3.out",
+          overwrite: "auto",
         });
       };
 
@@ -530,33 +504,41 @@ function Resume() {
 
       /*
       ==================================================
-      CARD GLOW
+      CARD BORDER + INTERNAL GLOW
       ==================================================
       */
 
       const handleCardEnter = () => {
         gsap.to(cardRef.current, {
-          borderColor:
-            "rgba(59,130,246,0.5)",
-          boxShadow:
-            "0 0 40px rgba(59,130,246,0.12)",
-          backgroundColor:
-            "rgba(15,23,42,0.65)",
+          borderColor: "rgba(59,130,246,0.55)",
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+
+        gsap.to(cardGlowRef.current, {
+          opacity: 1,
+          scale: 1,
           duration: 0.35,
           ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
       const handleCardLeave = () => {
         gsap.to(cardRef.current, {
-          borderColor:
-            "rgba(51,65,85,0.6)",
-          boxShadow:
-            "0 0 0 rgba(59,130,246,0)",
-          backgroundColor:
-            "rgba(15,23,42,0.4)",
-          duration: 0.35,
+          borderColor: "rgba(51,65,85,0.6)",
+          duration: 0.3,
           ease: "power2.out",
+          overwrite: "auto",
+        });
+
+        gsap.to(cardGlowRef.current, {
+          opacity: 0,
+          scale: 0.96,
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
@@ -606,8 +588,7 @@ function Resume() {
           scrollTrigger: {
             trigger: accentRef.current,
             start: "top 95%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -649,6 +630,7 @@ function Resume() {
           ...highlightItems,
           ...buttons,
           accentRef.current,
+          cardGlowRef.current,
         ],
         {
           force3D: true,
@@ -723,7 +705,7 @@ function Resume() {
     <section
       ref={resumeRef}
       id="resume"
-      className="section-padding"
+      className="section-padding px-5 sm:px-6"
     >
       <div className="container-custom">
 
@@ -735,14 +717,23 @@ function Resume() {
         >
           <p
             ref={headingLabelRef}
-            className="text-sm font-medium uppercase tracking-[0.2em] text-blue-400"
+            className="
+              text-sm
+              font-medium
+              uppercase
+              tracking-[0.2em]
+              text-blue-400
+            "
           >
             Resume
           </p>
 
           <h2
             ref={headingTitleRef}
-            className="section-title mt-3"
+            className="
+              section-title
+              mt-3
+            "
           >
             My professional profile.
           </h2>
@@ -756,11 +747,18 @@ function Resume() {
           </p>
         </div>
 
+
         {/* ==================== RESUME CARD ==================== */}
 
         <div
           ref={cardRef}
-          className="mt-12 max-w-4xl"
+          className="
+            mt-10
+            w-full
+            max-w-4xl
+            rounded-2xl
+            sm:mt-12
+          "
           style={{
             perspective: "1200px",
             transformStyle: "preserve-3d",
@@ -769,16 +767,57 @@ function Resume() {
         >
           <div
             className="
+              relative
               overflow-hidden
               rounded-2xl
               border
               border-slate-700/60
-              bg-slate-900/40
-              transition-all
+              bg-gradient-to-br
+              from-slate-900/95
+              via-slate-950/95
+              to-slate-950
+              shadow-lg
+              shadow-black/20
+              transition-colors
               duration-300
             "
           >
-            <div className="grid gap-8 p-8 md:grid-cols-[1fr_auto] md:items-center">
+
+            {/* ==================== INTERNAL CARD GLOW ==================== */}
+
+            <div
+              ref={cardGlowRef}
+              className="
+                pointer-events-none
+                absolute
+                inset-0
+                rounded-2xl
+                border
+                border-blue-400/25
+                bg-blue-400/[0.025]
+                opacity-0
+                scale-[0.96]
+                shadow-[inset_0_0_45px_rgba(59,130,246,0.08)]
+              "
+            />
+
+
+            {/* ==================== CONTENT ==================== */}
+
+            <div
+              className="
+                relative
+                z-10
+                grid
+                gap-7
+                p-5
+                sm:gap-8
+                sm:p-6
+                md:grid-cols-[1fr_auto]
+                md:items-center
+                md:p-8
+              "
+            >
 
               {/* ==================== RESUME INFORMATION ==================== */}
 
@@ -786,14 +825,17 @@ function Resume() {
 
                 {/* PROFILE HEADER */}
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 sm:gap-4">
 
                   <div
                     ref={iconRef}
                     className="
                       flex
-                      h-14
-                      w-14
+                      h-12
+                      w-12
+                      sm:h-14
+                      sm:w-14
+                      shrink-0
                       items-center
                       justify-center
                       rounded-xl
@@ -801,6 +843,7 @@ function Resume() {
                       border-blue-500/30
                       bg-blue-500/10
                       text-2xl
+                      shadow-[0_0_20px_rgba(59,130,246,0.08)]
                     "
                     style={{
                       willChange: "transform",
@@ -812,14 +855,23 @@ function Resume() {
                   <div>
                     <h3
                       ref={nameRef}
-                      className="text-2xl font-semibold text-slate-50"
+                      className="
+                        text-xl
+                        font-semibold
+                        sm:text-2xl
+                        tracking-tight
+                        text-slate-50
+                      "
                     >
                       Tony Philip
                     </h3>
 
                     <p
                       ref={roleRef}
-                      className="mt-1 text-slate-400"
+                      className="
+                        mt-1
+                        text-slate-400
+                      "
                     >
                       Full Stack Developer
                     </p>
@@ -827,11 +879,19 @@ function Resume() {
 
                 </div>
 
+
                 {/* DESCRIPTION */}
 
                 <p
                   ref={descriptionRef}
-                  className="mt-6 max-w-2xl text-sm leading-7 text-slate-400"
+                  className="
+                    mt-5
+                    max-w-2xl
+                    text-sm
+                    sm:mt-6
+                    leading-7
+                    text-slate-400
+                  "
                 >
                   Computer Science and Engineering student
                   focused on full-stack development, Django,
@@ -839,40 +899,140 @@ function Resume() {
                   cybersecurity.
                 </p>
 
+
                 {/* ==================== RESUME HIGHLIGHTS ==================== */}
 
                 <div
                   ref={highlightsRef}
-                  className="mt-6 flex flex-wrap gap-3"
+                  className="
+                    mt-6
+                    flex
+                    flex-wrap
+                    gap-3
+                  "
                 >
-                  <span className="rounded-full border border-slate-700 bg-slate-800/50 px-4 py-2 text-xs text-slate-300">
+                  <span
+                    className="
+                      rounded-full
+                      border
+                      border-slate-700
+                      bg-slate-800/50
+                      px-3
+                      py-1.5
+                      text-[11px]
+                      sm:px-4
+                      sm:py-2
+                      sm:text-xs
+                      font-medium
+                      text-slate-300
+                      transition-colors
+                      duration-200
+                    "
+                  >
                     Python
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-slate-800/50 px-4 py-2 text-xs text-slate-300">
+                  <span
+                    className="
+                      rounded-full
+                      border
+                      border-slate-700
+                      bg-slate-800/50
+                      px-3
+                      py-1.5
+                      text-[11px]
+                      sm:px-4
+                      sm:py-2
+                      sm:text-xs
+                      font-medium
+                      text-slate-300
+                      transition-colors
+                      duration-200
+                    "
+                  >
                     Django
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-slate-800/50 px-4 py-2 text-xs text-slate-300">
+                  <span
+                    className="
+                      rounded-full
+                      border
+                      border-slate-700
+                      bg-slate-800/50
+                      px-3
+                      py-1.5
+                      text-[11px]
+                      sm:px-4
+                      sm:py-2
+                      sm:text-xs
+                      font-medium
+                      text-slate-300
+                      transition-colors
+                      duration-200
+                    "
+                  >
                     React
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-slate-800/50 px-4 py-2 text-xs text-slate-300">
+                  <span
+                    className="
+                      rounded-full
+                      border
+                      border-slate-700
+                      bg-slate-800/50
+                      px-3
+                      py-1.5
+                      text-[11px]
+                      sm:px-4
+                      sm:py-2
+                      sm:text-xs
+                      font-medium
+                      text-slate-300
+                      transition-colors
+                      duration-200
+                    "
+                  >
                     REST APIs
                   </span>
 
-                  <span className="rounded-full border border-slate-700 bg-slate-800/50 px-4 py-2 text-xs text-slate-300">
+                  <span
+                    className="
+                      rounded-full
+                      border
+                      border-slate-700
+                      bg-slate-800/50
+                      px-3
+                      py-1.5
+                      text-[11px]
+                      sm:px-4
+                      sm:py-2
+                      sm:text-xs
+                      font-medium
+                      text-slate-300
+                      transition-colors
+                      duration-200
+                    "
+                  >
                     Cybersecurity
                   </span>
                 </div>
 
               </div>
 
+
               {/* ==================== BUTTONS ==================== */}
 
               <div
                 ref={buttonsRef}
-                className="flex flex-col gap-3 sm:flex-row md:flex-col"
+                className="
+                  flex
+                  w-full
+                  flex-col
+                  gap-3
+                  sm:flex-row
+                  md:w-auto
+                  md:flex-col
+                "
               >
 
                 <a
@@ -881,20 +1041,24 @@ function Resume() {
                   rel="noreferrer"
                   className="
                     inline-flex
+                    w-full
                     items-center
                     justify-center
-                    rounded-lg
+                    rounded-xl
+                    sm:w-auto
                     bg-blue-500
                     px-6
                     py-3
                     text-sm
-                    font-medium
+                    font-semibold
                     text-white
+                    shadow-lg
+                    shadow-blue-500/15
                     transition-all
                     duration-300
                     hover:bg-blue-400
-                    hover:shadow-lg
-                    hover:shadow-blue-500/20
+                    hover:shadow-xl
+                    hover:shadow-blue-500/25
                   "
                 >
                   View Resume
@@ -909,20 +1073,23 @@ function Resume() {
                   download
                   className="
                     inline-flex
+                    w-full
                     items-center
                     justify-center
-                    rounded-lg
+                    rounded-xl
+                    sm:w-auto
                     border
                     border-slate-700
+                    bg-slate-900/40
                     px-6
                     py-3
                     text-sm
-                    font-medium
+                    font-semibold
                     text-slate-300
                     transition-all
                     duration-300
                     hover:border-blue-500/50
-                    hover:bg-slate-800
+                    hover:bg-blue-500/10
                     hover:text-white
                   "
                 >
@@ -937,11 +1104,21 @@ function Resume() {
 
             </div>
 
+
             {/* ==================== BOTTOM ACCENT ==================== */}
 
             <div
               ref={accentRef}
-              className="h-px w-full bg-gradient-to-r from-transparent via-blue-500/50 to-transparent"
+              className="
+                relative
+                z-10
+                h-px
+                w-full
+                bg-gradient-to-r
+                from-transparent
+                via-blue-500/60
+                to-transparent
+              "
             />
 
           </div>

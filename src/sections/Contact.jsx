@@ -15,6 +15,7 @@ function Contact() {
   const subtitleRef = useRef(null);
 
   const cardRef = useRef(null);
+  const cardGlowRef = useRef(null);
   const contactItemsRef = useRef(null);
   const profilesRef = useRef(null);
   const profileButtonsRef = useRef(null);
@@ -46,6 +47,7 @@ function Contact() {
             titleRef.current,
             subtitleRef.current,
             cardRef.current,
+            cardGlowRef.current,
             ...contactItems,
             profilesRef.current,
             ...profileButtons,
@@ -85,8 +87,7 @@ function Contact() {
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -115,8 +116,7 @@ function Contact() {
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -161,8 +161,7 @@ function Contact() {
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -193,8 +192,7 @@ function Contact() {
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -221,8 +219,7 @@ function Contact() {
           scrollTrigger: {
             trigger: contactItemsRef.current,
             start: "top 85%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -236,9 +233,10 @@ function Contact() {
       contactItems.forEach((item) => {
         const handleEnter = () => {
           gsap.to(item, {
-            x: 5,
+            x: 4,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -247,18 +245,12 @@ function Contact() {
             x: 0,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
-        item.addEventListener(
-          "mouseenter",
-          handleEnter
-        );
-
-        item.addEventListener(
-          "mouseleave",
-          handleLeave
-        );
+        item.addEventListener("mouseenter", handleEnter);
+        item.addEventListener("mouseleave", handleLeave);
 
         item._handleEnter = handleEnter;
         item._handleLeave = handleLeave;
@@ -282,6 +274,7 @@ function Contact() {
             scale: 1.02,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -291,6 +284,7 @@ function Contact() {
             scale: 1,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -304,11 +298,8 @@ function Contact() {
           handleEmailLeave
         );
 
-        emailLink._handleEnter =
-          handleEmailEnter;
-
-        emailLink._handleLeave =
-          handleEmailLeave;
+        emailLink._handleEnter = handleEmailEnter;
+        emailLink._handleLeave = handleEmailLeave;
       }
 
       /*
@@ -332,8 +323,7 @@ function Contact() {
           scrollTrigger: {
             trigger: profilesRef.current,
             start: "top 90%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -362,8 +352,7 @@ function Contact() {
           scrollTrigger: {
             trigger: profileButtonsRef.current,
             start: "top 90%",
-            toggleActions:
-              "play none none reverse",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -377,10 +366,11 @@ function Contact() {
       profileButtons.forEach((button) => {
         const handleEnter = () => {
           gsap.to(button, {
-            y: -5,
-            scale: 1.08,
+            y: -4,
+            scale: 1.05,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -390,18 +380,12 @@ function Contact() {
             scale: 1,
             duration: 0.3,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
-        button.addEventListener(
-          "mouseenter",
-          handleEnter
-        );
-
-        button.addEventListener(
-          "mouseleave",
-          handleLeave
-        );
+        button.addEventListener("mouseenter", handleEnter);
+        button.addEventListener("mouseleave", handleLeave);
 
         button._handleEnter = handleEnter;
         button._handleLeave = handleLeave;
@@ -417,23 +401,17 @@ function Contact() {
         const rect =
           cardRef.current.getBoundingClientRect();
 
-        const x =
-          event.clientX - rect.left;
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
 
-        const y =
-          event.clientY - rect.top;
-
-        const centerX =
-          rect.width / 2;
-
-        const centerY =
-          rect.height / 2;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
         const rotateY =
-          ((x - centerX) / centerX) * 3;
+          ((x - centerX) / centerX) * 2.5;
 
         const rotateX =
-          ((centerY - y) / centerY) * 3;
+          ((centerY - y) / centerY) * 2.5;
 
         gsap.to(cardRef.current, {
           rotateX,
@@ -442,6 +420,7 @@ function Contact() {
           scale: 1.005,
           duration: 0.25,
           ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
@@ -453,6 +432,7 @@ function Contact() {
           scale: 1,
           duration: 0.45,
           ease: "power3.out",
+          overwrite: "auto",
         });
       };
 
@@ -468,20 +448,25 @@ function Contact() {
 
       /*
       ==================================================
-      CONTACT CARD GLOW
+      CONTACT CARD BORDER + INTERNAL GLOW
       ==================================================
       */
 
       const handleCardEnter = () => {
         gsap.to(cardRef.current, {
           borderColor:
-            "rgba(59,130,246,0.5)",
-          boxShadow:
-            "0 0 40px rgba(59,130,246,0.12)",
-          backgroundColor:
-            "rgba(15,23,42,0.6)",
+            "rgba(59,130,246,0.55)",
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
+
+        gsap.to(cardGlowRef.current, {
+          opacity: 1,
+          scale: 1,
           duration: 0.35,
           ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
@@ -489,12 +474,17 @@ function Contact() {
         gsap.to(cardRef.current, {
           borderColor:
             "rgba(51,65,85,0.6)",
-          boxShadow:
-            "0 0 0 rgba(59,130,246,0)",
-          backgroundColor:
-            "rgba(15,23,42,0.4)",
-          duration: 0.35,
+          duration: 0.3,
           ease: "power2.out",
+          overwrite: "auto",
+        });
+
+        gsap.to(cardGlowRef.current, {
+          opacity: 0,
+          scale: 0.96,
+          duration: 0.3,
+          ease: "power2.out",
+          overwrite: "auto",
         });
       };
 
@@ -538,6 +528,7 @@ function Contact() {
           titleRef.current,
           subtitleRef.current,
           cardRef.current,
+          cardGlowRef.current,
           ...contactItems,
           profilesRef.current,
           ...profileButtons,
@@ -627,7 +618,7 @@ function Contact() {
     <section
       ref={contactRef}
       id="contact"
-      className="section-padding"
+      className="section-padding px-5 sm:px-6"
     >
       <div className="container-custom">
 
@@ -639,7 +630,13 @@ function Contact() {
         >
           <p
             ref={labelRef}
-            className="text-sm font-medium uppercase tracking-[0.2em] text-blue-400"
+            className="
+              text-sm
+              font-medium
+              uppercase
+              tracking-[0.2em]
+              text-blue-400
+            "
           >
             Contact
           </p>
@@ -660,26 +657,95 @@ function Contact() {
           </p>
         </div>
 
+
         {/* ==================== CONTACT CARD ==================== */}
 
         <div
           ref={cardRef}
-          className="mt-10 max-w-2xl rounded-2xl border border-slate-700/60 bg-slate-900/40 p-8"
+          className="
+            relative
+            mt-8
+            w-full
+            max-w-2xl
+            overflow-hidden
+            rounded-2xl
+            border
+            sm:mt-10
+            border-slate-700/60
+            bg-gradient-to-br
+            from-slate-900/95
+            via-slate-950/95
+            to-slate-950
+            p-5
+            sm:p-6
+            md:p-8
+            shadow-lg
+            shadow-black/20
+            transition-colors
+            duration-300
+          "
           style={{
             perspective: "1200px",
             transformStyle: "preserve-3d",
             willChange: "transform",
           }}
         >
+
+          {/* ==================== INTERNAL CARD GLOW ==================== */}
+
+          <div
+            ref={cardGlowRef}
+            className="
+              pointer-events-none
+              absolute
+              inset-0
+              rounded-2xl
+              border
+              border-blue-400/25
+              bg-blue-400/[0.025]
+              opacity-0
+              scale-[0.96]
+              shadow-[inset_0_0_45px_rgba(59,130,246,0.08)]
+            "
+          />
+
+          {/* ==================== CONTENT ==================== */}
+
           <div
             ref={contactItemsRef}
-            className="space-y-6"
+            className="
+              relative
+              z-10
+              space-y-5
+              sm:space-y-7
+            "
           >
 
             {/* ==================== EMAIL ==================== */}
 
-            <div>
-              <p className="text-sm text-slate-500">
+            <div
+              className="
+                rounded-xl
+                border
+                border-slate-800/70
+                bg-slate-900/40
+                p-3.5
+                sm:p-4
+                transition-colors
+                duration-300
+                hover:border-blue-500/30
+                hover:bg-slate-900/60
+              "
+            >
+              <p
+                className="
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-[0.15em]
+                  text-slate-500
+                "
+              >
                 Email
               </p>
 
@@ -687,7 +753,21 @@ function Contact() {
                 href="https://mail.google.com/mail/?view=cm&fs=1&to=tonyphilip43@gmail.com"
                 target="_blank"
                 rel="noreferrer"
-                className="contact-email mt-1 inline-flex items-center gap-2 text-lg text-blue-400 transition-colors hover:text-blue-300"
+                className="
+                  contact-email
+                  mt-2
+                  inline-flex
+                  items-center
+                  gap-2
+                  break-all
+                  text-sm
+                  font-medium
+                  text-blue-400
+                  sm:text-base
+                  transition-colors
+                  duration-300
+                  hover:text-blue-300
+                "
               >
                 {/* Email Icon */}
 
@@ -717,28 +797,76 @@ function Contact() {
               </a>
             </div>
 
+
             {/* ==================== LOCATION ==================== */}
 
-            <div>
-              <p className="text-sm text-slate-500">
+            <div
+              className="
+                rounded-xl
+                border
+                border-slate-800/70
+                bg-slate-900/40
+                p-3.5
+                sm:p-4
+                transition-colors
+                duration-300
+                hover:border-blue-500/30
+                hover:bg-slate-900/60
+              "
+            >
+              <p
+                className="
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-[0.15em]
+                  text-slate-500
+                "
+              >
                 Location
               </p>
 
-              <p className="mt-1 text-lg text-slate-300">
+              <p
+                className="
+                  mt-2
+                  text-base
+                  font-medium
+                  text-slate-300
+                "
+              >
                 Kerala, India
               </p>
             </div>
 
+
             {/* ==================== PROFILES ==================== */}
 
-            <div ref={profilesRef}>
-              <p className="text-sm text-slate-500">
+            <div
+              ref={profilesRef}
+              className="
+                rounded-xl
+                border
+                border-slate-800/70
+                bg-slate-900/40
+                p-3.5
+                sm:p-4
+              "
+            >
+              <p
+                className="
+                  text-xs
+                  font-semibold
+                  uppercase
+                  tracking-[0.15em]
+                  text-slate-500
+                "
+              >
                 Profiles
               </p>
 
               <div
                 ref={profileButtonsRef}
-                className="mt-3 flex gap-3"
+                className="mt-3 flex flex-wrap gap-3 sm:mt-4"
               >
 
                 {/* ==================== GITHUB ==================== */}
@@ -750,21 +878,25 @@ function Contact() {
                   aria-label="GitHub"
                   className="
                     flex
-                    h-11
-                    w-11
+                    h-10
+                    w-10
                     items-center
+                    sm:h-11
+                    sm:w-11
                     justify-center
-                    rounded-lg
+                    rounded-xl
                     border
                     border-slate-700
-                    bg-slate-800/40
+                    bg-slate-800/50
                     text-slate-400
+                    shadow-sm
                     transition-all
                     duration-300
-                    hover:-translate-y-1
                     hover:border-slate-500
                     hover:bg-slate-800
                     hover:text-white
+                    hover:shadow-lg
+                    hover:shadow-slate-950/40
                   "
                 >
                   {/* GitHub Icon */}
@@ -780,6 +912,7 @@ function Contact() {
                   </svg>
                 </a>
 
+
                 {/* ==================== LINKEDIN ==================== */}
 
                 <a
@@ -789,21 +922,25 @@ function Contact() {
                   aria-label="LinkedIn"
                   className="
                     flex
-                    h-11
-                    w-11
+                    h-10
+                    w-10
                     items-center
+                    sm:h-11
+                    sm:w-11
                     justify-center
-                    rounded-lg
+                    rounded-xl
                     border
                     border-slate-700
-                    bg-slate-800/40
+                    bg-slate-800/50
                     text-slate-400
+                    shadow-sm
                     transition-all
                     duration-300
-                    hover:-translate-y-1
                     hover:border-blue-500/50
                     hover:bg-blue-500/10
                     hover:text-blue-400
+                    hover:shadow-lg
+                    hover:shadow-blue-500/10
                   "
                 >
                   {/* LinkedIn Icon */}
@@ -823,6 +960,7 @@ function Contact() {
             </div>
 
           </div>
+
         </div>
 
       </div>

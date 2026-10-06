@@ -67,8 +67,7 @@ function Skills() {
       }
 
       // ==========================================
-      // DAY 28 — STEP 1
-      // Section heading reveal
+      // SECTION HEADING REVEAL
       // ==========================================
 
       gsap.fromTo(
@@ -92,8 +91,7 @@ function Skills() {
       );
 
       // ==========================================
-      // DAY 28 — STEP 2
-      // Skill category cards reveal
+      // SKILL CATEGORY CARDS REVEAL
       // ==========================================
 
       const cards = Array.from(cardsRef.current.children);
@@ -122,8 +120,7 @@ function Skills() {
       );
 
       // ==========================================
-      // DAY 28 — STEP 3
-      // Individual card content reveal
+      // INDIVIDUAL CARD CONTENT REVEAL
       // ==========================================
 
       cards.forEach((card) => {
@@ -175,8 +172,7 @@ function Skills() {
       });
 
       // ==========================================
-      // DAY 28 — STEP 4
-      // Skill pill hover polish
+      // SKILL PILL HOVER
       // ==========================================
 
       const skillPills =
@@ -216,11 +212,19 @@ function Skills() {
       });
 
       // ==========================================
-      // DAY 28 — STEP 5
-      // Card 3D hover polish
+      // CARD HOVER + 3D TILT
       // ==========================================
 
       cards.forEach((card) => {
+        const handleMouseEnter = () => {
+          gsap.to(card, {
+            y: -8,
+            scale: 1.02,
+            duration: 0.35,
+            ease: "power3.out",
+          });
+        };
+
         const handleMouseMove = (event) => {
           const rect = card.getBoundingClientRect();
 
@@ -247,6 +251,7 @@ function Skills() {
             rotateY,
             duration: 0.3,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -256,10 +261,16 @@ function Skills() {
             scale: 1,
             rotateX: 0,
             rotateY: 0,
-            duration: 0.4,
+            duration: 0.45,
             ease: "power3.out",
+            overwrite: "auto",
           });
         };
+
+        card.addEventListener(
+          "mouseenter",
+          handleMouseEnter
+        );
 
         card.addEventListener(
           "mousemove",
@@ -271,13 +282,13 @@ function Skills() {
           handleMouseLeave
         );
 
+        card._handleMouseEnter = handleMouseEnter;
         card._handleMouseMove = handleMouseMove;
         card._handleMouseLeave = handleMouseLeave;
       });
 
       // ==========================================
-      // DAY 28 — STEP 6
-      // Scroll-based card glow
+      // SCROLL-BASED CARD GLOW
       // ==========================================
 
       cards.forEach((card) => {
@@ -299,8 +310,7 @@ function Skills() {
       });
 
       // ==========================================
-      // DAY 28 — STEP 7
-      // Section parallax
+      // SECTION PARALLAX
       // ==========================================
 
       gsap.to(headingRef.current, {
@@ -349,6 +359,11 @@ function Skills() {
 
         cards.forEach((card) => {
           card.removeEventListener(
+            "mouseenter",
+            card._handleMouseEnter
+          );
+
+          card.removeEventListener(
             "mousemove",
             card._handleMouseMove
           );
@@ -361,7 +376,6 @@ function Skills() {
       };
     }, skillsRef);
 
-    // Refresh ScrollTrigger after everything is initialized
     ScrollTrigger.refresh();
 
     return () => ctx.revert();
@@ -371,7 +385,7 @@ function Skills() {
     <section
       ref={skillsRef}
       id="skills"
-      className="section-padding"
+      className="section-padding overflow-hidden"
     >
       <div className="container-custom">
 
@@ -405,33 +419,51 @@ function Skills() {
 
         <div
           ref={cardsRef}
-          className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          className="
+            mt-8
+            grid
+            grid-cols-1
+            gap-5
+            sm:gap-6
+            md:grid-cols-2
+            lg:grid-cols-3
+          "
           style={{
             perspective: "1200px",
           }}
         >
 
           {skillCategories.map((category) => (
-            <motion.div
+            <div
               key={category.title}
-
-              initial={false}
-
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-
-                transition: {
-                  duration: 0.25,
-                },
-              }}
 
               style={{
                 transformStyle: "preserve-3d",
                 willChange: "transform",
               }}
 
-              className="card card-hover group relative overflow-hidden border border-slate-800/60 bg-slate-950/80 p-6 transition-all duration-300 hover:border-blue-400/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]"
+              className="
+                card
+                card-hover
+                group
+                relative
+                overflow-hidden
+                rounded-2xl
+                border
+                border-slate-800/70
+                bg-gradient-to-br
+                from-slate-900/95
+                via-slate-950/95
+                to-slate-950
+                p-5
+                sm:p-7
+                shadow-lg
+                shadow-black/20
+                transition-all
+                duration-300
+                hover:border-blue-400/40
+                hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]
+              "
             >
 
               {/* ==================================
@@ -439,10 +471,23 @@ function Skills() {
               ================================== */}
 
               <div
-                className="skill-card-glow pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-blue-400/10 blur-3xl transition-all duration-500 group-hover:bg-blue-400/20"
+                className="
+                  skill-card-glow
+                  pointer-events-none
+                  absolute
+                  -right-10
+                  -top-10
+                  h-32
+                  w-32
+                  rounded-full
+                  bg-blue-400/10
+                  blur-3xl
+                  transition-all
+                  duration-500
+                  group-hover:bg-blue-400/20
+                "
                 style={{
-                  transform:
-                    "translateZ(20px)",
+                  transform: "translateZ(20px)",
                   opacity: 0.3,
                 }}
               />
@@ -453,10 +498,22 @@ function Skills() {
               ================================== */}
 
               <div
-                className="pointer-events-none absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-blue-500/5 blur-3xl transition-all duration-700 group-hover:bg-blue-500/15"
+                className="
+                  pointer-events-none
+                  absolute
+                  -bottom-16
+                  -left-16
+                  h-32
+                  w-32
+                  rounded-full
+                  bg-blue-500/5
+                  blur-3xl
+                  transition-all
+                  duration-700
+                  group-hover:bg-blue-500/15
+                "
                 style={{
-                  transform:
-                    "translateZ(10px)",
+                  transform: "translateZ(10px)",
                 }}
               />
 
@@ -466,10 +523,23 @@ function Skills() {
               ================================== */}
 
               <h3
-                className="skill-category-title relative z-10 mb-5 text-xl font-semibold text-slate-100"
+                className="
+                  skill-category-title
+                  relative
+                  z-10
+                  mb-4
+                  text-lg
+                  sm:mb-5
+                  sm:text-xl
+                  font-semibold
+                  tracking-tight
+                  text-slate-100
+                  transition-colors
+                  duration-300
+                  group-hover:text-blue-100
+                "
                 style={{
-                  transform:
-                    "translateZ(30px)",
+                  transform: "translateZ(30px)",
                 }}
               >
                 {category.title}
@@ -481,10 +551,16 @@ function Skills() {
               ================================== */}
 
               <div
-                className="relative z-10 flex flex-wrap gap-3"
+                className="
+                  relative
+                  z-10
+                  flex
+                  flex-wrap
+                  gap-2
+                  sm:gap-3
+                "
                 style={{
-                  transform:
-                    "translateZ(35px)",
+                  transform: "translateZ(35px)",
                 }}
               >
 
@@ -492,7 +568,29 @@ function Skills() {
                   <motion.span
                     key={skill}
 
-                    className="skill-pill cursor-default rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 shadow-sm transition-all duration-300 hover:border-blue-400/60 hover:bg-blue-400/10 hover:text-blue-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]"
+                    className="
+                      skill-pill
+                      cursor-default
+                      rounded-full
+                      border
+                      border-slate-700/70
+                      bg-slate-800/60
+                      px-3
+                      py-1.5
+                      text-xs
+                      sm:px-4
+                      sm:py-2
+                      sm:text-sm
+                      font-medium
+                      text-slate-300
+                      shadow-sm
+                      transition-all
+                      duration-300
+                      hover:border-blue-400/60
+                      hover:bg-blue-400/10
+                      hover:text-blue-300
+                      hover:shadow-[0_0_20px_rgba(59,130,246,0.2)]
+                    "
 
                     whileHover={{
                       rotateZ: 1,
@@ -514,7 +612,7 @@ function Skills() {
 
               </div>
 
-            </motion.div>
+            </div>
           ))}
 
         </div>

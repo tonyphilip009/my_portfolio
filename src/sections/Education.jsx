@@ -55,9 +55,10 @@ function Education() {
         cardsRef.current.children
       );
 
-      const dots = timelineRef.current.querySelectorAll(
-        ".education-dot"
-      );
+      const dots =
+        timelineRef.current.querySelectorAll(
+          ".education-dot"
+        );
 
       const revealElements =
         timelineRef.current.querySelectorAll(
@@ -69,6 +70,11 @@ function Education() {
           ".education-result"
         );
 
+      const cardGlows =
+        timelineRef.current.querySelectorAll(
+          ".education-card-glow"
+        );
+
       if (prefersReducedMotion) {
         gsap.set(
           [
@@ -78,6 +84,7 @@ function Education() {
             ...dots,
             ...revealElements,
             ...results,
+            ...cardGlows,
           ],
           {
             opacity: 1,
@@ -198,7 +205,6 @@ function Education() {
           }
         );
 
-        // Subtle continuous glow
         gsap.to(dot, {
           boxShadow:
             "0 0 24px rgba(34,211,238,0.95)",
@@ -280,9 +286,12 @@ function Education() {
       // ==========================================
 
       cards.forEach((card) => {
+        const educationCard =
+          card.querySelector(".education-card");
+
         const handleMouseMove = (event) => {
           const rect =
-            card.getBoundingClientRect();
+            educationCard.getBoundingClientRect();
 
           const x =
             event.clientX - rect.left;
@@ -302,81 +311,108 @@ function Education() {
           const rotateX =
             ((centerY - y) / centerY) * 4;
 
-          gsap.to(card, {
+          gsap.to(educationCard, {
             rotateX,
             rotateY,
             y: -6,
             scale: 1.01,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
         const handleMouseLeave = () => {
-          gsap.to(card, {
+          gsap.to(educationCard, {
             rotateX: 0,
             rotateY: 0,
             y: 0,
             scale: 1,
             duration: 0.45,
             ease: "power3.out",
+            overwrite: "auto",
           });
         };
 
-        card.addEventListener(
+        educationCard.addEventListener(
           "mousemove",
           handleMouseMove
         );
 
-        card.addEventListener(
+        educationCard.addEventListener(
           "mouseleave",
           handleMouseLeave
         );
 
-        card._handleMouseMove = handleMouseMove;
-        card._handleMouseLeave = handleMouseLeave;
+        educationCard._handleMouseMove =
+          handleMouseMove;
+
+        educationCard._handleMouseLeave =
+          handleMouseLeave;
       });
 
       // ==========================================
       // STEP 8
-      // CARD HOVER GLOW
+      // CARD BORDER + INTERNAL GLOW
       // ==========================================
 
       cards.forEach((card) => {
+        const educationCard =
+          card.querySelector(".education-card");
+
+        const glow =
+          card.querySelector(".education-card-glow");
+
         const handleEnter = () => {
-          gsap.to(card, {
+          // Only the card border changes
+          gsap.to(educationCard, {
             borderColor:
-              "rgba(34,211,238,0.5)",
-            boxShadow:
-              "0 0 35px rgba(34,211,238,0.12)",
+              "rgba(34,211,238,0.55)",
             duration: 0.3,
             ease: "power2.out",
+            overwrite: "auto",
+          });
+
+          // Glow stays INSIDE the card
+          gsap.to(glow, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.35,
+            ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
         const handleLeave = () => {
-          gsap.to(card, {
+          gsap.to(educationCard, {
             borderColor:
               "rgba(30,41,59,1)",
-            boxShadow:
-              "0 0 0 rgba(34,211,238,0)",
             duration: 0.3,
             ease: "power2.out",
+            overwrite: "auto",
+          });
+
+          gsap.to(glow, {
+            opacity: 0,
+            scale: 0.85,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
-        card.addEventListener(
+        educationCard.addEventListener(
           "mouseenter",
           handleEnter
         );
 
-        card.addEventListener(
+        educationCard.addEventListener(
           "mouseleave",
           handleLeave
         );
 
-        card._handleEnter = handleEnter;
-        card._handleLeave = handleLeave;
+        educationCard._handleEnter = handleEnter;
+        educationCard._handleLeave = handleLeave;
       });
 
       // ==========================================
@@ -391,6 +427,7 @@ function Education() {
             scale: 1.05,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -400,6 +437,7 @@ function Education() {
             scale: 1,
             duration: 0.25,
             ease: "power2.out",
+            overwrite: "auto",
           });
         };
 
@@ -423,7 +461,10 @@ function Education() {
       // ==========================================
 
       cards.forEach((card, index) => {
-        gsap.to(card, {
+        const educationCard =
+          card.querySelector(".education-card");
+
+        gsap.to(educationCard, {
           y: index % 2 === 0 ? -8 : 8,
           ease: "none",
 
@@ -448,6 +489,7 @@ function Education() {
           ...dots,
           ...revealElements,
           ...results,
+          ...cardGlows,
         ],
         {
           force3D: true,
@@ -460,24 +502,27 @@ function Education() {
 
       return () => {
         cards.forEach((card) => {
-          card.removeEventListener(
+          const educationCard =
+            card.querySelector(".education-card");
+
+          educationCard.removeEventListener(
             "mousemove",
-            card._handleMouseMove
+            educationCard._handleMouseMove
           );
 
-          card.removeEventListener(
+          educationCard.removeEventListener(
             "mouseleave",
-            card._handleMouseLeave
+            educationCard._handleMouseLeave
           );
 
-          card.removeEventListener(
+          educationCard.removeEventListener(
             "mouseenter",
-            card._handleEnter
+            educationCard._handleEnter
           );
 
-          card.removeEventListener(
+          educationCard.removeEventListener(
             "mouseleave",
-            card._handleLeave
+            educationCard._handleLeave
           );
         });
 
@@ -520,7 +565,7 @@ function Education() {
             Education
           </p>
 
-          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">
             My Academic Journey
           </h2>
 
@@ -538,7 +583,7 @@ function Education() {
 
         <div
           ref={timelineRef}
-          className="relative mt-12"
+          className="relative mt-10 sm:mt-12"
           style={{
             perspective: "1200px",
           }}
@@ -573,7 +618,7 @@ function Education() {
 
           <div
             ref={cardsRef}
-            className="space-y-10"
+            className="space-y-8 sm:space-y-10"
           >
 
             {education.map((item, index) => (
@@ -603,31 +648,46 @@ function Education() {
                     border-2
                     border-cyan-400
                     bg-slate-950
+                    shadow-[0_0_12px_rgba(34,211,238,0.4)]
                     md:left-1/2
                   "
                 />
 
 
                 {/* ==================================
-                    EDUCATION CARD
+                    EDUCATION CARD WRAPPER
                 ================================== */}
 
                 <div
-                  className={`w-full md:w-[45%] ml-10 md:ml-0 ${
+                  className={`w-[calc(100%-2rem)] ml-8 md:ml-0 md:w-[45%] ${
                     index % 2 === 0
                       ? "md:mr-auto md:pr-8"
                       : "md:ml-auto md:pl-8"
                   }`}
                 >
 
+                  {/* ==================================
+                      EDUCATION CARD
+                  ================================== */}
+
                   <div
                     className="
                       education-card
+                      group
+                      relative
+                      overflow-hidden
                       rounded-2xl
                       border
                       border-slate-800
-                      bg-slate-900/70
-                      p-6
+                      bg-gradient-to-br
+                      from-slate-900/95
+                      via-slate-950/95
+                      to-slate-950
+                      p-5 sm:p-6
+                      shadow-lg
+                      shadow-black/20
+                      transition-colors
+                      duration-300
                     "
                     style={{
                       transformStyle:
@@ -636,46 +696,135 @@ function Education() {
                     }}
                   >
 
-                    {/* DATE + LOCATION */}
+                    {/* ==================================
+                        INTERNAL CARD GLOW
+                    ================================== */}
 
-                    <div className="education-reveal mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-
-                      <span className="text-sm font-medium text-cyan-400">
-                        {item.duration}
-                      </span>
-
-                      <span className="text-sm text-slate-500">
-                        {item.location}
-                      </span>
-
-                    </div>
-
-
-                    {/* DEGREE */}
-
-                    <h3 className="education-reveal mb-1 text-xl font-semibold text-white">
-                      {item.degree}
-                    </h3>
-
-
-                    {/* FIELD */}
-
-                    <p className="education-reveal mb-3 text-sm text-cyan-400">
-                      {item.field}
-                    </p>
+                    <div
+                      className="
+                        education-card-glow
+                        pointer-events-none
+                        absolute
+                        inset-0
+                        rounded-2xl
+                        border
+                        border-cyan-400/30
+                        bg-cyan-400/[0.025]
+                        opacity-0
+                        scale-[0.98]
+                        shadow-[inset_0_0_35px_rgba(34,211,238,0.08)]
+                      "
+                    />
 
 
-                    {/* INSTITUTION */}
+                    {/* ==================================
+                        CONTENT LAYER
+                    ================================== */}
 
-                    <p className="education-reveal mb-2 font-medium text-slate-300">
-                      {item.institution}
-                    </p>
+                    <div
+                      className="
+                        relative
+                        z-10
+                      "
+                    >
+
+                      {/* DATE + LOCATION */}
+
+                      <div
+                        className="
+                          education-reveal
+                          mb-3 sm:mb-4
+                          flex
+                          flex-col
+                          gap-2
+                          sm:flex-row
+                          sm:items-center
+                          sm:justify-between
+                        "
+                      >
+                        <span className="text-xs font-semibold text-cyan-400 sm:text-sm">
+                          {item.duration}
+                        </span>
+
+                        <span className="text-xs text-slate-500 sm:text-sm">
+                          {item.location}
+                        </span>
+                      </div>
 
 
-                    {/* RESULT */}
+                      {/* DEGREE */}
 
-                    <div className="education-result inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-300">
-                      {item.result}
+                      <h3
+                        className="
+                          education-reveal
+                          mb-1
+                          text-lg sm:text-xl
+                          font-semibold
+                          tracking-tight
+                          text-white
+                          transition-colors
+                          duration-300
+                          group-hover:text-cyan-50
+                        "
+                      >
+                        {item.degree}
+                      </h3>
+
+
+                      {/* FIELD */}
+
+                      <p
+                        className="
+                          education-reveal
+                          mb-3
+                          text-xs sm:text-sm
+                          font-medium
+                          text-cyan-400
+                        "
+                      >
+                        {item.field}
+                      </p>
+
+
+                      {/* INSTITUTION */}
+
+                      <p
+                        className="
+                          education-reveal
+                          mb-4
+                          font-medium
+                          leading-relaxed
+                          text-slate-300
+                        "
+                      >
+                        {item.institution}
+                      </p>
+
+
+                      {/* RESULT */}
+
+                      <div
+                        className="
+                          education-result
+                          inline-flex
+                          rounded-full
+                          border
+                          border-cyan-400/20
+                          bg-cyan-400/10
+                          px-3
+                          py-1
+                          text-sm
+                          font-medium
+                          text-cyan-300
+                          transition-colors
+                          duration-300
+                          hover:border-cyan-400/40
+                          hover:bg-cyan-400/15
+                        "
+                      >
+                        {item.result}
+                      </div>
+
                     </div>
 
                   </div>

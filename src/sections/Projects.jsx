@@ -1339,7 +1339,7 @@ function Projects() {
 
         <div
           ref={summaryRef}
-          className="mt-8 flex flex-wrap gap-3"
+          className="mt-7 flex flex-wrap gap-2 sm:gap-3"
         >
           <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-4 py-2 text-sm text-slate-300">
             <span className="font-semibold text-slate-50">
@@ -1369,7 +1369,7 @@ function Projects() {
 
         <div
           ref={filtersRef}
-          className="mt-8 flex flex-wrap gap-3"
+          className="mt-7 flex flex-wrap gap-2 sm:gap-3"
         >
           {filters.map((filterOption) => (
             <button
@@ -1395,7 +1395,7 @@ function Projects() {
 
         <div
           ref={projectsGridRef}
-          className="mt-10 grid gap-8 lg:grid-cols-2"
+          className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-2"
           style={{
             perspective: "1200px",
           }}
@@ -1420,7 +1420,7 @@ function Projects() {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="h-64 w-full object-cover"
+                    className="h-48 w-full object-cover sm:h-56 lg:h-64"
                   />
                 </div>
               )}
@@ -1429,7 +1429,7 @@ function Projects() {
                   PROJECT CONTENT
               ================================================== */}
 
-              <div className="flex flex-1 flex-col bg-slate-950/70 p-6">
+              <div className="flex flex-1 flex-col bg-slate-950/70 p-5 sm:p-6">
 
                 {/* ==================================================
                     BADGES
@@ -1844,7 +1844,7 @@ function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="project-button inline-flex items-center justify-center rounded-lg border border-blue-500/40 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-300 transition duration-300 hover:border-blue-400 hover:bg-blue-500/20 hover:text-blue-200"
+                      className="project-button inline-flex w-full items-center justify-center rounded-lg border border-blue-500/40 bg-blue-500/10 px-4 py-2.5 text-sm font-medium text-blue-300 transition duration-300 hover:border-blue-400 hover:bg-blue-500/20 hover:text-blue-200 sm:w-auto sm:py-2"
                     >
                       View GitHub
 
@@ -1859,7 +1859,7 @@ function Projects() {
                       href={project.live}
                       target="_blank"
                       rel="noreferrer"
-                      className="project-button inline-flex items-center justify-center rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/20"
+                      className="project-button inline-flex w-full items-center justify-center rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-medium text-white transition duration-300 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/20 sm:w-auto sm:py-2"
                     >
                       Live Demo
 
@@ -1894,7 +1894,7 @@ function Projects() {
 
         <div
           ref={bottomSectionRef}
-          className="mt-16 border-t border-slate-800 pt-12"
+          className="mt-12 border-t border-slate-800 pt-10 sm:mt-16 sm:pt-12"
         >
           <div className="max-w-3xl">
 
@@ -1921,10 +1921,10 @@ function Projects() {
 
           <div
             ref={strengthCardsRef}
-            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-4"
           >
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-4 sm:p-5">
 
               <h4 className="font-semibold text-slate-100">
                 Full-Stack Development
@@ -1938,7 +1938,7 @@ function Projects() {
 
             </div>
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-4 sm:p-5">
 
               <h4 className="font-semibold text-slate-100">
                 API Integration
@@ -1952,7 +1952,7 @@ function Projects() {
 
             </div>
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-4 sm:p-5">
 
               <h4 className="font-semibold text-slate-100">
                 Problem Solving
@@ -1966,7 +1966,7 @@ function Projects() {
 
             </div>
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-4 sm:p-5">
 
               <h4 className="font-semibold text-slate-100">
                 Continuous Learning
