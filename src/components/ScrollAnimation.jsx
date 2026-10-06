@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,38 +8,24 @@ gsap.registerPlugin(ScrollTrigger);
 function ScrollAnimation({ particlesRef }) {
   const { camera } = useThree();
 
-  useEffect(() => {
-    /*
-    ==========================================
-    INITIAL CAMERA POSITION
-    ==========================================
-    */
-
+  useLayoutEffect(() => {
     camera.position.set(0, 0, 8);
     camera.lookAt(0, 0, 0);
 
-    /*
-    ==========================================
-    GSAP CONTEXT
-    ==========================================
-    */
+    const particles = particlesRef?.current;
+
+    let idleCallbackId;
+    let animationFrameId;
 
     const ctx = gsap.context(() => {
-      /*
-      ==========================================
-      MAIN SCROLL TIMELINE
-      ==========================================
-      */
-
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: document.body,
-
           start: "top top",
-
           end: "bottom bottom",
-
-          scrub: 3,
+          scrub: 1.5,
+          invalidateOnRefresh: true,
+          fastScrollEnd: true,
         },
       });
 
@@ -55,23 +41,19 @@ function ScrollAnimation({ particlesRef }) {
           x: 0.8,
           y: 0.3,
           z: 7.7,
-
           duration: 1,
-
           ease: "power2.inOut",
         },
         0
       );
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: 0.5,
             x: 0.08,
-
+            y: 0.5,
             duration: 1,
-
             ease: "power2.inOut",
           },
           0
@@ -88,23 +70,20 @@ function ScrollAnimation({ particlesRef }) {
         x: -0.8,
         y: 0.5,
         z: 7.5,
-
         duration: 1,
-
         ease: "power2.inOut",
       });
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: 1.1,
             x: -0.08,
-
+            y: 1.1,
             duration: 1,
-
             ease: "power2.inOut",
-          }
+          },
+          "<"
         );
       }
 
@@ -118,23 +97,20 @@ function ScrollAnimation({ particlesRef }) {
         x: 0.7,
         y: -0.2,
         z: 7.7,
-
         duration: 1,
-
         ease: "power2.inOut",
       });
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: 1.7,
             x: 0.06,
-
+            y: 1.7,
             duration: 1,
-
             ease: "power2.inOut",
-          }
+          },
+          "<"
         );
       }
 
@@ -148,23 +124,20 @@ function ScrollAnimation({ particlesRef }) {
         x: -0.7,
         y: 0.3,
         z: 7.6,
-
         duration: 1,
-
         ease: "power2.inOut",
       });
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: 2.3,
             x: -0.06,
-
+            y: 2.3,
             duration: 1,
-
             ease: "power2.inOut",
-          }
+          },
+          "<"
         );
       }
 
@@ -178,23 +151,20 @@ function ScrollAnimation({ particlesRef }) {
         x: 0.9,
         y: 0.5,
         z: 7.7,
-
         duration: 1,
-
         ease: "power2.inOut",
       });
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: 3,
             x: 0.08,
-
+            y: 3,
             duration: 1,
-
             ease: "power2.inOut",
-          }
+          },
+          "<"
         );
       }
 
@@ -208,23 +178,20 @@ function ScrollAnimation({ particlesRef }) {
         x: -0.9,
         y: -0.2,
         z: 7.6,
-
         duration: 1,
-
         ease: "power2.inOut",
       });
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: 3.7,
             x: -0.08,
-
+            y: 3.7,
             duration: 1,
-
             ease: "power2.inOut",
-          }
+          },
+          "<"
         );
       }
 
@@ -238,52 +205,69 @@ function ScrollAnimation({ particlesRef }) {
         x: 0,
         y: 0.3,
         z: 8,
-
         duration: 1,
-
         ease: "power2.inOut",
       });
 
-      if (particlesRef?.current) {
+      if (particles) {
         timeline.to(
-          particlesRef.current.rotation,
+          particles.rotation,
           {
-            y: Math.PI * 2,
             x: 0,
-
+            y: Math.PI * 2,
             duration: 1,
-
             ease: "power2.inOut",
-          }
+          },
+          "<"
         );
       }
 
       /*
       ==========================================
-      REFRESH SCROLLTRIGGER
+      INITIAL REFRESH
       ==========================================
       */
 
-      ScrollTrigger.refresh();
+      if ("requestIdleCallback" in window) {
+        idleCallbackId =
+          window.requestIdleCallback(() => {
+            ScrollTrigger.refresh();
+          });
+      } else {
+        animationFrameId =
+          window.requestAnimationFrame(() => {
+            ScrollTrigger.refresh();
+          });
+      }
     });
 
     /*
-    ==========================================
+    ============================================
     CLEANUP
-    ==========================================
+    ============================================
     */
 
     return () => {
+      if (idleCallbackId !== undefined) {
+        window.cancelIdleCallback(
+          idleCallbackId
+        );
+      }
+
+      if (animationFrameId !== undefined) {
+        window.cancelAnimationFrame(
+          animationFrameId
+        );
+      }
+
       ctx.revert();
 
       camera.position.set(0, 0, 8);
-
       camera.lookAt(0, 0, 0);
 
-      if (particlesRef?.current) {
-        particlesRef.current.position.set(0, 0, 0);
-
-        particlesRef.current.rotation.set(0, 0, 0);
+      if (particles) {
+        particles.position.set(0, 0, 0);
+        particles.rotation.set(0, 0, 0);
       }
     };
   }, [camera, particlesRef]);

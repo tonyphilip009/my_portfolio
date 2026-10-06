@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { animateAbout } from "../utils/scrollAnimations";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -23,156 +22,176 @@ function About() {
   const bottomWords = bottomText.split(" ");
 
   useEffect(() => {
-    // ==========================================
-    // EXISTING ABOUT ANIMATION
-    // ==========================================
+    const section = sectionRef.current;
 
-    animateAbout();
+    if (!section) return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
     const ctx = gsap.context(() => {
-
-      // ==========================================
-      // REDUCED MOTION CHECK
-      // ==========================================
-
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
+      /*
+      ==========================================
+      REDUCED MOTION
+      ==========================================
+      */
 
       if (prefersReducedMotion) {
         return;
       }
 
+      /*
+      ==========================================
+      DAY 27 — STEP 1
+      SECTION HEADING REVEAL
+      ==========================================
+      */
 
-      // ==========================================
-      // DAY 27 — STEP 1
-      // Section heading reveal
-      // ==========================================
+      if (headingRef.current) {
+        gsap.from(headingRef.current, {
+          y: 50,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
 
-      gsap.from(headingRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      /*
+      ==========================================
+      DAY 27 — STEP 2
+      INTRODUCTION PARAGRAPHS
+      ==========================================
+      */
 
+      const introParagraphs = introRef.current
+        ? Array.from(
+            introRef.current.querySelectorAll("p")
+          )
+        : [];
 
-      // ==========================================
-      // DAY 27 — STEP 2
-      // Introduction paragraphs
-      // ==========================================
+      if (introParagraphs.length > 0) {
+        gsap.from(introParagraphs, {
+          y: 40,
+          opacity: 0,
+          duration: 0.7,
+          stagger: 0.15,
+          ease: "power3.out",
 
-      const introParagraphs =
-        introRef.current.querySelectorAll("p");
+          scrollTrigger: {
+            trigger: introRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
-      gsap.from(introParagraphs, {
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.15,
-        ease: "power3.out",
+      /*
+      ==========================================
+      DAY 27 — STEP 3
+      ABOUT CARDS
+      ==========================================
+      */
 
-        scrollTrigger: {
-          trigger: introRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      const cards = cardsRef.current
+        ? Array.from(
+            cardsRef.current.querySelectorAll(".about-card")
+          )
+        : [];
 
+      if (cards.length > 0) {
+        gsap.from(cards, {
+          y: 50,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: "power3.out",
 
-      // ==========================================
-      // DAY 27 — STEP 3
-      // About cards
-      // ==========================================
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: "top 80%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
-      const cards =
-        cardsRef.current.querySelectorAll(".about-card");
+      /*
+      ==========================================
+      DAY 27 — STEP 4
+      SUBHEADING ANIMATIONS
+      ==========================================
+      */
 
-      gsap.from(cards, {
-        y: 50,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.12,
-        ease: "power3.out",
+      if (introHeadingRef.current) {
+        gsap.from(introHeadingRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power3.out",
 
-        scrollTrigger: {
-          trigger: cardsRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+          scrollTrigger: {
+            trigger: introHeadingRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
+      if (skillsHeadingRef.current) {
+        gsap.from(skillsHeadingRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power3.out",
 
-      // ==========================================
-      // DAY 27 — STEP 4
-      // Subheading animations
-      // ==========================================
+          scrollTrigger: {
+            trigger: skillsHeadingRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
-      gsap.from(introHeadingRef.current, {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power3.out",
+      /*
+      ==========================================
+      DAY 27 — STEP 5
+      BOTTOM STATEMENT
+      ==========================================
+      */
 
-        scrollTrigger: {
-          trigger: introHeadingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      if (bottomRef.current) {
+        gsap.from(bottomRef.current, {
+          y: 30,
+          opacity: 0,
+          duration: 0.7,
+          ease: "power3.out",
 
+          scrollTrigger: {
+            trigger: bottomRef.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
 
-      gsap.from(skillsHeadingRef.current, {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power3.out",
-
-        scrollTrigger: {
-          trigger: skillsHeadingRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-
-      // ==========================================
-      // DAY 27 — STEP 5
-      // Bottom statement
-      // ==========================================
-
-      gsap.from(bottomRef.current, {
-        y: 30,
-        opacity: 0,
-        duration: 0.7,
-        ease: "power3.out",
-
-        scrollTrigger: {
-          trigger: bottomRef.current,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-
-      // ==========================================
-      // DAY 27 — STEP 6
-      // Card hover animation
-      // ==========================================
+      /*
+      ==========================================
+      DAY 27 — STEP 6
+      CARD HOVER ANIMATION
+      ==========================================
+      */
 
       cards.forEach((card) => {
-
         const title = card.querySelector("h4");
         const description = card.querySelector("p");
 
         const handleMouseEnter = () => {
-
           gsap.to(card, {
             y: -8,
             scale: 1.02,
@@ -180,23 +199,24 @@ function About() {
             ease: "power2.out",
           });
 
-          gsap.to(title, {
-            y: -3,
-            duration: 0.25,
-            ease: "power2.out",
-          });
+          if (title) {
+            gsap.to(title, {
+              y: -3,
+              duration: 0.25,
+              ease: "power2.out",
+            });
+          }
 
-          gsap.to(description, {
-            y: -2,
-            duration: 0.25,
-            ease: "power2.out",
-          });
-
+          if (description) {
+            gsap.to(description, {
+              y: -2,
+              duration: 0.25,
+              ease: "power2.out",
+            });
+          }
         };
 
-
         const handleMouseLeave = () => {
-
           gsap.to(card, {
             y: 0,
             scale: 1,
@@ -204,20 +224,22 @@ function About() {
             ease: "power2.out",
           });
 
-          gsap.to(title, {
-            y: 0,
-            duration: 0.25,
-            ease: "power2.out",
-          });
+          if (title) {
+            gsap.to(title, {
+              y: 0,
+              duration: 0.25,
+              ease: "power2.out",
+            });
+          }
 
-          gsap.to(description, {
-            y: 0,
-            duration: 0.25,
-            ease: "power2.out",
-          });
-
+          if (description) {
+            gsap.to(description, {
+              y: 0,
+              duration: 0.25,
+              ease: "power2.out",
+            });
+          }
         };
-
 
         card.addEventListener(
           "mouseenter",
@@ -229,132 +251,152 @@ function About() {
           handleMouseLeave
         );
 
-
-        // Save handlers for cleanup
         card._handleMouseEnter = handleMouseEnter;
         card._handleMouseLeave = handleMouseLeave;
-
       });
 
-
-      // ==========================================
-      // DAY 27 — STEP 7
-      // Card content reveal
-      // ==========================================
+      /*
+      ==========================================
+      DAY 27 — STEP 7
+      CARD CONTENT REVEAL
+      ==========================================
+      */
 
       cards.forEach((card) => {
-
         const title = card.querySelector("h4");
         const description = card.querySelector("p");
 
-        gsap.from(
-          [title, description],
-          {
-            y: 15,
-            opacity: 0,
-            duration: 0.5,
-            stagger: 0.1,
-            ease: "power2.out",
+        const cardContent = [
+          title,
+          description,
+        ].filter(Boolean);
 
-            scrollTrigger: {
-              trigger: card,
-              start: "top 78%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-
-      });
-
-
-      // ==========================================
-      // DAY 27 — STEP 10
-      // Heading parallax
-      // ==========================================
-
-      gsap.to(headingRef.current, {
-        y: -20,
-        ease: "none",
-
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-
-
-      // ==========================================
-      // DAY 27 — STEP 11
-      // Bottom statement word reveal
-      // ==========================================
-
-      const words =
-        bottomRef.current.querySelectorAll(".about-word");
-
-      gsap.from(words, {
-        y: 20,
-        opacity: 0,
-        duration: 0.4,
-        stagger: 0.035,
-        ease: "power2.out",
-
-        scrollTrigger: {
-          trigger: bottomRef.current,
-          start: "top 82%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-
-      // ==========================================
-      // PERFORMANCE
-      // ==========================================
-
-      gsap.set(
-        [
-          headingRef.current,
-          ...cards,
-          ...words,
-        ],
-        {
-          force3D: true,
+        if (cardContent.length === 0) {
+          return;
         }
+
+        gsap.from(cardContent, {
+          y: 15,
+          opacity: 0,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "power2.out",
+
+          scrollTrigger: {
+            trigger: card,
+            start: "top 78%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      });
+
+      /*
+      ==========================================
+      DAY 27 — STEP 10
+      HEADING PARALLAX
+      ==========================================
+      */
+
+      if (
+        headingRef.current &&
+        sectionRef.current
+      ) {
+        gsap.to(headingRef.current, {
+          y: -20,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+      }
+
+      /*
+      ==========================================
+      DAY 27 — STEP 11
+      BOTTOM WORD REVEAL
+      ==========================================
+      */
+
+      const words = bottomRef.current
+        ? Array.from(
+            bottomRef.current.querySelectorAll(
+              ".about-word"
+            )
+          )
+        : [];
+
+      if (words.length > 0) {
+        gsap.from(words, {
+          y: 20,
+          opacity: 0,
+          duration: 0.4,
+          stagger: 0.035,
+          ease: "power2.out",
+
+          scrollTrigger: {
+            trigger: bottomRef.current,
+            start: "top 82%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+
+      /*
+      ==========================================
+      PERFORMANCE
+      ==========================================
+      */
+
+      const performanceTargets = [
+        headingRef.current,
+        ...cards,
+        ...words,
+      ].filter(Boolean);
+
+      if (performanceTargets.length > 0) {
+        gsap.set(performanceTargets, {
+          force3D: true,
+        });
+      }
+    }, section);
+
+    /*
+    ==========================================
+    CLEANUP
+    ==========================================
+    */
+
+    return () => {
+      const cards = section.querySelectorAll(
+        ".about-card"
       );
 
-
-      // ==========================================
-      // CLEANUP HOVER EVENTS
-      // ==========================================
-
-      return () => {
-
-        cards.forEach((card) => {
-
+      cards.forEach((card) => {
+        if (card._handleMouseEnter) {
           card.removeEventListener(
             "mouseenter",
             card._handleMouseEnter
           );
+        }
 
+        if (card._handleMouseLeave) {
           card.removeEventListener(
             "mouseleave",
             card._handleMouseLeave
           );
+        }
 
-        });
+        delete card._handleMouseEnter;
+        delete card._handleMouseLeave;
+      });
 
-      };
-
-    }, sectionRef);
-
-
-    return () => {
       ctx.revert();
     };
-
   }, []);
-
 
   return (
     <section
@@ -362,7 +404,6 @@ function About() {
       id="about"
       className="about-section"
     >
-
       <div className="about-container">
 
         {/* =========================
@@ -371,9 +412,8 @@ function About() {
 
         <div
           ref={headingRef}
-          className="about-heading"
+          className="about-heading relative z-10"
         >
-
           <p className="section-label">
             ABOUT ME
           </p>
@@ -382,9 +422,7 @@ function About() {
             Building with{" "}
             <span>code & curiosity.</span>
           </h2>
-
         </div>
-
 
         {/* =========================
             ABOUT CONTENT
@@ -398,7 +436,6 @@ function About() {
             ref={introRef}
             className="about-intro"
           >
-
             <h3 ref={introHeadingRef}>
               Who I am
             </h3>
@@ -423,14 +460,11 @@ function About() {
               working with security logs, monitoring
               dashboards and SIEM tools.
             </p>
-
           </div>
-
 
           {/* Skills / Areas */}
 
           <div className="about-skills">
-
             <h3 ref={skillsHeadingRef}>
               What I work with
             </h3>
@@ -443,7 +477,6 @@ function About() {
               {/* Full Stack */}
 
               <div className="about-card">
-
                 <h4>
                   Full-Stack
                 </h4>
@@ -452,14 +485,11 @@ function About() {
                   Building complete web applications
                   from frontend to backend.
                 </p>
-
               </div>
-
 
               {/* Django */}
 
               <div className="about-card">
-
                 <h4>
                   Django
                 </h4>
@@ -468,14 +498,11 @@ function About() {
                   Backend development, APIs,
                   authentication and databases.
                 </p>
-
               </div>
-
 
               {/* React */}
 
               <div className="about-card">
-
                 <h4>
                   React
                 </h4>
@@ -484,14 +511,11 @@ function About() {
                   Creating interactive and responsive
                   frontend applications.
                 </p>
-
               </div>
-
 
               {/* REST APIs */}
 
               <div className="about-card">
-
                 <h4>
                   REST APIs
                 </h4>
@@ -500,14 +524,11 @@ function About() {
                   Designing and consuming APIs for
                   modern applications.
                 </p>
-
               </div>
-
 
               {/* Cybersecurity */}
 
               <div className="about-card">
-
                 <h4>
                   Cybersecurity
                 </h4>
@@ -516,14 +537,11 @@ function About() {
                   Security monitoring, logs, SIEM
                   and threat detection.
                 </p>
-
               </div>
-
 
               {/* Problem Solving */}
 
               <div className="about-card">
-
                 <h4>
                   Problem Solving
                 </h4>
@@ -532,15 +550,11 @@ function About() {
                   Python, DSA and logical
                   problem solving.
                 </p>
-
               </div>
 
             </div>
-
           </div>
-
         </div>
-
 
         {/* =========================
             BOTTOM STATEMENT
@@ -550,23 +564,19 @@ function About() {
           ref={bottomRef}
           className="about-bottom"
         >
-
           <p>
             {bottomWords.map((word, index) => (
               <span
                 key={index}
                 className="about-word"
               >
-                {word}
-                {" "}
+                {word}{" "}
               </span>
             ))}
           </p>
-
         </div>
 
       </div>
-
     </section>
   );
 }

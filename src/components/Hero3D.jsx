@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 
 import Particles from "./Particles";
@@ -14,25 +14,30 @@ function Hero3D() {
           position: [0, 0, 8],
           fov: 55,
         }}
+        dpr={[1, 1.25]}
+        performance={{
+          min: 0.5,
+          max: 1,
+          debounce: 200,
+        }}
         gl={{
-          antialias: true,
+          antialias: false,
           alpha: true,
+          depth: false,
+          stencil: false,
+          powerPreference: "high-performance",
         }}
       >
-        {/* ==========================================
-            PARTICLES
-        ========================================== */}
+        <Particles
+          particlesRef={particlesRef}
+        />
 
-        <Particles particlesRef={particlesRef} />
-
-        {/* ==========================================
-            SCROLL ANIMATION
-        ========================================== */}
-
-        <ScrollAnimation particlesRef={particlesRef} />
+        <ScrollAnimation
+          particlesRef={particlesRef}
+        />
       </Canvas>
     </div>
   );
 }
 
-export default Hero3D;
+export default memo(Hero3D);

@@ -1,6 +1,6 @@
+import { memo, useRef, useMemo, useEffect } from "react";
 import { Points, PointMaterial } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef, useMemo, useEffect } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 
@@ -9,58 +9,161 @@ function Particles({ particlesRef }) {
 
   /*
   ==========================================
+  PARTICLE OBJECT REF
+  ==========================================
+  */
+
+  const particleObjectRef =
+    particlesRef || internalRef;
+
+  /*
+  ==========================================
   SMOOTH SCROLL VALUE
   ==========================================
   */
 
-  const scrollProgressRef = useRef(0);
+  const scrollProgressRef = useRef({
+    current: 0,
+  });
 
   /*
   ==========================================
-  CREATE PARTICLE POSITIONS
+  CACHED SECTION INFLUENCES
   ==========================================
   */
 
-  const positions = useMemo(() => {
-    const points = [];
-    const count = 2000;
+  const sectionInfluencesRef = useRef({
+    scroll: -1,
+    home: 0,
+    about: 0,
+    projects: 0,
+    experience: 0,
+    contact: 0,
+  });
 
-    for (let i = 0; i < count; i++) {
-      const radius = 5 + Math.random() * 8;
-      const angle = Math.random() * Math.PI * 2;
+  /*
+  ==========================================
+  PAGE VISIBILITY
+  ==========================================
+  */
 
-      const depth = (Math.random() - 0.5) * 12;
+  const isPageVisibleRef = useRef(
+    !document.hidden
+  );
 
-      points.push(Math.cos(angle) * radius);
-      points.push((Math.random() - 0.5) * 8);
-      points.push(Math.sin(angle) * radius + depth);
-    }
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      isPageVisibleRef.current =
+        !document.hidden;
+    };
 
-    return new Float32Array(points);
+    document.addEventListener(
+      "visibilitychange",
+      handleVisibilityChange
+    );
+
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange
+      );
+    };
   }, []);
 
   /*
   ==========================================
-  CREATE SOFT GLOW TEXTURE
+  DETECT MOBILE DEVICE
+  ==========================================
+  */
+
+  const isMobile = useMemo(() => {
+    return window.matchMedia(
+      "(max-width: 768px)"
+    ).matches;
+  }, []);
+
+  /*
+  ==========================================
+  PARTICLE COUNT
+  ==========================================
+  */
+
+  const particleCount = isMobile
+    ? 750
+    : 2000;
+
+  /*
+  ==========================================
+  PRECOMPUTED PARTICLE POSITIONS
+  ==========================================
+  */
+
+  const positions = useMemo(() => {
+    const data = new Float32Array(
+      particleCount * 3
+    );
+
+    for (
+      let i = 0;
+      i < particleCount;
+      i++
+    ) {
+      const radius =
+        5 + Math.random() * 8;
+
+      const angle =
+        Math.random() *
+        Math.PI *
+        2;
+
+      const depth =
+        (Math.random() - 0.5) * 12;
+
+      const index = i * 3;
+
+      data[index] =
+        Math.cos(angle) *
+        radius;
+
+      data[index + 1] =
+        (Math.random() - 0.5) * 8;
+
+      data[index + 2] =
+        Math.sin(angle) *
+          radius +
+        depth;
+    }
+
+    return data;
+  }, [particleCount]);
+
+  /*
+  ==========================================
+  GLOW TEXTURE
   ==========================================
   */
 
   const glowTexture = useMemo(() => {
-    const canvas = document.createElement("canvas");
+    const canvas =
+      document.createElement(
+        "canvas"
+      );
 
     canvas.width = 64;
     canvas.height = 64;
 
-    const context = canvas.getContext("2d");
+    const context =
+      canvas.getContext("2d");
 
-    const gradient = context.createRadialGradient(
-      32,
-      32,
-      0,
-      32,
-      32,
-      32
-    );
+    const gradient =
+      context.createRadialGradient(
+        32,
+        32,
+        0,
+        32,
+        32,
+        32
+      );
 
     gradient.addColorStop(
       0,
@@ -88,9 +191,30 @@ function Particles({ particlesRef }) {
     );
 
     context.fillStyle = gradient;
-    context.fillRect(0, 0, 64, 64);
 
-    const texture = new THREE.CanvasTexture(canvas);
+    context.fillRect(
+      0,
+      0,
+      64,
+      64
+    );
+
+    const texture =
+      new THREE.CanvasTexture(
+        canvas
+      );
+
+    texture.minFilter =
+      THREE.LinearFilter;
+
+    texture.magFilter =
+      THREE.LinearFilter;
+
+    texture.wrapS =
+      THREE.ClampToEdgeWrapping;
+
+    texture.wrapT =
+      THREE.ClampToEdgeWrapping;
 
     texture.needsUpdate = true;
 
@@ -99,48 +223,81 @@ function Particles({ particlesRef }) {
 
   /*
   ==========================================
+  MATERIAL CONFIGURATION
+  ==========================================
+  */
+
+  const materialConfig = useMemo(
+    () => ({
+      transparent: true,
+      map: glowTexture,
+      color: "#60a5fa",
+      size: 0.16,
+      sizeAttenuation: true,
+      depthWrite: false,
+      opacity: 0.85,
+      toneMapped: false,
+      blending: THREE.AdditiveBlending,
+    }),
+    [glowTexture]
+  );
+
+  /*
+  ==========================================
   GSAP SCROLL SMOOTHING
   ==========================================
   */
 
   useEffect(() => {
+    const scrollState =
+      scrollProgressRef.current;
+
+    const smoothScrollTo =
+      gsap.quickTo(
+        scrollState,
+        "current",
+        {
+          duration: 0.8,
+          ease: "power3.out",
+        }
+      );
+
+    let scrollFrameId = null;
+
     const updateScroll = () => {
-      const scrollY = window.scrollY;
+      if (scrollFrameId !== null) {
+        return;
+      }
 
-      const maxScroll =
-        document.documentElement.scrollHeight -
-        window.innerHeight;
+      scrollFrameId =
+        window.requestAnimationFrame(() => {
+          scrollFrameId = null;
 
-      const progress =
-        maxScroll > 0
-          ? scrollY / maxScroll
-          : 0;
+          const scrollY =
+            window.scrollY;
 
-      gsap.to(scrollProgressRef.current, {
-        current: progress,
-        duration: 0.8,
-        ease: "power3.out",
-        overwrite: true,
-      });
+          const maxScroll =
+            document.documentElement
+              .scrollHeight -
+            window.innerHeight;
+
+          const progress =
+            maxScroll > 0
+              ? scrollY / maxScroll
+              : 0;
+
+          smoothScrollTo(progress);
+        });
     };
-
-    /*
-    GSAP needs an object property
-    to animate.
-    */
-
-    const scrollState = {
-      current: 0,
-    };
-
-    scrollProgressRef.current = scrollState;
 
     updateScroll();
 
     window.addEventListener(
       "scroll",
       updateScroll,
-      { passive: true }
+      {
+        passive: true,
+      }
     );
 
     return () => {
@@ -149,13 +306,21 @@ function Particles({ particlesRef }) {
         updateScroll
       );
 
-      gsap.killTweensOf(scrollState);
+      if (scrollFrameId !== null) {
+        window.cancelAnimationFrame(
+          scrollFrameId
+        );
+      }
+
+      gsap.killTweensOf(
+        scrollState
+      );
     };
   }, []);
 
   /*
   ==========================================
-  CLEAN UP GLOW TEXTURE
+  CLEAN UP TEXTURE
   ==========================================
   */
 
@@ -167,36 +332,76 @@ function Particles({ particlesRef }) {
 
   /*
   ==========================================
-  PARTICLE MOVEMENT
+  ANIMATION CONSTANTS
+  ==========================================
+  */
+
+  const particleLerpX = 0.02;
+  const particleLerpY = 0.02;
+  const particleLerpZ = 0.025;
+
+  const mouseInfluenceX = 0.15;
+  const mouseInfluenceY = 0.1;
+
+  const floatingSpeed = 0.2;
+  const floatingStrength = 0.002;
+
+  const experienceSpeedX = 0.4;
+  const experienceSpeedY = 0.35;
+  const projectSpeed = 0.6;
+
+  /*
+  ==========================================
+  PARTICLE ANIMATION
   ==========================================
   */
 
   useFrame((state) => {
-    const particles =
-      particlesRef?.current ||
-      internalRef.current;
-
-    if (!particles) return;
-
-    const time = state.clock.elapsedTime;
-
     /*
     ------------------------------------------
-    MOUSE PARALLAX
+    SKIP WHEN TAB IS HIDDEN
     ------------------------------------------
     */
 
-    const mouseX = state.pointer.x;
-    const mouseY = state.pointer.y;
+    if (!isPageVisibleRef.current) {
+      return;
+    }
+
+    const particles =
+      particleObjectRef.current;
+
+    if (!particles) return;
 
     /*
     ------------------------------------------
-    SMOOTH SCROLL
+    TIME
+    ------------------------------------------
+    */
+
+    const time =
+      state.clock.elapsedTime;
+
+    /*
+    ------------------------------------------
+    MOUSE
+    ------------------------------------------
+    */
+
+    const mouseX =
+      state.pointer.x;
+
+    const mouseY =
+      state.pointer.y;
+
+    /*
+    ------------------------------------------
+    SCROLL
     ------------------------------------------
     */
 
     const scrollProgress =
-      scrollProgressRef.current.current ?? 0;
+      scrollProgressRef.current
+        .current;
 
     /*
     ------------------------------------------
@@ -204,47 +409,83 @@ function Particles({ particlesRef }) {
     ------------------------------------------
     */
 
+    const influences =
+      sectionInfluencesRef.current;
+
+    if (
+      Math.abs(
+        scrollProgress -
+          influences.scroll
+      ) > 0.0001
+    ) {
+      influences.scroll =
+        scrollProgress;
+
+      influences.home =
+        THREE.MathUtils.smoothstep(
+          scrollProgress,
+          0,
+          0.18
+        );
+
+      influences.about =
+        THREE.MathUtils.smoothstep(
+          scrollProgress,
+          0.15,
+          0.35
+        );
+
+      influences.projects =
+        THREE.MathUtils.smoothstep(
+          scrollProgress,
+          0.5,
+          0.75
+        );
+
+      influences.experience =
+        THREE.MathUtils.smoothstep(
+          scrollProgress,
+          0.7,
+          0.9
+        );
+
+      influences.contact =
+        THREE.MathUtils.smoothstep(
+          scrollProgress,
+          0.85,
+          1
+        );
+    }
+
+    /*
+    ------------------------------------------
+    CACHED INFLUENCES
+    ------------------------------------------
+    */
+
     const homeInfluence =
-      THREE.MathUtils.smoothstep(
-        scrollProgress,
-        0,
-        0.18
-      );
+      influences.home;
 
     const aboutInfluence =
-      THREE.MathUtils.smoothstep(
-        scrollProgress,
-        0.15,
-        0.35
-      );
-
-    const skillsInfluence =
-      THREE.MathUtils.smoothstep(
-        scrollProgress,
-        0.3,
-        0.55
-      );
+      influences.about;
 
     const projectsInfluence =
-      THREE.MathUtils.smoothstep(
-        scrollProgress,
-        0.5,
-        0.75
-      );
+      influences.projects;
 
     const experienceInfluence =
-      THREE.MathUtils.smoothstep(
-        scrollProgress,
-        0.7,
-        0.9
-      );
+      influences.experience;
 
     const contactInfluence =
-      THREE.MathUtils.smoothstep(
-        scrollProgress,
-        0.85,
-        1
-      );
+      influences.contact;
+
+    /*
+    ------------------------------------------
+    SETTLE
+    ------------------------------------------
+    */
+
+    const settleAmount =
+      1 - contactInfluence;
 
     /*
     ------------------------------------------
@@ -257,17 +498,23 @@ function Particles({ particlesRef }) {
 
     /*
     ------------------------------------------
-    SKILLS
+    EXPERIENCE
     ------------------------------------------
     */
 
-    const baseRotation =
-      time * 0.012;
+    const experienceX =
+      experienceInfluence *
+      Math.sin(
+        time * experienceSpeedX
+      ) *
+      1.2;
 
-    const skillsRotation =
-      skillsInfluence *
-      Math.sin(time * 0.5) *
-      0.35;
+    const experienceY =
+      experienceInfluence *
+      Math.cos(
+        time * experienceSpeedY
+      ) *
+      0.8;
 
     /*
     ------------------------------------------
@@ -275,35 +522,12 @@ function Particles({ particlesRef }) {
     ------------------------------------------
     */
 
-    const projectsDepth =
+    const projectDepth =
       projectsInfluence *
-      Math.sin(time * 0.6) *
+      Math.sin(
+        time * projectSpeed
+      ) *
       1.5;
-
-    /*
-    ------------------------------------------
-    EXPERIENCE
-    ------------------------------------------
-    */
-
-    const experienceX =
-      experienceInfluence *
-      Math.sin(time * 0.4) *
-      1.2;
-
-    const experienceY =
-      experienceInfluence *
-      Math.cos(time * 0.35) *
-      0.8;
-
-    /*
-    ------------------------------------------
-    CONTACT SETTLE
-    ------------------------------------------
-    */
-
-    const settleAmount =
-      1 - contactInfluence;
 
     /*
     ------------------------------------------
@@ -313,21 +537,26 @@ function Particles({ particlesRef }) {
 
     const targetX =
       (
-        mouseX * 0.15 +
+        mouseX *
+          mouseInfluenceX +
         aboutShift +
         experienceX
-      ) * settleAmount;
+      ) *
+      settleAmount;
 
     const targetY =
       (
-        mouseY * 0.1 +
+        mouseY *
+          mouseInfluenceY +
         homeInfluence *
           (scrollProgress * 1.5) +
         experienceY
-      ) * settleAmount;
+      ) *
+      settleAmount;
 
     const targetZ =
-      projectsDepth * settleAmount;
+      projectDepth *
+      settleAmount;
 
     /*
     ------------------------------------------
@@ -339,21 +568,21 @@ function Particles({ particlesRef }) {
       THREE.MathUtils.lerp(
         particles.position.x,
         targetX,
-        0.02
+        particleLerpX
       );
 
     particles.position.y =
       THREE.MathUtils.lerp(
         particles.position.y,
         targetY,
-        0.02
+        particleLerpY
       );
 
     particles.position.z =
       THREE.MathUtils.lerp(
         particles.position.z,
         targetZ,
-        0.025
+        particleLerpZ
       );
 
     /*
@@ -362,94 +591,34 @@ function Particles({ particlesRef }) {
     ------------------------------------------
     */
 
-    particles.position.y +=
-      Math.sin(time * 0.2) *
-      0.002 *
-      (0.5 + settleAmount * 0.5);
-
-    /*
-    ------------------------------------------
-    ROTATION
-    ------------------------------------------
-    */
-
-    const targetRotationY =
-      baseRotation +
-      skillsRotation * settleAmount;
-
-    particles.rotation.y =
-      THREE.MathUtils.lerp(
-        particles.rotation.y,
-        targetRotationY,
-        0.02
-      );
-
-    /*
-    ------------------------------------------
-    X ROTATION
-    ------------------------------------------
-    */
-
-    const targetRotationX =
-      Math.sin(time * 0.1) *
-      0.008 +
-      projectsInfluence *
-      Math.sin(time * 0.4) *
-      0.08 *
-      settleAmount;
-
-    particles.rotation.x =
-      THREE.MathUtils.lerp(
-        particles.rotation.x,
-        targetRotationX,
-        0.02
-      );
-
-    /*
-    ------------------------------------------
-    Z ROTATION
-    ------------------------------------------
-    */
-
-    const targetRotationZ =
-      skillsInfluence *
-      Math.sin(time * 0.35) *
-      0.12 *
-      settleAmount;
-
-    particles.rotation.z =
-      THREE.MathUtils.lerp(
-        particles.rotation.z,
-        targetRotationZ,
-        0.02
-      );
+    if (settleAmount > 0.001) {
+      particles.position.y +=
+        Math.sin(
+          time * floatingSpeed
+        ) *
+        floatingStrength *
+        (0.5 + settleAmount * 0.5);
+    }
   });
 
   /*
   ==========================================
-  RENDER PARTICLES
+  RENDER
   ==========================================
   */
 
   return (
     <Points
-      ref={particlesRef || internalRef}
+      ref={particleObjectRef}
       positions={positions}
       stride={3}
+      frustumCulled={true}
     >
       <PointMaterial
-        transparent
-        map={glowTexture}
-        color="#60a5fa"
-        size={0.16}
-        sizeAttenuation
-        depthWrite={false}
-        opacity={0.85}
-        blending={THREE.AdditiveBlending}
-        alphaTest={0.01}
+        {...materialConfig}
       />
     </Points>
   );
 }
 
-export default Particles;
+export default memo(Particles);

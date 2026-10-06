@@ -57,6 +57,10 @@ section:not(#home) h2 {
   font-weight: 700;
   letter-spacing: -0.035em;
   line-height: 1.1;
+
+  /* Keep heading inside section content area */
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 
@@ -123,6 +127,16 @@ section:not(#home) h2 {
   line-height: 1.4;
 
   text-transform: uppercase;
+}
+
+.about-heading {
+  position: relative;
+  z-index: 10;
+
+  width: 100%;
+  max-width: 1200px;
+
+  box-sizing: border-box;
 }
 
 .about-heading h2 {
@@ -207,5 +221,11 @@ section:not(#home) h2 {
 
   section:not(#home) h2 {
     font-size: clamp(2rem, 9vw, 2.75rem);
+
+    max-width: 100%;
+  }
+
+  .about-heading {
+    max-width: 100%;
   }
 }
