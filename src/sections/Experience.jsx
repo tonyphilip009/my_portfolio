@@ -72,7 +72,7 @@ function Experience() {
 
         <div ref={headingRef} className="mb-20">
 
-          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-gray-500">
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-blue-400">
             My Journey
           </p>
 
@@ -80,12 +80,13 @@ function Experience() {
             Experience
           </h2>
 
-          <p className="mt-4 max-w-2xl text-gray-400">
+          <p className="mt-4 max-w-2xl text-slate-400">
             A timeline of my professional experience and the technologies
             I have worked with.
           </p>
 
         </div>
+
 
         {/* ==========================================
             TIMELINE
@@ -96,7 +97,7 @@ function Experience() {
           className="relative"
         >
 
-          {/* Center Timeline */}
+          {/* CENTER TIMELINE LINE */}
 
           <div
             className="
@@ -105,11 +106,12 @@ function Experience() {
               top-0
               h-full
               w-px
-              bg-gray-700
+              bg-slate-700
               md:left-1/2
               md:-translate-x-1/2
             "
           />
+
 
           {/* ========================================
               FULL STACK INTERNSHIP
@@ -117,27 +119,46 @@ function Experience() {
 
           <div className="relative mb-24 md:grid md:grid-cols-2 md:gap-16">
 
-            {/* LEFT */}
+            {/* LEFT CARD */}
 
-            <div className="ml-10 md:ml-0 md:pr-10 md:text-right">
+            <div className="ml-10 md:ml-0 md:pr-10">
 
-              <p className="text-sm font-medium text-gray-500">
-                Jun 2026 – Present
-              </p>
+              <div
+                className="
+                  rounded-2xl
+                  border
+                  border-slate-700/60
+                  bg-slate-900/55
+                  p-6
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:border-blue-400/50
+                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
+                  md:text-right
+                "
+              >
 
-              <h3 className="mt-3 text-2xl font-semibold">
-                Python Django Full Stack Developer Intern
-              </h3>
+                <p className="text-sm font-medium text-blue-400">
+                  Jun 2026 – Present
+                </p>
 
-              <p className="mt-2 text-gray-300">
-                Luminar Technolab
-              </p>
+                <h3 className="mt-3 text-2xl font-semibold text-slate-50">
+                  Python Django Full Stack Developer Intern
+                </h3>
 
-              <p className="mt-1 text-sm text-gray-500">
-                Kerala, India
-              </p>
+                <p className="mt-2 text-slate-300">
+                  Luminar Technolab
+                </p>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  Kerala, India
+                </p>
+
+              </div>
 
             </div>
+
 
             {/* TIMELINE DOT */}
 
@@ -145,7 +166,7 @@ function Experience() {
               className="
                 absolute
                 left-3
-                top-1
+                top-8
                 h-4
                 w-4
                 -translate-x-1/2
@@ -153,71 +174,90 @@ function Experience() {
                 border-2
                 border-blue-400
                 bg-slate-950
-                shadow-[0_0_12px_rgba(96,165,250,0.8)]
+                shadow-[0_0_16px_rgba(96,165,250,0.9)]
                 md:left-1/2
               "
             />
 
-            {/* RIGHT */}
+
+            {/* RIGHT CARD */}
 
             <div className="ml-10 mt-8 md:ml-0 md:mt-0 md:pl-10">
 
-              <p className="leading-7 text-gray-400">
-                Developing full-stack web applications using Django,
-                Django REST Framework, React, and MySQL.
-              </p>
+              <div
+                className="
+                  rounded-2xl
+                  border
+                  border-slate-700/60
+                  bg-slate-900/55
+                  p-6
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:border-blue-400/50
+                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
+                "
+              >
 
-              <ul className="mt-5 space-y-3 text-sm leading-6 text-gray-500">
+                <p className="leading-7 text-slate-300">
+                  Developing full-stack web applications using Django,
+                  Django REST Framework, React, and MySQL.
+                </p>
 
-                <li>
-                  • Building REST APIs and implementing CRUD operations
-                  with Django REST Framework.
-                </li>
+                <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-400">
 
-                <li>
-                  • Working with Django models, ORM, authentication,
-                  URL routing, and admin functionality.
-                </li>
+                  <li>
+                    • Building REST APIs and implementing CRUD operations
+                    with Django REST Framework.
+                  </li>
 
-                <li>
-                  • Creating responsive frontend interfaces and
-                  connecting them with backend APIs.
-                </li>
+                  <li>
+                    • Working with Django models, ORM, authentication,
+                    URL routing, and admin functionality.
+                  </li>
 
-                <li>
-                  • Using Git and GitHub for version control and
-                  project development.
-                </li>
+                  <li>
+                    • Creating responsive frontend interfaces and
+                    connecting them with backend APIs.
+                  </li>
 
-              </ul>
+                  <li>
+                    • Using Git and GitHub for version control and
+                    project development.
+                  </li>
 
-              {/* TECHNOLOGIES */}
+                </ul>
 
-              <div className="mt-6 flex flex-wrap gap-2">
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  Python
-                </span>
+                {/* TECHNOLOGIES */}
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  Django
-                </span>
+                <div className="mt-6 flex flex-wrap gap-2">
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  DRF
-                </span>
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    Python
+                  </span>
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  React
-                </span>
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    Django
+                  </span>
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  MySQL
-                </span>
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    DRF
+                  </span>
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  Git
-                </span>
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    React
+                  </span>
+
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    MySQL
+                  </span>
+
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    Git
+                  </span>
+
+                </div>
 
               </div>
 
@@ -225,33 +265,53 @@ function Experience() {
 
           </div>
 
+
           {/* ========================================
               SOC INTERNSHIP
           ======================================== */}
 
           <div className="relative md:grid md:grid-cols-2 md:gap-16">
 
-            {/* LEFT */}
+            {/* LEFT CARD */}
 
-            <div className="ml-10 md:ml-0 md:pr-10 md:text-right">
+            <div className="ml-10 md:ml-0 md:pr-10">
 
-              <p className="text-sm font-medium text-gray-500">
-                Feb 2026 – May 2026
-              </p>
+              <div
+                className="
+                  rounded-2xl
+                  border
+                  border-slate-700/60
+                  bg-slate-900/55
+                  p-6
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:border-blue-400/50
+                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
+                  md:text-right
+                "
+              >
 
-              <h3 className="mt-3 text-2xl font-semibold">
-                SOC Intern
-              </h3>
+                <p className="text-sm font-medium text-blue-400">
+                  Feb 2026 – May 2026
+                </p>
 
-              <p className="mt-2 text-gray-300">
-                Terraeagle
-              </p>
+                <h3 className="mt-3 text-2xl font-semibold text-slate-50">
+                  SOC Intern
+                </h3>
 
-              <p className="mt-1 text-sm text-gray-500">
-                Bengaluru, India
-              </p>
+                <p className="mt-2 text-slate-300">
+                  Terraeagle
+                </p>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  Bengaluru, India
+                </p>
+
+              </div>
 
             </div>
+
 
             {/* TIMELINE DOT */}
 
@@ -259,7 +319,7 @@ function Experience() {
               className="
                 absolute
                 left-3
-                top-1
+                top-8
                 h-4
                 w-4
                 -translate-x-1/2
@@ -267,59 +327,78 @@ function Experience() {
                 border-2
                 border-blue-400
                 bg-slate-950
-                shadow-[0_0_12px_rgba(96,165,250,0.8)]
+                shadow-[0_0_16px_rgba(96,165,250,0.9)]
                 md:left-1/2
               "
             />
 
-            {/* RIGHT */}
+
+            {/* RIGHT CARD */}
 
             <div className="ml-10 mt-8 md:ml-0 md:mt-0 md:pl-10">
 
-              <p className="leading-7 text-gray-400">
-                Worked in a Security Operations Center environment,
-                monitoring security events and analysing logs.
-              </p>
+              <div
+                className="
+                  rounded-2xl
+                  border
+                  border-slate-700/60
+                  bg-slate-900/55
+                  p-6
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:border-blue-400/50
+                  hover:shadow-[0_0_30px_rgba(59,130,246,0.10)]
+                "
+              >
 
-              <ul className="mt-5 space-y-3 text-sm leading-6 text-gray-500">
+                <p className="leading-7 text-slate-300">
+                  Worked in a Security Operations Center environment,
+                  monitoring security events and analysing logs.
+                </p>
 
-                <li>
-                  • Analysed security logs and alerts using monitoring
-                  dashboards.
-                </li>
+                <ul className="mt-5 space-y-3 text-sm leading-6 text-slate-400">
 
-                <li>
-                  • Worked with Wazuh for security monitoring
-                  and threat detection.
-                </li>
+                  <li>
+                    • Analysed security logs and alerts using monitoring
+                    dashboards.
+                  </li>
 
-                <li>
-                  • Investigated security events and assisted with
-                  alert analysis and reporting.
-                </li>
+                  <li>
+                    • Worked with Wazuh for security monitoring
+                    and threat detection.
+                  </li>
 
-                <li>
-                  • Gained practical experience with SOC workflows,
-                  log analysis, and security monitoring.
-                </li>
+                  <li>
+                    • Investigated security events and assisted with
+                    alert analysis and reporting.
+                  </li>
 
-              </ul>
+                  <li>
+                    • Gained practical experience with SOC workflows,
+                    log analysis, and security monitoring.
+                  </li>
 
-              {/* TECHNOLOGIES */}
+                </ul>
 
-              <div className="mt-6 flex flex-wrap gap-2">
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  Wazuh
-                </span>
+                {/* TECHNOLOGIES */}
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  Log Analysis
-                </span>
+                <div className="mt-6 flex flex-wrap gap-2">
 
-                <span className="rounded-full border border-gray-700 px-3 py-1 text-xs text-gray-400">
-                  Threat Detection
-                </span>
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    Wazuh
+                  </span>
+
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    Log Analysis
+                  </span>
+
+                  <span className="rounded-full border border-slate-700 bg-white/5 px-3 py-1 text-xs text-slate-300">
+                    Threat Detection
+                  </span>
+
+                </div>
 
               </div>
 

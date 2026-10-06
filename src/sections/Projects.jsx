@@ -33,7 +33,8 @@ function Projects() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Section heading
+      // ==================== SECTION HEADING ====================
+
       gsap.fromTo(
         headingRef.current,
         {
@@ -45,6 +46,7 @@ function Projects() {
           opacity: 1,
           duration: 1.5,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: projectsRef.current,
             start: "top 90%",
@@ -53,7 +55,8 @@ function Projects() {
         }
       );
 
-      // Project summary
+      // ==================== PROJECT SUMMARY ====================
+
       gsap.fromTo(
         summaryRef.current,
         {
@@ -65,6 +68,7 @@ function Projects() {
           opacity: 1,
           duration: 1.2,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: summaryRef.current,
             start: "top 90%",
@@ -73,7 +77,8 @@ function Projects() {
         }
       );
 
-      // Filter buttons
+      // ==================== FILTER BUTTONS ====================
+
       gsap.fromTo(
         filtersRef.current.children,
         {
@@ -86,6 +91,7 @@ function Projects() {
           duration: 1,
           stagger: 0.15,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: filtersRef.current,
             start: "top 90%",
@@ -94,7 +100,8 @@ function Projects() {
         }
       );
 
-      // Project cards
+      // ==================== PROJECT CARDS ====================
+
       gsap.fromTo(
         projectsGridRef.current.children,
         {
@@ -107,6 +114,7 @@ function Projects() {
           duration: 1.2,
           stagger: 0.2,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: projectsGridRef.current,
             start: "top 90%",
@@ -115,7 +123,8 @@ function Projects() {
         }
       );
 
-      // Bottom section
+      // ==================== BOTTOM SECTION ====================
+
       gsap.fromTo(
         bottomSectionRef.current,
         {
@@ -127,6 +136,7 @@ function Projects() {
           opacity: 1,
           duration: 1.5,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: bottomSectionRef.current,
             start: "top 90%",
@@ -135,7 +145,8 @@ function Projects() {
         }
       );
 
-      // Strength cards
+      // ==================== STRENGTH CARDS ====================
+
       gsap.fromTo(
         strengthCardsRef.current.children,
         {
@@ -148,6 +159,7 @@ function Projects() {
           duration: 1.1,
           stagger: 0.15,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: strengthCardsRef.current,
             start: "top 90%",
@@ -170,8 +182,12 @@ function Projects() {
     >
       <div className="container-custom">
 
-        {/* Section Heading */}
-        <div ref={headingRef} className="max-w-3xl">
+        {/* ==================== SECTION HEADING ==================== */}
+
+        <div
+          ref={headingRef}
+          className="max-w-3xl"
+        >
           <p className="text-sm font-medium uppercase tracking-[0.2em] text-blue-400">
             Projects
           </p>
@@ -186,26 +202,27 @@ function Projects() {
           </p>
         </div>
 
-        {/* Project Summary */}
+        {/* ==================== PROJECT SUMMARY ==================== */}
+
         <div
           ref={summaryRef}
           className="mt-8 flex flex-wrap gap-3"
         >
-          <div className="rounded-lg border border-slate-700/60 bg-slate-900/40 px-4 py-2 text-sm text-slate-300">
+          <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-4 py-2 text-sm text-slate-300">
             <span className="font-semibold text-slate-50">
               {projects.length}
             </span>{" "}
             Projects
           </div>
 
-          <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-4 py-2 text-sm text-emerald-300">
+          <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
             <span className="font-semibold">
               {completedProjects}
             </span>{" "}
             Completed
           </div>
 
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-2 text-sm text-amber-300">
+          <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-2 text-sm text-amber-300">
             <span className="font-semibold">
               {inProgressProjects}
             </span>{" "}
@@ -213,7 +230,8 @@ function Projects() {
           </div>
         </div>
 
-        {/* Project Filters */}
+        {/* ==================== PROJECT FILTERS ==================== */}
+
         <div
           ref={filtersRef}
           className="mt-8 flex flex-wrap gap-3"
@@ -226,7 +244,7 @@ function Projects() {
               className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all duration-300 ${
                 filter === filterOption
                   ? "scale-105 border-blue-500 bg-blue-500 text-white shadow-lg shadow-blue-500/20"
-                  : "border-slate-700 bg-slate-900/40 text-slate-400 hover:-translate-y-0.5 hover:border-blue-500/40 hover:text-blue-300"
+                  : "border-slate-700 bg-slate-900/70 text-slate-400 hover:-translate-y-0.5 hover:border-blue-500/40 hover:text-blue-300"
               }`}
             >
               {filterOption}
@@ -234,7 +252,8 @@ function Projects() {
           ))}
         </div>
 
-        {/* Projects Grid */}
+        {/* ==================== PROJECTS GRID ==================== */}
+
         <div
           ref={projectsGridRef}
           className="mt-10 grid gap-8 lg:grid-cols-2"
@@ -242,10 +261,11 @@ function Projects() {
           {filteredProjects.map((project) => (
             <div
               key={project.title}
-              className="card card-hover flex h-full flex-col overflow-hidden transition-all duration-500"
+              className="card card-hover flex h-full flex-col overflow-hidden border border-slate-800/70 bg-slate-950/85 transition-all duration-500 hover:border-blue-400/30"
             >
 
-              {/* Project Image */}
+              {/* ==================== PROJECT IMAGE ==================== */}
+
               {project.image && (
                 <img
                   src={project.image}
@@ -254,10 +274,12 @@ function Projects() {
                 />
               )}
 
-              {/* Project Content */}
-              <div className="flex flex-1 flex-col p-6">
+              {/* ==================== PROJECT CONTENT ==================== */}
 
-                {/* Badges */}
+              <div className="flex flex-1 flex-col bg-slate-950/70 p-6">
+
+                {/* ==================== BADGES ==================== */}
+
                 <div className="mb-3 flex flex-wrap items-center gap-2">
 
                   {project.featured && (
@@ -288,12 +310,14 @@ function Projects() {
 
                 </div>
 
-                {/* Project Title */}
+                {/* ==================== PROJECT TITLE ==================== */}
+
                 <h3 className="text-xl font-semibold text-slate-50">
                   {project.title}
                 </h3>
 
-                {/* Project Overview */}
+                {/* ==================== PROJECT OVERVIEW ==================== */}
+
                 <div className="mt-4">
 
                   <h4 className="text-sm font-semibold text-slate-200">
@@ -306,7 +330,8 @@ function Projects() {
 
                 </div>
 
-                {/* Technologies */}
+                {/* ==================== TECHNOLOGIES ==================== */}
+
                 {project.technologies &&
                   project.technologies.length > 0 && (
                     <div className="mt-6">
@@ -331,9 +356,10 @@ function Projects() {
                     </div>
                   )}
 
-                {/* Architecture */}
+                {/* ==================== ARCHITECTURE ==================== */}
+
                 {project.stackSummary && (
-                  <div className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/40 p-4">
+                  <div className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/70 p-4">
 
                     <h4 className="text-sm font-semibold text-slate-200">
                       Architecture
@@ -434,7 +460,8 @@ function Projects() {
                   </div>
                 )}
 
-                {/* Key Features */}
+                {/* ==================== KEY FEATURES ==================== */}
+
                 {project.features &&
                   project.features.length > 0 && (
                     <div className="mt-6">
@@ -465,9 +492,10 @@ function Projects() {
                     </div>
                   )}
 
-                {/* Dental Clinic Highlight */}
+                {/* ==================== DENTAL CLINIC HIGHLIGHT ==================== */}
+
                 {project.title === "Dental Clinic Website" && (
-                  <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+                  <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/10 p-4">
 
                     <h4 className="text-sm font-semibold text-blue-300">
                       Booking & Availability
@@ -483,11 +511,12 @@ function Projects() {
                   </div>
                 )}
 
-                {/* Developer Portfolio Highlight */}
+                {/* ==================== DEVELOPER PORTFOLIO HIGHLIGHT ==================== */}
+
                 {project.title === "Developer Portfolio" &&
                   project.highlights &&
                   project.highlights.length > 0 && (
-                    <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+                    <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/10 p-4">
 
                       <h4 className="text-sm font-semibold text-blue-300">
                         Development Highlights
@@ -515,11 +544,12 @@ function Projects() {
                     </div>
                   )}
 
-                {/* Developer Portfolio Learning */}
+                {/* ==================== DEVELOPER PORTFOLIO LEARNING ==================== */}
+
                 {project.title === "Developer Portfolio" &&
                   project.learning &&
                   project.learning.length > 0 && (
-                    <div className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/40 p-4">
+                    <div className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/70 p-4">
 
                       <h4 className="text-sm font-semibold text-slate-200">
                         What I'm Learning
@@ -547,10 +577,11 @@ function Projects() {
                     </div>
                   )}
 
-                {/* SOC Highlight */}
+                {/* ==================== SOC HIGHLIGHT ==================== */}
+
                 {project.title ===
                   "SOC Home Lab for Threat Detection and Incident Response" && (
-                  <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-4">
+                  <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/10 p-4">
 
                     <h4 className="text-sm font-semibold text-blue-300">
                       Threat Detection & Investigation
@@ -566,7 +597,8 @@ function Projects() {
                   </div>
                 )}
 
-                {/* Project Buttons */}
+                {/* ==================== PROJECT BUTTONS ==================== */}
+
                 <div className="mt-auto flex flex-wrap gap-3 pt-8">
 
                   {project.github && (
@@ -606,16 +638,18 @@ function Projects() {
           ))}
         </div>
 
-        {/* Empty State */}
+        {/* ==================== EMPTY STATE ==================== */}
+
         {filteredProjects.length === 0 && (
-          <div className="mt-10 rounded-xl border border-slate-700/60 bg-slate-900/30 p-8 text-center">
+          <div className="mt-10 rounded-xl border border-slate-700/60 bg-slate-900/70 p-8 text-center">
             <p className="text-slate-400">
               No projects found for this filter.
             </p>
           </div>
         )}
 
-        {/* Why These Projects Matter */}
+        {/* ==================== WHY THESE PROJECTS MATTER ==================== */}
+
         <div
           ref={bottomSectionRef}
           className="mt-16 border-t border-slate-800 pt-12"
@@ -638,13 +672,14 @@ function Projects() {
 
           </div>
 
-          {/* Project Strengths */}
+          {/* ==================== PROJECT STRENGTHS ==================== */}
+
           <div
             ref={strengthCardsRef}
             className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
               <h4 className="font-semibold text-slate-100">
                 Full-Stack Development
               </h4>
@@ -655,7 +690,7 @@ function Projects() {
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
               <h4 className="font-semibold text-slate-100">
                 API Integration
               </h4>
@@ -666,7 +701,7 @@ function Projects() {
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
               <h4 className="font-semibold text-slate-100">
                 Problem Solving
               </h4>
@@ -677,7 +712,7 @@ function Projects() {
               </p>
             </div>
 
-            <div className="rounded-xl border border-slate-700/60 bg-slate-900/30 p-5">
+            <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 p-5">
               <h4 className="font-semibold text-slate-100">
                 Continuous Learning
               </h4>

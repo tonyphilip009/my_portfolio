@@ -16,7 +16,6 @@ import Contact from "./sections/Contact";
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
-  const homeRef = useRef(null);
   const heroContentRef = useRef(null);
 
   const aboutRef = useRef(null);
@@ -25,10 +24,11 @@ function App() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-
-      // ==========================================
-      // HERO ANIMATION
-      // ==========================================
+      /*
+      ==========================================
+      HERO ANIMATION
+      ==========================================
+      */
 
       const heroTimeline = gsap.timeline();
 
@@ -39,9 +39,11 @@ function App() {
         ease: "power3.out",
       });
 
-      // ==========================================
-      // ABOUT CONTENT ANIMATION
-      // ==========================================
+      /*
+      ==========================================
+      ABOUT CONTENT ANIMATION
+      ==========================================
+      */
 
       gsap.fromTo(
         aboutContentRef.current,
@@ -62,9 +64,11 @@ function App() {
         }
       );
 
-      // ==========================================
-      // ABOUT CARDS ANIMATION
-      // ==========================================
+      /*
+      ==========================================
+      ABOUT CARDS ANIMATION
+      ==========================================
+      */
 
       const cards = aboutCardsRef.current.children;
 
@@ -88,12 +92,13 @@ function App() {
         }
       );
 
-      // ==========================================
-      // REFRESH SCROLLTRIGGER
-      // ==========================================
+      /*
+      ==========================================
+      REFRESH SCROLLTRIGGER
+      ==========================================
+      */
 
       ScrollTrigger.refresh();
-
     });
 
     return () => {
@@ -103,7 +108,6 @@ function App() {
 
   return (
     <div className="relative min-h-screen bg-slate-950 text-slate-100">
-
       {/* ==========================================
           NAVBAR
       ========================================== */}
@@ -111,7 +115,7 @@ function App() {
       <Navbar />
 
       {/* ==========================================
-          PERSISTENT 3D BACKGROUND
+          PERSISTENT 3D PARTICLE BACKGROUND
       ========================================== */}
 
       <div className="pointer-events-none fixed inset-0 z-0">
@@ -119,24 +123,20 @@ function App() {
       </div>
 
       {/* ==========================================
-          CONTENT
+          MAIN CONTENT
       ========================================== */}
 
       <main className="relative z-10">
-
         {/* ==========================================
             HOME
         ========================================== */}
 
         <section
-          ref={homeRef}
           id="home"
           className="relative min-h-screen overflow-hidden"
         >
           <div className="container-custom flex min-h-screen items-center">
-
             <div className="grid w-full items-center gap-12 py-24 lg:grid-cols-2">
-
               {/* HERO TEXT */}
 
               <div
@@ -155,13 +155,13 @@ function App() {
                 </h1>
 
                 <p className="mt-6 max-w-xl text-lg leading-8 text-slate-400">
-                  Computer Science and Engineering student passionate
-                  about building modern web applications, solving
-                  problems and exploring cybersecurity.
+                  Computer Science and Engineering student
+                  passionate about building modern web
+                  applications, solving problems and exploring
+                  cybersecurity.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-4">
-
                   <a
                     href="#projects"
                     className="rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-all duration-300 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-500/20"
@@ -175,10 +175,8 @@ function App() {
                   >
                     Contact Me
                   </a>
-
                 </div>
               </div>
-
             </div>
           </div>
         </section>
@@ -193,7 +191,6 @@ function App() {
           className="section-padding"
         >
           <div className="container-custom">
-
             <div
               ref={aboutContentRef}
               className="max-w-3xl"
@@ -217,6 +214,7 @@ function App() {
               ref={aboutCardsRef}
               className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
+              {/* Full Stack */}
 
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
@@ -224,10 +222,12 @@ function App() {
                 </h3>
 
                 <p className="mt-3 text-sm leading-6 text-slate-400">
-                  Building complete web applications using modern
-                  frontend and backend technologies.
+                  Building complete web applications using
+                  modern frontend and backend technologies.
                 </p>
               </div>
+
+              {/* Backend */}
 
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
@@ -240,6 +240,8 @@ function App() {
                 </p>
               </div>
 
+              {/* Problem Solving */}
+
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Problem Solving
@@ -250,6 +252,8 @@ function App() {
                   improve logical thinking and programming skills.
                 </p>
               </div>
+
+              {/* React */}
 
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
@@ -262,6 +266,8 @@ function App() {
                 </p>
               </div>
 
+              {/* Cybersecurity */}
+
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Cybersecurity
@@ -273,6 +279,8 @@ function App() {
                 </p>
               </div>
 
+              {/* Continuous Learning */}
+
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Continuous Learning
@@ -283,7 +291,6 @@ function App() {
                   improving development skills through projects.
                 </p>
               </div>
-
             </div>
           </div>
         </section>
@@ -303,7 +310,6 @@ function App() {
         <Resume />
 
         <Contact />
-
       </main>
 
       {/* ==========================================
@@ -311,7 +317,6 @@ function App() {
       ========================================== */}
 
       <Footer />
-
     </div>
   );
 }

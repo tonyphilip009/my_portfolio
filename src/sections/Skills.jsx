@@ -118,7 +118,6 @@ function Skills() {
           </p>
         </div>
 
-
         {/* ==================== SKILL CARDS ==================== */}
 
         <div
@@ -126,9 +125,7 @@ function Skills() {
           className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
           style={{ perspective: "1200px" }}
         >
-
           {skillCategories.map((category) => (
-
             <motion.div
               key={category.title}
 
@@ -149,7 +146,7 @@ function Skills() {
                 transformStyle: "preserve-3d",
               }}
 
-              className="card card-hover group relative overflow-hidden p-6 transition-all duration-300 hover:border-blue-400/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]"
+              className="card card-hover group relative overflow-hidden border border-slate-800/60 bg-slate-950/80 p-6 transition-all duration-300 hover:border-blue-400/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]"
             >
 
               {/* ==================== 3D GLOW ==================== */}
@@ -160,7 +157,6 @@ function Skills() {
                   transform: "translateZ(20px)",
                 }}
               />
-
 
               {/* ==================== CATEGORY TITLE ==================== */}
 
@@ -173,7 +169,6 @@ function Skills() {
                 {category.title}
               </h3>
 
-
               {/* ==================== SKILLS ==================== */}
 
               <div
@@ -182,9 +177,7 @@ function Skills() {
                   transform: "translateZ(35px)",
                 }}
               >
-
                 {category.skills.map((skill) => (
-
                   <motion.span
                     key={skill}
 
@@ -204,15 +197,11 @@ function Skills() {
                   >
                     {skill}
                   </motion.span>
-
                 ))}
-
               </div>
 
             </motion.div>
-
           ))}
-
         </div>
 
       </div>

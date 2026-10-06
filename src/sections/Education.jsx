@@ -38,7 +38,8 @@ function Education() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Heading animation
+      // ==================== HEADING ANIMATION ====================
+
       gsap.fromTo(
         headingRef.current,
         {
@@ -50,6 +51,7 @@ function Education() {
           opacity: 1,
           duration: 1.5,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: educationRef.current,
             start: "top 70%",
@@ -58,7 +60,8 @@ function Education() {
         }
       );
 
-      // Education cards animation
+      // ==================== EDUCATION CARDS ANIMATION ====================
+
       gsap.fromTo(
         cardsRef.current.children,
         {
@@ -71,6 +74,7 @@ function Education() {
           duration: 1.2,
           stagger: 0.2,
           ease: "power3.out",
+
           scrollTrigger: {
             trigger: cardsRef.current,
             start: "top 90%",
@@ -93,44 +97,81 @@ function Education() {
     >
       <div className="container-custom">
 
-        {/* Heading */}
-        <div ref={headingRef} className="max-w-3xl">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-400 mb-3">
+        {/* ==================== HEADING ==================== */}
+
+        <div
+          ref={headingRef}
+          className="max-w-3xl"
+        >
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-cyan-400">
             Education
           </p>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="mb-4 text-3xl font-bold text-white md:text-4xl">
             My Academic Journey
           </h2>
 
-          <p className="text-slate-400 leading-relaxed">
+          <p className="leading-relaxed text-slate-400">
             My academic journey has given me a strong foundation in computer
             science, programming, and problem-solving.
           </p>
         </div>
 
-        {/* Timeline */}
+        {/* ==================== TIMELINE ==================== */}
+
         <div className="relative mt-12">
 
-          {/* Vertical line */}
-          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-slate-700 md:-translate-x-1/2" />
+          {/* ==================== VERTICAL LINE ==================== */}
 
-          <div ref={cardsRef} className="space-y-10">
+          <div
+            className="
+              absolute
+              left-4
+              top-0
+              bottom-0
+              w-[2px]
+              bg-slate-600/80
+              md:left-1/2
+              md:-translate-x-1/2
+            "
+          />
+
+          <div
+            ref={cardsRef}
+            className="space-y-10"
+          >
 
             {education.map((item, index) => (
               <div
                 key={index}
-                className={`relative flex flex-col md:flex-row ${
+                className={`relative flex flex-col items-center md:flex-row ${
                   index % 2 === 0
                     ? "md:flex-row"
                     : "md:flex-row-reverse"
-                } items-center`}
+                }`}
               >
 
-                {/* Timeline dot */}
-                <div className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-cyan-400 border-4 border-slate-950 md:-translate-x-1/2 z-10" />
+                {/* ==================== TIMELINE DOT ==================== */}
 
-                {/* Education Card */}
+                <div
+                  className="
+                    absolute
+                    left-4
+                    z-10
+                    h-4
+                    w-4
+                    -translate-x-1/2
+                    rounded-full
+                    border-2
+                    border-cyan-400
+                    bg-slate-950
+                    shadow-[0_0_14px_rgba(34,211,238,0.75)]
+                    md:left-1/2
+                  "
+                />
+
+                {/* ==================== EDUCATION CARD ==================== */}
+
                 <div
                   className={`w-full md:w-[45%] ml-10 md:ml-0 ${
                     index % 2 === 0
@@ -138,11 +179,12 @@ function Education() {
                       : "md:ml-auto md:pl-8"
                   }`}
                 >
-                  <div className="p-6 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-cyan-400/50 transition-all duration-300">
+                  <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 transition-all duration-300 hover:border-cyan-400/50">
 
-                    {/* Date and Location */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                      <span className="text-sm text-cyan-400 font-medium">
+                    {/* ==================== DATE AND LOCATION ==================== */}
+
+                    <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <span className="text-sm font-medium text-cyan-400">
                         {item.duration}
                       </span>
 
@@ -151,23 +193,27 @@ function Education() {
                       </span>
                     </div>
 
-                    {/* Degree */}
-                    <h3 className="text-xl font-semibold text-white mb-1">
+                    {/* ==================== DEGREE ==================== */}
+
+                    <h3 className="mb-1 text-xl font-semibold text-white">
                       {item.degree}
                     </h3>
 
-                    {/* Field */}
-                    <p className="text-cyan-400 text-sm mb-3">
+                    {/* ==================== FIELD ==================== */}
+
+                    <p className="mb-3 text-sm text-cyan-400">
                       {item.field}
                     </p>
 
-                    {/* Institution */}
-                    <p className="text-slate-300 font-medium mb-2">
+                    {/* ==================== INSTITUTION ==================== */}
+
+                    <p className="mb-2 font-medium text-slate-300">
                       {item.institution}
                     </p>
 
-                    {/* Result */}
-                    <div className="inline-flex px-3 py-1 rounded-full bg-slate-800 text-sm text-slate-300">
+                    {/* ==================== RESULT ==================== */}
+
+                    <div className="inline-flex rounded-full bg-slate-800 px-3 py-1 text-sm text-slate-300">
                       {item.result}
                     </div>
 
