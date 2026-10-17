@@ -88,7 +88,7 @@ const projects = [
 
     image: "/images/projects/portfolio.png",
 
-    github: "https://github.com/tonyphilip009/my_portfolio.git",
+    github: "https://github.com/tonyphilip009/my_portfolio",
 
     live: "",
   },
@@ -135,7 +135,8 @@ const projects = [
 
     image: "/images/projects/soc-home-lab.png",
 
-    github: "https://github.com/tonyphilip009/soc-lab-microsoft-sentinel-project.git",
+    github:
+      "https://github.com/tonyphilip009/soc-lab-microsoft-sentinel-project",
 
     live: "",
   },
