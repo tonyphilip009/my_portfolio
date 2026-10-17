@@ -1,3 +1,4 @@
+
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,15 +8,13 @@ gsap.registerPlugin(ScrollTrigger);
 function Resume() {
   const resumeRef = useRef(null);
 
-  // ==================== HEADING REFS ====================
-
+  // HEADING REFS
   const headingRef = useRef(null);
   const headingLabelRef = useRef(null);
   const headingTitleRef = useRef(null);
   const headingSubtitleRef = useRef(null);
 
-  // ==================== CARD REFS ====================
-
+  // CARD REFS
   const cardRef = useRef(null);
   const iconRef = useRef(null);
   const nameRef = useRef(null);
@@ -40,12 +39,7 @@ function Resume() {
         buttonsRef.current?.children || []
       );
 
-      /*
-      ==================================================
-      REDUCED MOTION
-      ==================================================
-      */
-
+      // REDUCED MOTION
       if (prefersReducedMotion) {
         gsap.set(
           [
@@ -76,24 +70,15 @@ function Resume() {
         return;
       }
 
-      /*
-      ==================================================
-      SECTION LABEL
-      ==================================================
-      */
-
+      // SECTION LABEL
       gsap.fromTo(
         headingLabelRef.current,
-        {
-          y: 25,
-          opacity: 0,
-        },
+        { y: 25, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.7,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
@@ -102,19 +87,10 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      SECTION TITLE
-      ==================================================
-      */
-
+      // SECTION TITLE
       gsap.fromTo(
         headingTitleRef.current,
-        {
-          y: 50,
-          opacity: 0,
-          scale: 0.97,
-        },
+        { y: 50, opacity: 0, scale: 0.97 },
         {
           y: 0,
           opacity: 1,
@@ -122,7 +98,6 @@ function Resume() {
           duration: 0.9,
           delay: 0.08,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
@@ -131,16 +106,10 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      HEADING PARALLAX
-      ==================================================
-      */
-
+      // HEADING PARALLAX
       gsap.to(headingTitleRef.current, {
         y: -10,
         ease: "none",
-
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top bottom",
@@ -149,25 +118,16 @@ function Resume() {
         },
       });
 
-      /*
-      ==================================================
-      SECTION SUBTITLE
-      ==================================================
-      */
-
+      // SECTION SUBTITLE
       gsap.fromTo(
         headingSubtitleRef.current,
-        {
-          y: 25,
-          opacity: 0,
-        },
+        { y: 25, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.8,
           delay: 0.18,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: headingRef.current,
             start: "top 85%",
@@ -176,20 +136,10 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      RESUME CARD
-      ==================================================
-      */
-
+      // RESUME CARD
       gsap.fromTo(
         cardRef.current,
-        {
-          y: 75,
-          opacity: 0,
-          rotateX: 7,
-          scale: 0.96,
-        },
+        { y: 75, opacity: 0, rotateX: 7, scale: 0.96 },
         {
           y: 0,
           opacity: 1,
@@ -198,7 +148,6 @@ function Resume() {
           duration: 1,
           delay: 0.15,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 85%",
@@ -207,19 +156,10 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      ICON REVEAL
-      ==================================================
-      */
-
+      // ICON REVEAL
       gsap.fromTo(
         iconRef.current,
-        {
-          scale: 0,
-          opacity: 0,
-          rotation: -20,
-        },
+        { scale: 0, opacity: 0, rotation: -20 },
         {
           scale: 1,
           opacity: 1,
@@ -227,7 +167,6 @@ function Resume() {
           duration: 0.7,
           delay: 0.3,
           ease: "back.out(1.7)",
-
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 80%",
@@ -236,25 +175,16 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      NAME REVEAL
-      ==================================================
-      */
-
+      // NAME REVEAL
       gsap.fromTo(
         nameRef.current,
-        {
-          x: 25,
-          opacity: 0,
-        },
+        { x: 25, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           duration: 0.6,
           delay: 0.35,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 80%",
@@ -263,25 +193,16 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      ROLE REVEAL
-      ==================================================
-      */
-
+      // ROLE REVEAL
       gsap.fromTo(
         roleRef.current,
-        {
-          x: 25,
-          opacity: 0,
-        },
+        { x: 25, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           duration: 0.55,
           delay: 0.42,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 80%",
@@ -290,25 +211,16 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      DESCRIPTION REVEAL
-      ==================================================
-      */
-
+      // DESCRIPTION REVEAL
       gsap.fromTo(
         descriptionRef.current,
-        {
-          y: 20,
-          opacity: 0,
-        },
+        { y: 20, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.7,
           delay: 0.45,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: cardRef.current,
             start: "top 78%",
@@ -317,19 +229,10 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      RESUME HIGHLIGHTS STAGGER
-      ==================================================
-      */
-
+      // RESUME HIGHLIGHTS STAGGER
       gsap.fromTo(
         highlightItems,
-        {
-          y: 20,
-          opacity: 0,
-          scale: 0.9,
-        },
+        { y: 20, opacity: 0, scale: 0.9 },
         {
           y: 0,
           opacity: 1,
@@ -337,7 +240,6 @@ function Resume() {
           duration: 0.5,
           stagger: 0.08,
           ease: "back.out(1.5)",
-
           scrollTrigger: {
             trigger: highlightsRef.current,
             start: "top 88%",
@@ -346,12 +248,7 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      HIGHLIGHT HOVER
-      ==================================================
-      */
-
+      // HIGHLIGHT HOVER
       highlightItems.forEach((item) => {
         const handleEnter = () => {
           gsap.to(item, {
@@ -384,19 +281,10 @@ function Resume() {
         item._handleLeave = handleLeave;
       });
 
-      /*
-      ==================================================
-      BUTTON REVEAL
-      ==================================================
-      */
-
+      // BUTTON REVEAL
       gsap.fromTo(
         buttons,
-        {
-          y: 25,
-          opacity: 0,
-          scale: 0.92,
-        },
+        { y: 25, opacity: 0, scale: 0.92 },
         {
           y: 0,
           opacity: 1,
@@ -404,7 +292,6 @@ function Resume() {
           duration: 0.6,
           stagger: 0.12,
           ease: "back.out(1.5)",
-
           scrollTrigger: {
             trigger: buttonsRef.current,
             start: "top 90%",
@@ -413,12 +300,7 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      BUTTON HOVER
-      ==================================================
-      */
-
+      // BUTTON HOVER
       buttons.forEach((button) => {
         const handleEnter = () => {
           gsap.to(button, {
@@ -447,15 +329,9 @@ function Resume() {
         button._handleLeave = handleLeave;
       });
 
-      /*
-      ==================================================
-      CARD 3D TILT
-      ==================================================
-      */
-
+      // CARD 3D TILT
       const handleCardMouseMove = (event) => {
-        const rect =
-          cardRef.current.getBoundingClientRect();
+        const rect = cardRef.current.getBoundingClientRect();
 
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -463,11 +339,8 @@ function Resume() {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        const rotateY =
-          ((x - centerX) / centerX) * 2.5;
-
-        const rotateX =
-          ((centerY - y) / centerY) * 2.5;
+        const rotateY = ((x - centerX) / centerX) * 2.5;
+        const rotateX = ((centerY - y) / centerY) * 2.5;
 
         gsap.to(cardRef.current, {
           rotateX,
@@ -502,12 +375,7 @@ function Resume() {
         handleCardMouseLeave
       );
 
-      /*
-      ==================================================
-      CARD BORDER + INTERNAL GLOW
-      ==================================================
-      */
-
+      // CARD BORDER + INTERNAL GLOW
       const handleCardEnter = () => {
         gsap.to(cardRef.current, {
           borderColor: "rgba(59,130,246,0.55)",
@@ -552,12 +420,7 @@ function Resume() {
         handleCardLeave
       );
 
-      /*
-      ==================================================
-      ICON FLOAT
-      ==================================================
-      */
-
+      // ICON FLOAT
       gsap.to(iconRef.current, {
         y: -4,
         duration: 1.8,
@@ -566,25 +429,15 @@ function Resume() {
         ease: "sine.inOut",
       });
 
-      /*
-      ==================================================
-      BOTTOM ACCENT
-      ==================================================
-      */
-
+      // BOTTOM ACCENT
       gsap.fromTo(
         accentRef.current,
-        {
-          scaleX: 0,
-          opacity: 0,
-          transformOrigin: "center",
-        },
+        { scaleX: 0, opacity: 0, transformOrigin: "center" },
         {
           scaleX: 1,
           opacity: 1,
           duration: 1,
           ease: "power3.out",
-
           scrollTrigger: {
             trigger: accentRef.current,
             start: "top 95%",
@@ -593,16 +446,10 @@ function Resume() {
         }
       );
 
-      /*
-      ==================================================
-      CARD PARALLAX
-      ==================================================
-      */
-
+      // CARD PARALLAX
       gsap.to(cardRef.current, {
         y: -8,
         ease: "none",
-
         scrollTrigger: {
           trigger: cardRef.current,
           start: "top bottom",
@@ -611,12 +458,7 @@ function Resume() {
         },
       });
 
-      /*
-      ==================================================
-      FORCE GPU ACCELERATION
-      ==================================================
-      */
-
+      // FORCE GPU ACCELERATION
       gsap.set(
         [
           headingLabelRef.current,
@@ -632,25 +474,13 @@ function Resume() {
           accentRef.current,
           cardGlowRef.current,
         ],
-        {
-          force3D: true,
-        }
+        { force3D: true }
       );
 
-      /*
-      ==================================================
-      REFRESH
-      ==================================================
-      */
-
+      // REFRESH
       ScrollTrigger.refresh();
 
-      /*
-      ==================================================
-      CLEANUP
-      ==================================================
-      */
-
+      // CLEANUP
       return () => {
         cardRef.current.removeEventListener(
           "mousemove",
@@ -708,9 +538,7 @@ function Resume() {
       className="section-padding px-5 sm:px-6"
     >
       <div className="container-custom">
-
-        {/* ==================== SECTION HEADER ==================== */}
-
+        {/* SECTION HEADER */}
         <div
           ref={headingRef}
           className="max-w-3xl"
@@ -730,10 +558,7 @@ function Resume() {
 
           <h2
             ref={headingTitleRef}
-            className="
-              section-title
-              mt-3
-            "
+            className="section-title mt-3"
           >
             My professional profile.
           </h2>
@@ -747,18 +572,10 @@ function Resume() {
           </p>
         </div>
 
-
-        {/* ==================== RESUME CARD ==================== */}
-
+        {/* RESUME CARD */}
         <div
           ref={cardRef}
-          className="
-            mt-10
-            w-full
-            max-w-4xl
-            rounded-2xl
-            sm:mt-12
-          "
+          className="mt-10 w-full max-w-4xl rounded-2xl sm:mt-12"
           style={{
             perspective: "1200px",
             transformStyle: "preserve-3d",
@@ -782,9 +599,7 @@ function Resume() {
               duration-300
             "
           >
-
-            {/* ==================== INTERNAL CARD GLOW ==================== */}
-
+            {/* INTERNAL CARD GLOW */}
             <div
               ref={cardGlowRef}
               className="
@@ -801,9 +616,7 @@ function Resume() {
               "
             />
 
-
-            {/* ==================== CONTENT ==================== */}
-
+            {/* CONTENT */}
             <div
               className="
                 relative
@@ -818,15 +631,10 @@ function Resume() {
                 md:p-8
               "
             >
-
-              {/* ==================== RESUME INFORMATION ==================== */}
-
+              {/* RESUME INFORMATION */}
               <div>
-
                 {/* PROFILE HEADER */}
-
                 <div className="flex items-center gap-3 sm:gap-4">
-
                   <div
                     ref={iconRef}
                     className="
@@ -845,9 +653,7 @@ function Resume() {
                       text-2xl
                       shadow-[0_0_20px_rgba(59,130,246,0.08)]
                     "
-                    style={{
-                      willChange: "transform",
-                    }}
+                    style={{ willChange: "transform" }}
                   >
                     📄
                   </div>
@@ -868,20 +674,14 @@ function Resume() {
 
                     <p
                       ref={roleRef}
-                      className="
-                        mt-1
-                        text-slate-400
-                      "
+                      className="mt-1 text-slate-400"
                     >
                       Full Stack Developer
                     </p>
                   </div>
-
                 </div>
 
-
                 {/* DESCRIPTION */}
-
                 <p
                   ref={descriptionRef}
                   className="
@@ -895,133 +695,47 @@ function Resume() {
                 >
                   Computer Science and Engineering student
                   focused on full-stack development, Django,
-                  React, REST APIs, databases and
-                  cybersecurity.
+                  React, REST APIs and databases.
                 </p>
 
-
-                {/* ==================== RESUME HIGHLIGHTS ==================== */}
-
+                {/* RESUME HIGHLIGHTS */}
                 <div
                   ref={highlightsRef}
-                  className="
-                    mt-6
-                    flex
-                    flex-wrap
-                    gap-3
-                  "
+                  className="mt-6 flex flex-wrap gap-3"
                 >
-                  <span
-                    className="
-                      rounded-full
-                      border
-                      border-slate-700
-                      bg-slate-800/50
-                      px-3
-                      py-1.5
-                      text-[11px]
-                      sm:px-4
-                      sm:py-2
-                      sm:text-xs
-                      font-medium
-                      text-slate-300
-                      transition-colors
-                      duration-200
-                    "
-                  >
-                    Python
-                  </span>
-
-                  <span
-                    className="
-                      rounded-full
-                      border
-                      border-slate-700
-                      bg-slate-800/50
-                      px-3
-                      py-1.5
-                      text-[11px]
-                      sm:px-4
-                      sm:py-2
-                      sm:text-xs
-                      font-medium
-                      text-slate-300
-                      transition-colors
-                      duration-200
-                    "
-                  >
-                    Django
-                  </span>
-
-                  <span
-                    className="
-                      rounded-full
-                      border
-                      border-slate-700
-                      bg-slate-800/50
-                      px-3
-                      py-1.5
-                      text-[11px]
-                      sm:px-4
-                      sm:py-2
-                      sm:text-xs
-                      font-medium
-                      text-slate-300
-                      transition-colors
-                      duration-200
-                    "
-                  >
-                    React
-                  </span>
-
-                  <span
-                    className="
-                      rounded-full
-                      border
-                      border-slate-700
-                      bg-slate-800/50
-                      px-3
-                      py-1.5
-                      text-[11px]
-                      sm:px-4
-                      sm:py-2
-                      sm:text-xs
-                      font-medium
-                      text-slate-300
-                      transition-colors
-                      duration-200
-                    "
-                  >
-                    REST APIs
-                  </span>
-
-                  <span
-                    className="
-                      rounded-full
-                      border
-                      border-slate-700
-                      bg-slate-800/50
-                      px-3
-                      py-1.5
-                      text-[11px]
-                      sm:px-4
-                      sm:py-2
-                      sm:text-xs
-                      font-medium
-                      text-slate-300
-                      transition-colors
-                      duration-200
-                    "
-                  >
-                    Cybersecurity
-                  </span>
+                  {[
+                    "Python",
+                    "Django",
+                    "React",
+                    "REST APIs",
+                    "MySQL",
+                  ].map((highlight) => (
+                    <span
+                      key={highlight}
+                      className="
+                        rounded-full
+                        border
+                        border-slate-700
+                        bg-slate-800/50
+                        px-3
+                        py-1.5
+                        text-[11px]
+                        sm:px-4
+                        sm:py-2
+                        sm:text-xs
+                        font-medium
+                        text-slate-300
+                        transition-colors
+                        duration-200
+                      "
+                    >
+                      {highlight}
+                    </span>
+                  ))}
                 </div>
-
               </div>
 
-
-              {/* ==================== BUTTONS ==================== */}
-
+              {/* BUTTONS */}
               <div
                 ref={buttonsRef}
                 className="
@@ -1034,7 +748,6 @@ function Resume() {
                   md:flex-col
                 "
               >
-
                 <a
                   href="/resume.pdf"
                   target="_blank"
@@ -1062,10 +775,7 @@ function Resume() {
                   "
                 >
                   View Resume
-
-                  <span className="ml-2">
-                    ↗
-                  </span>
+                  <span className="ml-2">↗</span>
                 </a>
 
                 <a
@@ -1094,19 +804,12 @@ function Resume() {
                   "
                 >
                   Download PDF
-
-                  <span className="ml-2">
-                    ↓
-                  </span>
+                  <span className="ml-2">↓</span>
                 </a>
-
               </div>
-
             </div>
 
-
-            {/* ==================== BOTTOM ACCENT ==================== */}
-
+            {/* BOTTOM ACCENT */}
             <div
               ref={accentRef}
               className="
@@ -1120,10 +823,8 @@ function Resume() {
                 to-transparent
               "
             />
-
           </div>
         </div>
-
       </div>
     </section>
   );

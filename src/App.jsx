@@ -1,3 +1,4 @@
+
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -25,11 +26,8 @@ function App() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       /*
-      ==========================================
-      HERO ANIMATION
-      ==========================================
-      */
-
+       * HERO ANIMATION
+       */
       const heroTimeline = gsap.timeline();
 
       heroTimeline.from(heroContentRef.current, {
@@ -40,11 +38,8 @@ function App() {
       });
 
       /*
-      ==========================================
-      ABOUT CONTENT ANIMATION
-      ==========================================
-      */
-
+       * ABOUT CONTENT ANIMATION
+       */
       gsap.fromTo(
         aboutContentRef.current,
         {
@@ -65,11 +60,8 @@ function App() {
       );
 
       /*
-      ==========================================
-      ABOUT CARDS ANIMATION
-      ==========================================
-      */
-
+       * ABOUT CARDS ANIMATION
+       */
       const cards = aboutCardsRef.current.children;
 
       gsap.fromTo(
@@ -93,11 +85,8 @@ function App() {
       );
 
       /*
-      ==========================================
-      REFRESH SCROLLTRIGGER
-      ==========================================
-      */
-
+       * REFRESH SCROLLTRIGGER
+       */
       ScrollTrigger.refresh();
     });
 
@@ -108,29 +97,17 @@ function App() {
 
   return (
     <div className="relative min-h-screen bg-slate-950 text-slate-100">
-      {/* ==========================================
-          NAVBAR
-      ========================================== */}
-
+      {/* NAVBAR */}
       <Navbar />
 
-      {/* ==========================================
-          PERSISTENT 3D PARTICLE BACKGROUND
-      ========================================== */}
-
+      {/* PERSISTENT 3D PARTICLE BACKGROUND */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <Hero3D />
       </div>
 
-      {/* ==========================================
-          MAIN CONTENT
-      ========================================== */}
-
+      {/* MAIN CONTENT */}
       <main className="relative z-10">
-        {/* ==========================================
-            HOME
-        ========================================== */}
-
+        {/* HOME SECTION */}
         <section
           id="home"
           className="relative min-h-screen overflow-hidden"
@@ -138,7 +115,6 @@ function App() {
           <div className="container-custom flex min-h-screen items-center">
             <div className="grid w-full items-center gap-12 py-24 lg:grid-cols-2">
               {/* HERO TEXT */}
-
               <div
                 ref={heroContentRef}
                 className="relative z-10"
@@ -157,8 +133,8 @@ function App() {
                 <p className="mt-6 max-w-xl text-lg leading-8 text-slate-400">
                   Computer Science and Engineering student
                   passionate about building modern web
-                  applications, solving problems and exploring
-                  cybersecurity.
+                  applications, developing backend solutions,
+                  and creating user friendly digital experiences.
                 </p>
 
                 <div className="mt-8 flex flex-wrap gap-4">
@@ -181,10 +157,7 @@ function App() {
           </div>
         </section>
 
-        {/* ==========================================
-            ABOUT
-        ========================================== */}
-
+        {/* ABOUT SECTION */}
         <section
           ref={aboutRef}
           id="about"
@@ -205,8 +178,9 @@ function App() {
 
               <p className="section-subtitle">
                 I am a Computer Science and Engineering student
-                interested in full-stack development, backend
-                technologies, APIs and cybersecurity.
+                focused on full-stack development, backend
+                technologies, REST APIs, and building practical
+                software solutions using Python, Django and React.
               </p>
             </div>
 
@@ -214,8 +188,7 @@ function App() {
               ref={aboutCardsRef}
               className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
             >
-              {/* Full Stack */}
-
+              {/* FULL STACK DEVELOPMENT */}
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Full Stack Development
@@ -227,8 +200,7 @@ function App() {
                 </p>
               </div>
 
-              {/* Backend */}
-
+              {/* BACKEND DEVELOPMENT */}
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Backend Development
@@ -236,25 +208,24 @@ function App() {
 
                 <p className="mt-3 text-sm leading-6 text-slate-400">
                   Working with Django, Django REST Framework,
-                  FastAPI and databases to create scalable APIs.
+                  FastAPI and databases to create reliable APIs.
                 </p>
               </div>
 
-              {/* Problem Solving */}
-
+              {/* PROBLEM SOLVING */}
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Problem Solving
                 </h3>
 
                 <p className="mt-3 text-sm leading-6 text-slate-400">
-                  Practicing Python, DSA and coding problems to
-                  improve logical thinking and programming skills.
+                  Practicing Python, data structures and
+                  algorithms, and coding problems to improve
+                  logical thinking and programming skills.
                 </p>
               </div>
 
-              {/* React */}
-
+              {/* REACT DEVELOPMENT */}
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   React Development
@@ -266,45 +237,42 @@ function App() {
                 </p>
               </div>
 
-              {/* Cybersecurity */}
-
+              {/* DATABASE DEVELOPMENT */}
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
-                  Cybersecurity
+                  Database Development
                 </h3>
 
                 <p className="mt-3 text-sm leading-6 text-slate-400">
-                  Exploring SIEM, threat detection, log analysis
-                  and security monitoring.
+                  Working with MySQL and PostgreSQL to manage
+                  application data and support backend systems.
                 </p>
               </div>
 
-              {/* Continuous Learning */}
-
+              {/* CONTINUOUS LEARNING */}
               <div className="rounded-2xl border border-slate-700/60 bg-slate-900/40 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/40">
                 <h3 className="text-xl font-semibold text-slate-50">
                   Continuous Learning
                 </h3>
 
                 <p className="mt-3 text-sm leading-6 text-slate-400">
-                  Continuously learning new technologies and
-                  improving development skills through projects.
+                  Learning new development technologies and
+                  improving programming skills through projects
+                  and practical implementation.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ==========================================
-            OTHER SECTIONS
-        ========================================== */}
-
+        {/* OTHER SECTIONS */}
         <Skills />
 
         <Education />
 
         <Projects />
 
+        {/* Keep SOC experience in this section */}
         <Experience />
 
         <Resume />
@@ -312,10 +280,7 @@ function App() {
         <Contact />
       </main>
 
-      {/* ==========================================
-          FOOTER
-      ========================================== */}
-
+      {/* FOOTER */}
       <Footer />
     </div>
   );

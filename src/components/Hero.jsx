@@ -1,3 +1,4 @@
+
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import Hero3D from "./Hero3D";
@@ -32,7 +33,6 @@ function Hero() {
           ref={heroContentRef}
           className="space-y-6"
         >
-
           <p className="text-cyan-400 text-sm md:text-base tracking-widest uppercase">
             Hello, I'm
           </p>
@@ -46,12 +46,12 @@ function Hero() {
           </h2>
 
           <p className="text-gray-400 max-w-xl text-lg leading-relaxed">
-            I build modern, responsive web applications using
-            React, Django and other modern technologies.
+            Computer Science and Engineering student passionate about
+            building modern web applications, developing backend
+            solutions, and creating user-friendly digital experiences.
           </p>
 
           <div className="flex flex-wrap gap-4 pt-4">
-
             <a
               href="#projects"
               className="px-6 py-3 rounded-lg bg-cyan-400 text-black font-semibold hover:bg-cyan-300 transition"
@@ -65,9 +65,7 @@ function Hero() {
             >
               Contact Me
             </a>
-
           </div>
-
         </div>
 
         {/* RIGHT SIDE — 3D */}

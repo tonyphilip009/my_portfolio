@@ -1,3 +1,4 @@
+
 import {
   useLayoutEffect,
   useRef,
@@ -1808,30 +1809,6 @@ function Projects() {
 
                     </div>
                   )}
-
-                {/* ==================================================
-                    SOC HIGHLIGHT
-                ================================================== */}
-
-                {project.title ===
-                  "SOC Home Lab for Threat Detection and Incident Response" && (
-                  <div className="project-highlight mt-6 rounded-xl border border-blue-500/20 bg-blue-500/10 p-4">
-
-                    <h4 className="text-sm font-semibold text-blue-300">
-                      Threat Detection & Investigation
-                    </h4>
-
-                    <p className="mt-2 text-sm leading-relaxed text-slate-400">
-                      The lab simulates real-world
-                      attacks and uses Microsoft
-                      Sentinel analytics rules to
-                      detect suspicious activity,
-                      investigate incidents, and
-                      analyze security logs.
-                    </p>
-
-                  </div>
-                )}
 
                 {/* ==================================================
                     PROJECT BUTTONS
