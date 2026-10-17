@@ -4,7 +4,7 @@ const projects = [
 
     featured: true,
 
-    status: "Completed",
+    status: "In Progress",
 
     description:
       "A full-stack dental clinic management and appointment booking website built with Django and React. The system allows patients to explore services, view dentists, check available time slots, and book appointments.",
