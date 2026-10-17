@@ -1,3 +1,4 @@
+
 import { useLayoutEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -29,130 +30,131 @@ function Skills() {
     },
     {
       title: "Tools",
-      skills: ["Git", "GitHub", "VS Code"],
+      skills: ["Git", "GitHub", "VS Code", "Postman", "GitHub Copilot"],
     },
   ];
 
   useLayoutEffect(() => {
+    const section = skillsRef.current;
+    const heading = headingRef.current;
+    const cardsContainer = cardsRef.current;
+
+    if (!section || !heading || !cardsContainer) return;
+
+    const cards = Array.from(cardsContainer.children);
+    const allPills = cardsContainer.querySelectorAll(".skill-pill");
+
+    // Ensure all content is visible before animations begin.
+    gsap.set([heading, ...cards], {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      scale: 1,
+      rotateX: 0,
+      rotateY: 0,
+    });
+
+    gsap.set(
+      cardsContainer.querySelectorAll(
+        ".skill-category-title, .skill-pill"
+      ),
+      {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        scale: 1,
+      }
+    );
+
     const ctx = gsap.context(() => {
-      // REDUCED MOTION CHECK
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
 
       if (prefersReducedMotion) {
-        gsap.set(
-          [headingRef.current, ...cardsRef.current.children],
-          {
-            opacity: 1,
-            y: 0,
-            x: 0,
-            rotateX: 0,
-            rotateY: 0,
-            scale: 1,
-          }
-        );
-
         return;
       }
 
-      // SECTION HEADING REVEAL
+      // Section heading reveal.
       gsap.fromTo(
-        headingRef.current,
+        heading,
         {
-          y: 60,
+          y: 40,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
+          duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: skillsRef.current,
+            trigger: section,
             start: "top 75%",
             toggleActions: "play none none reverse",
           },
         }
       );
 
-      // SKILL CATEGORY CARDS REVEAL
-      const cards = Array.from(cardsRef.current.children);
-
+      // Reveal cards without hiding their individual contents.
       gsap.fromTo(
         cards,
         {
-          y: 70,
+          y: 45,
           opacity: 0,
-          rotateX: 8,
         },
         {
           y: 0,
           opacity: 1,
-          rotateX: 0,
-          duration: 0.8,
-          stagger: 0.12,
+          duration: 0.7,
+          stagger: 0.1,
           ease: "power3.out",
+          clearProps: "opacity,transform",
           scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 80%",
+            trigger: cardsContainer,
+            start: "top 85%",
             toggleActions: "play none none reverse",
           },
         }
       );
 
-      // INDIVIDUAL CARD CONTENT REVEAL
+      // Scroll-based card glow.
       cards.forEach((card) => {
-        const title = card.querySelector(".skill-category-title");
-        const pills = card.querySelectorAll(".skill-pill");
+        const glow = card.querySelector(".skill-card-glow");
 
-        gsap.fromTo(
-          title,
-          {
-            y: 20,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power2.out",
+        if (glow) {
+          gsap.to(glow, {
+            opacity: 0.65,
+            scale: 1.15,
+            ease: "none",
             scrollTrigger: {
               trigger: card,
-              start: "top 78%",
-              toggleActions: "play none none reverse",
+              start: "top 90%",
+              end: "bottom 20%",
+              scrub: 1,
             },
-          }
-        );
-
-        gsap.fromTo(
-          pills,
-          {
-            y: 15,
-            opacity: 0,
-            scale: 0.9,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: 0.45,
-            stagger: 0.06,
-            ease: "back.out(1.4)",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 75%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
+          });
+        }
       });
 
-      // SKILL PILL HOVER
-      const skillPills =
-        cardsRef.current.querySelectorAll(".skill-pill");
+      // Subtle section parallax.
+      gsap.to(heading, {
+        y: -15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
 
-      skillPills.forEach((pill) => {
+      // Performance optimization.
+      gsap.set([heading, ...cards, ...allPills], {
+        force3D: true,
+      });
+
+      // Skill pill hover animations.
+      allPills.forEach((pill) => {
         const handleMouseEnter = () => {
           gsap.to(pill, {
             y: -4,
@@ -178,7 +180,7 @@ function Skills() {
         pill._handleMouseLeave = handleMouseLeave;
       });
 
-      // CARD HOVER + 3D TILT
+      // Card hover and 3D tilt.
       cards.forEach((card) => {
         const handleMouseEnter = () => {
           gsap.to(card, {
@@ -186,17 +188,18 @@ function Skills() {
             scale: 1.02,
             duration: 0.35,
             ease: "power3.out",
+            overwrite: "auto",
           });
         };
 
         const handleMouseMove = (event) => {
           const rect = card.getBoundingClientRect();
 
-          const x = event.clientX - rect.left;
-          const y = event.clientY - rect.top;
-
           const centerX = rect.width / 2;
           const centerY = rect.height / 2;
+
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
 
           const rotateY = ((x - centerX) / centerX) * 4;
           const rotateX = ((centerY - y) / centerY) * 4;
@@ -231,51 +234,13 @@ function Skills() {
         card._handleMouseLeave = handleMouseLeave;
       });
 
-      // SCROLL-BASED CARD GLOW
-      cards.forEach((card) => {
-        const glow = card.querySelector(".skill-card-glow");
-
-        gsap.to(glow, {
-          opacity: 0.65,
-          scale: 1.15,
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%",
-            end: "bottom 20%",
-            scrub: 1,
-          },
-        });
-      });
-
-      // SECTION PARALLAX
-      gsap.to(headingRef.current, {
-        y: -20,
-        ease: "none",
-        scrollTrigger: {
-          trigger: skillsRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1,
-        },
-      });
-
-      // PERFORMANCE
-      gsap.set(
-        [headingRef.current, ...cards, ...skillPills],
-        {
-          force3D: true,
-        }
-      );
-
-      // CLEANUP EVENT LISTENERS
+      // Clean up event listeners.
       return () => {
-        skillPills.forEach((pill) => {
+        allPills.forEach((pill) => {
           pill.removeEventListener(
             "mouseenter",
             pill._handleMouseEnter
           );
-
           pill.removeEventListener(
             "mouseleave",
             pill._handleMouseLeave
@@ -287,23 +252,23 @@ function Skills() {
             "mouseenter",
             card._handleMouseEnter
           );
-
           card.removeEventListener(
             "mousemove",
             card._handleMouseMove
           );
-
           card.removeEventListener(
             "mouseleave",
             card._handleMouseLeave
           );
         });
       };
-    }, skillsRef);
+    }, section);
 
     ScrollTrigger.refresh();
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -313,7 +278,7 @@ function Skills() {
       className="section-padding overflow-hidden"
     >
       <div className="container-custom">
-        {/* SECTION HEADING */}
+        {/* Section heading */}
         <div
           ref={headingRef}
           className="max-w-3xl"
@@ -333,7 +298,7 @@ function Skills() {
           </p>
         </div>
 
-        {/* SKILL CARDS */}
+        {/* Skill cards */}
         <div
           ref={cardsRef}
           className="
@@ -373,13 +338,13 @@ function Skills() {
                 sm:p-7
                 shadow-lg
                 shadow-black/20
-                transition-all
+                transition-colors
                 duration-300
                 hover:border-blue-400/40
                 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]
               "
             >
-              {/* CARD GLOW */}
+              {/* Card glow */}
               <div
                 className="
                   skill-card-glow
@@ -402,7 +367,7 @@ function Skills() {
                 }}
               />
 
-              {/* SECONDARY GLOW */}
+              {/* Secondary glow */}
               <div
                 className="
                   pointer-events-none
@@ -423,7 +388,7 @@ function Skills() {
                 }}
               />
 
-              {/* CATEGORY TITLE */}
+              {/* Category title */}
               <h3
                 className="
                   skill-category-title
@@ -442,12 +407,13 @@ function Skills() {
                 "
                 style={{
                   transform: "translateZ(30px)",
+                  opacity: 1,
                 }}
               >
                 {category.title}
               </h3>
 
-              {/* SKILLS */}
+              {/* Skills */}
               <div
                 className="
                   relative
@@ -466,7 +432,7 @@ function Skills() {
                     key={skill}
                     className="
                       skill-pill
-                      cursor-default
+                      relative
                       rounded-full
                       border
                       border-slate-700/70
@@ -480,7 +446,7 @@ function Skills() {
                       font-medium
                       text-slate-300
                       shadow-sm
-                      transition-all
+                      transition-colors
                       duration-300
                       hover:border-blue-400/60
                       hover:bg-blue-400/10
@@ -497,6 +463,7 @@ function Skills() {
                     }}
                     style={{
                       willChange: "transform",
+                      opacity: 1,
                     }}
                   >
                     {skill}
