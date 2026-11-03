@@ -1,3 +1,4 @@
+
 import {
   useLayoutEffect,
   useRef,
@@ -29,18 +30,26 @@ function Projects() {
   const bottomSectionRef = useRef(null);
   const strengthCardsRef = useRef(null);
 
-  const completedProjects = projects.filter(
+  // Mark the Dental Clinic Website as completed in this portfolio view.
+  // This also ensures the badge, filters, and summary counts stay in sync.
+  const updatedProjects = projects.map((project) =>
+    project.title === "Dental Clinic Website"
+      ? { ...project, status: "Completed" }
+      : project
+  );
+
+  const completedProjects = updatedProjects.filter(
     (project) => project.status === "Completed"
   ).length;
 
-  const inProgressProjects = projects.filter(
+  const inProgressProjects = updatedProjects.filter(
     (project) => project.status === "In Progress"
   ).length;
 
   const filteredProjects =
     filter === "All"
-      ? projects
-      : projects.filter(
+      ? updatedProjects
+      : updatedProjects.filter(
           (project) => project.status === filter
         );
 
@@ -1343,7 +1352,7 @@ function Projects() {
         >
           <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-4 py-2 text-sm text-slate-300">
             <span className="font-semibold text-slate-50">
-              {projects.length}
+              {updatedProjects.length}
             </span>{" "}
             Projects
           </div>
