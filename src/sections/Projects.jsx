@@ -1,4 +1,3 @@
-
 import {
   useLayoutEffect,
   useRef,
@@ -35,7 +34,7 @@ function Projects() {
   ).length;
 
   const inProgressProjects = projects.filter(
-    (project) => project.status === "Completed"
+    (project) => project.status === "In Progress"
   ).length;
 
   const filteredProjects =
