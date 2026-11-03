@@ -35,7 +35,7 @@ function Projects() {
   ).length;
 
   const inProgressProjects = projects.filter(
-    (project) => project.status === "In Progress"
+    (project) => project.status === "Completed"
   ).length;
 
   const filteredProjects =
