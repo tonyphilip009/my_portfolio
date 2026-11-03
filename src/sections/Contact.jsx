@@ -750,7 +750,7 @@ function Contact() {
               </p>
 
               <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=tonyphilip43@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=tonyphilip.u@gmail.com"
                 target="_blank"
                 rel="noreferrer"
                 className="
